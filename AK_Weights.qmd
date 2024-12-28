@@ -6,7 +6,19 @@ editor: visual
 
 ## Introduction
 
-In examination of the 2018 paper by Ruggerone and Irvine and the supplementary data, in order to better understand the methods, assumptions and sources of data, it would seem that Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+In examination of the 2018 paper by Ruggerone and Irvine and the supplementary data, in order to better understand the methods, assumptions and sources of data, it would seem that more appropriate regional average weights for each of the species could have been used to convert adult abundance estimates to adult biomass for Alaska. This is specific to the 1985 to 2015 estimates. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Central (or Southcentral), and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details). This change means there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas were separate from the Central Region and the Western Alaska Region to a new region call Westward. The Westward Region includes Kodiak, Chignik and South Alaska Peninsula management areas (formerly included in Central Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik.
+
+## Methods
+
+-   show how average weights calculated from NPAFC data were misapplied. Specifically, Westward average weights were used to convert AYK numbers to biomass and Central average weights were applied to management areas in Westward (NEED TO DOUBLE CHECK ON THIS)
+
+    -   essentially see if I can replicate R&I biomass estimates
+
+-   Need AK commercial harvest data (numbers and weights) that are supplied to NPAFC, but broken down by appropriate management areas
+
+-   Calculate annual average weights of fish for each species and management area and/or areas as specified in R&I then apply to their abundance estimates.
+
+-   Calculate difference in annual biomass for each area/AK/total
 
 ## Running Code
 
