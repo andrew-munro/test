@@ -4,6 +4,31 @@ format: docx
 editor: visual
 ---
 
+```{r}
+#| label: load-packages
+#| message: false
+#| warning: false
+#| error: false
+
+library("readxl") 
+```
+
+```{r}
+#| label: Load pink salmon data
+# load supplemental data tables from Ruggerone & Irvine (2018) for pink salmon (not grabbing the final "total" column)
+pink <- list(
+  #adult_N, adult_B, avgWt, tot_B
+  
+  # Table S9 total adult return abundance (hatchery & wild)
+    adult_N = read_excel(url("https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx"), range = "ST 9-12 Total ret (nos) 52-15!A6:O70")
+)
+
+
+  adult_N = read_excel("mcf210023-sup-0001-tables1-s24-1629312833075_original.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70")
+pink$adult_N
+
+```
+
 ## Introduction
 
 In examination of the 2018 paper by Ruggerone and Irvine and the supplementary data, in order to better understand the methods, assumptions and sources of data, it would seem that more appropriate regional average weights for each of the species could have been used to convert adult abundance estimates to adult biomass for Alaska. This is specific to the 1985 to 2015 estimates. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Central (or Southcentral), and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details). This change means there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas were separate from the Central Region and the Western Alaska Region to a new region call Westward. The Westward Region includes Kodiak, Chignik and South Alaska Peninsula management areas (formerly included in Central Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik.
@@ -14,11 +39,17 @@ In examination of the 2018 paper by Ruggerone and Irvine and the supplementary d
 
     -   essentially see if I can replicate R&I biomass estimates
 
--   Need AK commercial harvest data (numbers and weights) that are supplied to NPAFC, but broken down by appropriate management areas
+-   Need AK commercial harvest data (numbers and weights) that are supplied to NPAFC, but broken down by appropriate management areas. (use data supplied for ESR, but cross check with NPAFC provided data
+
+    -   Note - might need to pull data so splits Area M into North and South Pen (or do I?)
 
 -   Calculate annual average weights of fish for each species and management area and/or areas as specified in R&I then apply to their abundance estimates.
 
 -   Calculate difference in annual biomass for each area/AK/total
+
+-   Data are located: <https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx>
+
+-   see if I can read directly from url
 
 ## Running Code
 
