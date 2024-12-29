@@ -23,6 +23,8 @@ pink <- list(
     adult_N = read_excel(url("https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx"), range = "ST 9-12 Total ret (nos) 52-15!A6:O70")
 )
 
+
+  adult_N = read_excel("mcf210023-sup-0001-tables1-s24-1629312833075_original.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70")
 pink$adult_N
 
 ```
