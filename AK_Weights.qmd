@@ -2,6 +2,8 @@
 title: "AK Weights"
 format: docx
 editor: visual
+
+echo: false
 ---
 
 ```{r}
@@ -10,7 +12,8 @@ editor: visual
 #| warning: false
 #| error: false
 
-library("readxl") 
+library("readxl")
+library("tidyverse")
 ```
 
 ```{r}
@@ -20,13 +23,27 @@ pink <- list(
   #adult_N, adult_B, avgWt, tot_B
   
   # Table S9 total adult return abundance (hatchery & wild)
-    adult_N = read_excel(url("https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx"), range = "ST 9-12 Total ret (nos) 52-15!A6:O70")
+  adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70"),
+
+   # Table S9 total adult return biomass (hatchery & wild)
+   adult_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 13-16 Tot ret (bioma) 52-15!A6:O70")  
 )
 
+```
 
-  adult_N = read_excel("mcf210023-sup-0001-tables1-s24-1629312833075_original.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70")
-pink$adult_N
+```{r}
+#| label: calc_avg_wt
 
+# back-calculate average weughts used in R&I  
+avg_wt <- (pink$adult_B[,-1]/1000)/pink$adult_N[,-1]
+avg_wt <- cbind(Year=seq(1952,2015,1),avg_wt)
+
+```
+
+```{r}
+#| label: plot_avg_wt
+
+#
 ```
 
 ## Introduction
