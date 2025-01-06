@@ -14,6 +14,7 @@ echo: false
 
 library("readxl")
 library("tidyverse")
+library(reshape2)
 ```
 
 ```{r}
@@ -38,13 +39,49 @@ pink <- list(
 avg_wt <- (pink$adult_B[,-1]/1000)/pink$adult_N[,-1]
 avg_wt <- cbind(Year=seq(1952,2015,1),avg_wt)
 
+avg_wt.long <- melt(avg_wt, id ="Year", variable.name="Region", value.name="avg_wt")
+```
+
+
+```{r}
+#| label: read NPAFC data
+
+NPAFC <- read_csv("data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv")
+NPAFC_AK <- filter(NPAFC, Region=="Alaska" & Fishery=="Commercial" & between(Year,1952,2015) & Species=="Pink")
+
 ```
 
 ```{r}
-#| label: plot_avg_wt
+#| label: read ADF&G data
 
-#
+ADFG <- read_csv("data/Salmon Landings for ESR_Sept 2023.csv")
+ADFG <- cbind(ADFG,ADFG[,8]*0.45359237)
+colnames(ADFG)[13] <- "Wt_kg"       
+ADFG <- cbind(ADFG,ADFG$Wt_kg/ADFG$`Number Of Fish (estimated)`)
+colnames(ADFG)[14] <- "avg_wt" 
 ```
+
+```{r}
+#| label: fig-R&I_avg_wt
+#| fig-cap: "Average weight of Alaska pink salmon back-calculated from supplementary abundance and biomass data provided by Ruggerone and Irivne (2018)"
+p <- ggplot(data = avg_wt.long, aes(x = Year, y = avg_wt)) + geom_point()
+p + facet_wrap(~Region) 
+
+# starting with pink salmon
+# plot avg wt 1952-2015 back calculated from R&I for each AK region (SEAK, PWS, CI, Kod, SPen, WAK)
+
+# add series of calculated avg weights from NPAFC data for AK areas (SEAK, Central, Westward, AYK)
+
+```
+
+```{r}
+#| label: fig-NPAFC_AK_avgwt
+#| fig-cap: "Average weight of Alaska pink salmon by areas reported to NPAFC, 1952 to 2015. Note area designations change in 1985. Source: NPAFC (2024)"
+
+p <- ggplot(data = NPAFC_AK, aes(x = Year, y = avg_wt)) + geom_point()
+p + facet_wrap(~Area)     
+```
+
 
 ## Introduction
 
