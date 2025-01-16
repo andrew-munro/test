@@ -11,11 +11,11 @@ colnames(ADFG) <- c("Year", "Manage_Area", "Region_No","Region","Species_Code", 
 ADFG2 <- filter(ADFG, between (Year,1985,2015))
 
 ADFG2 <- ADFG2 %>% 
-  mutate(Species = ifelse(as.character(Species) == "salmon, chinook", "chinook", as.character(Species)),
-         Species = ifelse(as.character(Species) == "salmon, chum", "chum", as.character(Species)),
-         Species = ifelse(as.character(Species) == "salmon, coho", "coho", as.character(Species)),
-         Species = ifelse(as.character(Species) == "salmon, pink", "pink", as.character(Species)),
-         Species = ifelse(as.character(Species) == "salmon, sockeye", "sockeye", as.character(Species))
+  mutate(Species = ifelse(as.character(Species) == "salmon, chinook", "Chinook", as.character(Species)),
+         Species = ifelse(as.character(Species) == "salmon, chum", "Chum", as.character(Species)),
+         Species = ifelse(as.character(Species) == "salmon, coho", "Coho", as.character(Species)),
+         Species = ifelse(as.character(Species) == "salmon, pink", "Pink", as.character(Species)),
+         Species = ifelse(as.character(Species) == "salmon, sockeye", "Sockeye", as.character(Species))
          )
 ADFG2 <- ADFG2 %>% 
   mutate(Region = ifelse(as.character(Region) == "Southeastern Region", "SEAK", as.character(Region)),
@@ -24,11 +24,14 @@ ADFG2 <- ADFG2 %>%
          Region = ifelse(as.character(Region) == "Westward Region", "Westward", as.character(Region))
          )
 
-ADFG3 <- filter(ADFG2, Manage_Area != "9" & Species %in% c("pink","chum","sockeye"))
+ADFG3 <- filter(ADFG2, Manage_Area != "9" & Species %in% c("Pink","Chum","Sockeye"))
 
 ADFG4 <- ADFG3 %>%
         group_by(Region, Species, Year) %>% summarise(Number=sum(Number) )
 
+p <- ggplot(data = ADFG4, aes(x = Year, y = Number)) + geom_point() + facet_wrap(~Region+Species, scales = "free", ncol=3)  
+windows()
+p
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # scratch code to calculate average weight.  The metric tons conversion is what was used by S. Donellan in OceanAK
@@ -40,20 +43,40 @@ ADFG <- cbind(ADFG,ADFG$Wt_kg/ADFG$`Number Of Fish (estimated)`)
 colnames(ADFG)[14] <- "avg_wt" 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Load NPAFC data that is based on query that splits by management area and separates NPen and SPen in Area M
+# !!!! Whole weight data are missing or may not be fully reported - if numbers match with current NPAFC data default to those weights
+NPAFC_RI <- read.csv("data/NPAFC_RI_splits1985-2015.csv")
 
-ADFG_pink <- filter(ADFG, ADFG$`Species Name` == "salmon, pink" & between (`DFB Year`,1985,2015))
+# First summarize by Region to cross check with current NPAFC data
+NPAFC_RI1 <- filter(NPAFC_RI, Species %in% c("Pink","Chum","Sockeye"))
+NPAFC_RI2 <- NPAFC_RI1 %>%
+  group_by(Region, Species, Year) %>% summarise(Number=sum(Number) )
 
-w <- ifelse((ADFG$`Management Area` == "A") | (ADFG$`Management Area` == "B") | (ADFG$`Management Area` == "C") | (ADFG$`Management Area` == "D"), "SEAK", +
-              ifelse((ADFG$`Management Area` == "E"), "PWS", ifelse((ADFG$`Management Area` == "H"), "CI", ifelse((ADFG$`Management Area` == "K") | (ADFG$`Management Area` == "L"), "KOD","Other"))  ))   
-
-p <- ggplot(data = ADFG_pink, aes(x = `DFB Year`, y = `Number Of Fish (estimated)`)) + geom_point()
-p + facet_wrap(~`Management Area`)  
-
-p <- ggplot(data = ADFG4, aes(x = Year, y = Number)) + geom_point()
-p + facet_wrap(~Region+Species, scales = "free")  
-
-
-
+p <- ggplot(data = NPAFC_RI2, aes(x = Year, y = Number)) + geom_point() + facet_wrap(~Region+Species, scales = "free", ncol=3)  
+windows()
+p
 
 NPAFC <- read_csv("data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv")
-NPAFC_AK <- filter(NPAFC, Region=="Alaska" & Fishery=="Commercial" & between(Year,1952,2015) & Species=="Pink")
+NPAFC_AK <- filter(NPAFC, Region=="Alaska" & Fishery=="Commercial" & between(Year,1985,2015) & Species %in% c("Pink","Chum","Sockeye") & Area %in% c("Southeast", "Central", "Arctic Yukon Kuskokwim", "Westward"))
+
+p <- ggplot(data = NPAFC_AK, aes(x = Year, y = N_fish)) + geom_point() + facet_wrap(~Region+Species, scales = "free", ncol=3)  
+windows()
+p
+
+colnames(NPAFC_AK)[2] <- "State"
+colnames(NPAFC_AK)[3] <- "Region"
+
+NPAFC_AK <- NPAFC_AK %>% 
+  mutate(Region = ifelse(as.character(Region) == "Southeast", "Southeastern", as.character(Region)),
+         Region = ifelse(as.character(Region) == "Arctic Yukon Kuskokwim", "A-Y-K", as.character(Region))
+  )
+
+x <- merge(NPAFC_AK,NPAFC_RI2, by= c("Year","Species","Region"),all=TRUE, na.rm = TRUE)
+
+x <- data.frame(x, y =(x$Number - x$N_fish))
+windows()
+plot(x$N_fish,x$y)
+
+p <- ggplot(data = x, aes(x = Year, y = y)) + geom_point() + facet_wrap(~Region+Species, scales = "free", ncol=3)  
+windows()
+p
