@@ -51,7 +51,7 @@
 2007,Steelhead,11,0,Southeastern,C,SEAK
 2006,Pink,41,0,A-Y-K,W,WAK
 2005,Steelhead,1,0,Southeastern,B,SEAK
-2015,Steelhead,2,0,Westward,M,South Pen
+2015,Steelhead,2,0,Westward,M,SPen
 2009,Sockeye,3,0,A-Y-K,Y,WAK
 2004,Steelhead,1,0,Central,T,WAK
 1999,Pink,2,0,A-Y-K,W,WAK
@@ -321,7 +321,7 @@
 1989,Coho,2599,11.08,Westward,K,Kod
 2014,Chinook,2505,11.8,A-Y-K,W,WAK
 2015,Sockeye,4119,11.84,A-Y-K,Z,WAK
-2001,Chinook,2623,12.11,Westward,M,South Pen
+2001,Chinook,2623,12.11,Westward,M,SPen
 1992,Pink,7972,12.36,Westward,F,WAK
 1988,Steelhead,3037,12.39,Southeastern,B,SEAK
 2008,Chinook,1800,12.68,Westward,M,WAK
@@ -340,7 +340,7 @@
 2002,Sockeye,6711,17.7,Southeastern,D,SEAK
 2001,Chinook,2939,17.86,Westward,L,SPen
 2006,Chinook,2256,17.95,Westward,L,SPen
-2003,Chinook,2874,18.06,Westward,M,South Pen
+2003,Chinook,2874,18.06,Westward,M,SPen
 2000,Chum,6150,18.28,A-Y-K,Z,WAK
 2015,Pink,12395,18.3,Westward,M,WAK
 2001,Pink,12479,18.65,Westward,M,WAK
@@ -382,7 +382,7 @@
 1996,Chinook,3145,28.4,Westward,L,SPen
 2005,Chum,8821,29.13,Westward,L,SPen
 2014,Chinook,8571,29.22,Westward,K,Kod
-2005,Chinook,4670,29.42,Westward,M,South Pen
+2005,Chinook,4670,29.42,Westward,M,SPen
 2008,Chinook,4645,29.77,A-Y-K,Y,WAK
 2002,Pink,21468,29.98,Westward,M,WAK
 1998,Chinook,4503,30.18,Westward,L,SPen
@@ -401,17 +401,17 @@
 2002,Chum,8390,33.72,A-Y-K,X,WAK
 1986,Sockeye,14647,33.75,Southeastern,D,SEAK
 2007,Chinook,7609,33.78,Westward,M,WAK
-2008,Chinook,4378,33.87,Westward,M,South Pen
+2008,Chinook,4378,33.87,Westward,M,SPen
 2015,Chinook,9204,34.08,Westward,L,SPen
 2011,Chinook,6586,34.18,Westward,L,SPen
 1989,Chinook,3542,34.79,Westward,L,SPen
 2014,Chinook,8846,34.79,Westward,L,SPen
 2014,Chinook,5039,34.88,Central,H,CI
-1998,Chinook,4919,35.09,Westward,M,South Pen
+1998,Chinook,4919,35.09,Westward,M,SPen
 2014,Sockeye,14725,35.41,Southeastern,D,SEAK
-2002,Chinook,6428,35.65,Westward,M,South Pen
+2002,Chinook,6428,35.65,Westward,M,SPen
 2013,Chinook,5794,35.78,Central,H,CI
-2014,Chinook,7915,36.03,Westward,M,South Pen
+2014,Chinook,7915,36.03,Westward,M,SPen
 2001,Chum,11100,36.09,A-Y-K,Z,WAK
 2015,Chinook,8380,36.37,Westward,K,Kod
 2015,Chinook,8260,37.67,A-Y-K,W,WAK
@@ -420,33 +420,33 @@
 1998,Pink,25445,38.17,Central,T,WAK
 1996,Chum,10833,38.97,A-Y-K,Z,WAK
 1986,Steelhead,9528,39.59,Southeastern,B,SEAK
-2013,Chinook,7533,39.82,Westward,M,South Pen
+2013,Chinook,7533,39.82,Westward,M,SPen
 2010,Pink,31557,39.9,A-Y-K,Z,WAK
 1999,Coho,12662,39.93,A-Y-K,Z,WAK
 2006,Chinook,7674,40.15,Westward,M,WAK
 1991,Sockeye,18692,40.23,Southeastern,D,SEAK
 1998,Chinook,5928,40.28,Westward,M,WAK
-2011,Chinook,7214,41.07,Westward,M,South Pen
-2000,Chinook,5445,41.37,Westward,M,South Pen
-1999,Chinook,5074,41.58,Westward,M,South Pen
-2007,Chinook,5324,41.66,Westward,M,South Pen
+2011,Chinook,7214,41.07,Westward,M,SPen
+2000,Chinook,5445,41.37,Westward,M,SPen
+1999,Chinook,5074,41.58,Westward,M,SPen
+2007,Chinook,5324,41.66,Westward,M,SPen
 1989,Pink,27712,42.76,Westward,L,SPen
 2002,Chum,13796,43.07,A-Y-K,Y,WAK
-1996,Chinook,5520,43.39,Westward,M,South Pen
+1996,Chinook,5520,43.39,Westward,M,SPen
 2010,Pink,33520,43.41,Westward,M,WAK
 1985,Chinook,4970,43.59,Westward,K,Kod
 1996,Chinook,4999,43.61,A-Y-K,Z,WAK
-2009,Chinook,5875,43.67,Westward,M,South Pen
-1986,Chinook,5589,43.85,Westward,M,South Pen
-2006,Chinook,5632,44.04,Westward,M,South Pen
+2009,Chinook,5875,43.67,Westward,M,SPen
+1986,Chinook,5589,43.85,Westward,M,SPen
+2006,Chinook,5632,44.04,Westward,M,SPen
 1994,Chinook,5285,44.68,A-Y-K,Z,WAK
-2010,Chinook,7986,46.41,Westward,M,South Pen
+2010,Chinook,7986,46.41,Westward,M,SPen
 2010,Chinook,10380,47.35,Westward,L,SPen
 1989,Chinook,5707,47.55,A-Y-K,Z,WAK
 1998,Chum,16334,48.39,A-Y-K,Z,WAK
 2004,Chum,15026,48.7,Westward,M,WAK
 1991,Chinook,6068,48.78,A-Y-K,Z,WAK
-1997,Chinook,7780,48.84,Westward,M,South Pen
+1997,Chinook,7780,48.84,Westward,M,SPen
 1989,Sockeye,18187,48.98,Southeastern,D,SEAK
 1995,Chinook,19867,50.28,Southeastern,B,SEAK
 1995,Chinook,5493,50.43,Westward,L,SPen
@@ -454,23 +454,23 @@
 2004,Coho,20232,53.2,A-Y-K,Y,WAK
 1987,Sockeye,22048,53.67,Southeastern,D,SEAK
 1990,Coho,761207,54.16,Southeastern,D,SEAK
-2004,Chinook,7123,54.65,Westward,M,South Pen
+2004,Chinook,7123,54.65,Westward,M,SPen
 2010,Chinook,14708,54.75,Westward,K,Kod
 2001,Coho,17084,55.35,Central,T,WAK
 1995,Chinook,19821,55.52,Southeastern,C,SEAK
 1994,Chum,18292,55.58,A-Y-K,Z,WAK
 2005,Chinook,9198,55.93,Westward,M,WAK
 1998,Pink,34810,56.94,Westward,M,WAK
-1992,Chinook,8026,57.44,Westward,M,South Pen
-1991,Chinook,7975,57.65,Westward,M,South Pen
-2012,Chinook,8091,57.74,Westward,M,South Pen
+1992,Chinook,8026,57.44,Westward,M,SPen
+1991,Chinook,7975,57.65,Westward,M,SPen
+2012,Chinook,8091,57.74,Westward,M,SPen
 1995,Chinook,7571,57.82,Westward,M,WAK
 1998,Chinook,7429,57.98,A-Y-K,Z,WAK
 2010,Chinook,10086,57.99,A-Y-K,Y,WAK
 1996,Chinook,19456,58.04,Southeastern,C,SEAK
 1988,Chinook,7296,58.46,Westward,L,SPen
 2012,Chinook,8837,58.6,A-Y-K,W,WAK
-1989,Chinook,7065,59.21,Westward,M,South Pen
+1989,Chinook,7065,59.21,Westward,M,SPen
 1996,Pink,37629,59.52,Central,T,WAK
 1988,Pink,37671,60.12,A-Y-K,W,WAK
 1986,Chinook,6395,60.4,A-Y-K,Z,WAK
@@ -492,7 +492,7 @@
 1993,Chinook,8972,68.72,A-Y-K,Z,WAK
 2001,Coho,19492,69.08,A-Y-K,Z,WAK
 2006,Sockeye,29647,69.56,Southeastern,D,SEAK
-1985,Chinook,6642,69.61,Westward,M,South Pen
+1985,Chinook,6642,69.61,Westward,M,SPen
 2009,Chinook,8887,70.04,Central,H,CI
 1991,Chinook,9370,70.73,Westward,M,WAK
 2004,Chinook,10402,72.28,Westward,M,WAK
@@ -512,17 +512,17 @@
 2002,Chinook,12537,79.07,A-Y-K,W,WAK
 1989,Chum,19972,79.23,Westward,K,Kod
 1995,Chinook,8860,79.27,A-Y-K,Z,WAK
-1987,Chinook,9174,79.49,Westward,M,South Pen
+1987,Chinook,9174,79.49,Westward,M,SPen
 1987,Coho,24311,80.65,A-Y-K,Z,WAK
 1996,Pink,53842,80.96,Westward,M,WAK
 1996,Chinook,13071,80.98,Westward,K,Kod
 2005,Chinook,14465,81.25,Westward,K,Kod
-1994,Chinook,10002,82.88,Westward,M,South Pen
+1994,Chinook,10002,82.88,Westward,M,SPen
 2011,Chinook,18615,83.07,Westward,K,Kod
 2001,Chinook,10295,83.08,Central,H,CI
 2000,Chinook,12293,83.2,Westward,K,Kod
 2000,Chinook,8542,83.58,Central,H,CI
-1988,Chinook,11075,83.88,Westward,M,South Pen
+1988,Chinook,11075,83.88,Westward,M,SPen
 1997,Chinook,10384,83.96,Westward,M,WAK
 1999,Chinook,16180,84.2,Southeastern,C,SEAK
 2013,Sockeye,31699,84.46,Southeastern,D,SEAK
@@ -554,7 +554,7 @@
 2000,Pink,58719,94.74,Central,T,WAK
 1996,Chinook,36888,96.85,Southeastern,A,SEAK
 1999,Coho,32594,97.06,A-Y-K,W,WAK
-1993,Chinook,14413,97.3,Westward,M,South Pen
+1993,Chinook,14413,97.3,Westward,M,SPen
 2015,Pink,62935,97.84,A-Y-K,Z,WAK
 2013,Chinook,14487,97.88,Central,T,WAK
 2004,Pink,52631,98.27,Central,T,WAK
@@ -581,7 +581,7 @@
 1994,Chinook,40636,107.45,Southeastern,B,SEAK
 1999,Chinook,18939,108.14,Southeastern,B,SEAK
 2009,Chum,34122,109.09,A-Y-K,Z,WAK
-1990,Chinook,16522,109.99,Westward,M,South Pen
+1990,Chinook,16522,109.99,Westward,M,SPen
 2014,Chum,37046,110.12,A-Y-K,W,WAK
 1996,Sockeye,61546,111.03,Southeastern,D,SEAK
 2012,Coho,37056,111.17,A-Y-K,Z,WAK
@@ -648,7 +648,7 @@
 1999,Chum,50120,153.48,Westward,M,WAK
 1992,Pink,86294,153.48,A-Y-K,W,WAK
 1994,Pink,89907,154.04,Central,T,WAK
-2015,Chinook,53741,154.28,Westward,M,South Pen
+2015,Chinook,53741,154.28,Westward,M,SPen
 1994,Chinook,18647,156.23,Westward,M,WAK
 2015,Sockeye,56260,156.46,A-Y-K,W,WAK
 1999,Coho,53907,156.5,Westward,M,WAK
@@ -666,7 +666,7 @@
 1999,Chinook,16154,164.95,Central,H,CI
 1997,Coho,50463,166.11,Central,T,WAK
 1999,Chum,51765,166.37,A-Y-K,Y,WAK
-1995,Chinook,17453,166.37,Westward,M,South Pen
+1995,Chinook,17453,166.37,Westward,M,SPen
 2004,Chinook,30254,166.66,A-Y-K,W,WAK
 2007,Chinook,18160,167.17,Central,H,CI
 2000,Pink,166548,167.74,A-Y-K,Z,WAK
@@ -778,7 +778,7 @@
 1993,Chinook,22647,249.27,Central,H,CI
 1994,Chinook,117751,249.64,Southeastern,D,SEAK
 2003,Chinook,34594,251.17,Southeastern,C,SEAK
-2012,Coho,91966,251.24,Westward,M,South Pen
+2012,Coho,91966,251.24,Westward,M,SPen
 2011,Coho,97481,252.63,Central,H,CI
 1989,Coho,68233,253.62,Westward,L,SPen
 2007,Coho,69015,255.17,Westward,M,WAK
@@ -888,7 +888,7 @@
 2002,Chinook,44749,369.97,Central,T,WAK
 2014,Coho,112767,370.23,A-Y-K,Z,WAK
 1991,Coho,117740,370.51,Central,T,WAK
-1997,Coho,116136,371.36,Westward,M,South Pen
+1997,Coho,116136,371.36,Westward,M,SPen
 1992,Coho,105453,372.16,A-Y-K,Z,WAK
 2013,Chum,119093,373.17,A-Y-K,Z,WAK
 2013,Coho,137360,373.38,Central,T,WAK
@@ -923,15 +923,15 @@
 2014,Coho,140590,404.31,Central,H,CI
 2002,Coho,113879,406.05,A-Y-K,W,WAK
 1991,Chinook,60470,407.6,Southeastern,A,SEAK
-2005,Coho,145794,407.79,Westward,M,South Pen
+2005,Coho,145794,407.79,Westward,M,SPen
 1987,Pink,246775,408.03,Westward,L,SPen
 1987,Chum,109467,408.42,A-Y-K,X,WAK
 2013,Chinook,59547,411.22,Southeastern,B,SEAK
 1992,Chinook,68091,414.16,A-Y-K,W,WAK
 2007,Chinook,41149,414.69,Central,E,PWS
 1998,Chum,128996,416.24,Westward,L,SPen
-2007,Coho,151809,416.3,Westward,M,South Pen
-2011,Coho,153482,422.44,Westward,M,South Pen
+2007,Coho,151809,416.3,Westward,M,SPen
+2011,Coho,153482,422.44,Westward,M,SPen
 2008,Pink,247813,423.37,Southeastern,A,SEAK
 1990,Coho,130131,423.54,Westward,L,SPen
 2015,Coho,129951,424.55,A-Y-K,Y,WAK
@@ -944,7 +944,7 @@
 2014,Chum,131865,431.55,Westward,M,WAK
 2007,Chinook,58706,433.7,Southeastern,C,SEAK
 1985,Chinook,57659,433.7,Southeastern,B,SEAK
-2003,Coho,132486,437.03,Westward,M,South Pen
+2003,Coho,132486,437.03,Westward,M,SPen
 2010,Sockeye,165175,443.29,Southeastern,C,SEAK
 2006,Chum,133341,443.64,Westward,M,WAK
 2000,Coho,131011,445.01,Central,T,WAK
@@ -974,7 +974,7 @@
 1987,Sockeye,154051,467.37,Southeastern,C,SEAK
 2000,Chum,120957,468.86,Westward,L,SPen
 1986,Chinook,40061,469.01,Central,H,CI
-2006,Coho,170106,472.11,Westward,M,South Pen
+2006,Coho,170106,472.11,Westward,M,SPen
 2006,Chum,138090,472.2,A-Y-K,X,WAK
 2009,Chinook,64414,472.29,Southeastern,B,SEAK
 1997,Coho,164023,472.6,Central,H,CI
@@ -1003,9 +1003,9 @@
 2009,Sockeye,170885,502.33,A-Y-K,W,WAK
 1999,Chum,138605,502.99,A-Y-K,X,WAK
 1989,Chinook,67003,503.36,A-Y-K,W,WAK
-1998,Coho,154194,503.59,Westward,M,South Pen
+1998,Coho,154194,503.59,Westward,M,SPen
 1988,Sockeye,150481,503.95,A-Y-K,W,WAK
-2010,Coho,164824,506.47,Westward,M,South Pen
+2010,Coho,164824,506.47,Westward,M,SPen
 2003,Chinook,49278,507.66,Central,E,PWS
 2009,Sockeye,173985,509.66,Southeastern,C,SEAK
 1999,Sockeye,182667,510.2,Southeastern,C,SEAK
@@ -1018,7 +1018,7 @@
 1992,Chinook,68767,521.34,Central,T,WAK
 1992,Chinook,67174,522.26,Southeastern,B,SEAK
 2011,Pink,396605,522.66,Central,H,CI
-1999,Coho,192503,523.05,Westward,M,South Pen
+1999,Coho,192503,523.05,Westward,M,SPen
 2004,Chinook,56943,525.21,A-Y-K,Y,WAK
 1987,Chinook,40619,528.33,Central,H,CI
 1998,Sockeye,186900,528.53,Southeastern,C,SEAK
@@ -1043,7 +1043,7 @@
 1998,Coho,178308,546.67,Central,H,CI
 2015,Sockeye,216864,548.04,Southeastern,C,SEAK
 2007,Chum,147087,548.78,A-Y-K,X,WAK
-1985,Coho,172514,550.67,Westward,M,South Pen
+1985,Coho,172514,550.67,Westward,M,SPen
 1997,Chinook,53728,552.91,Central,E,PWS
 1986,Coho,182075,555.1,Central,T,WAK
 1993,Sockeye,171885,555.95,A-Y-K,W,WAK
@@ -1077,13 +1077,13 @@
 1989,Chinook,68172,599.33,Southeastern,B,SEAK
 1985,Coho,162822,600.72,Central,T,WAK
 1993,Chinook,76774,601.22,Southeastern,B,SEAK
-2002,Coho,202728,602.16,Westward,M,South Pen
+2002,Coho,202728,602.16,Westward,M,SPen
 2014,Chinook,90471,602.4,Southeastern,B,SEAK
 2005,Chinook,79802,603.29,Southeastern,B,SEAK
 1998,Pink,588013,603.56,A-Y-K,Z,WAK
 1994,Sockeye,193730,604.74,A-Y-K,W,WAK
 1992,Coho,191532,608.99,Central,T,WAK
-1993,Coho,220148,612.51,Westward,M,South Pen
+1993,Coho,220148,612.51,Westward,M,SPen
 2005,Chum,168880,614.53,Central,H,CI
 1989,Coho,193567,615.57,Southeastern,C,SEAK
 1999,Chinook,64557,616.36,Central,E,PWS
@@ -1113,7 +1113,7 @@
 2000,Coho,208928,647.34,Southeastern,C,SEAK
 1987,Coho,171784,648.99,Westward,M,WAK
 1994,Coho,175240,652.03,Central,T,WAK
-2001,Coho,214252,652.4,Westward,M,South Pen
+2001,Coho,214252,652.4,Westward,M,SPen
 1998,Coho,194680,653.47,Central,E,PWS
 2013,Chum,194591,655.98,Central,H,CI
 2005,Chinook,91248,656.01,Southeastern,C,SEAK
@@ -1131,32 +1131,32 @@
 2005,Coho,234374,672.25,Central,H,CI
 1993,Chinook,85860,673.43,Central,T,WAK
 1996,Coho,193246,674.01,Westward,L,SPen
-2012,Pink,491663,676.84,Westward,M,South Pen
+2012,Pink,491663,676.84,Westward,M,SPen
 1994,Pink,431063,677.97,Westward,L,SPen
 2011,Sockeye,243944,682.17,Southeastern,C,SEAK
 2009,Chum,187562,682.99,A-Y-K,X,WAK
 1985,Coho,176118,683.74,Westward,M,WAK
-2004,Coho,236144,684.48,Westward,M,South Pen
+2004,Coho,236144,684.48,Westward,M,SPen
 1985,Coho,193374,685.36,Southeastern,C,SEAK
 1988,Coho,202698,685.36,Central,T,WAK
 1987,Chinook,75399,687.08,Central,T,WAK
 2002,Sockeye,252796,689.91,Southeastern,B,SEAK
-1986,Coho,235854,691.81,Westward,M,South Pen
+1986,Coho,235854,691.81,Westward,M,SPen
 2011,Chum,238755,694,A-Y-K,W,WAK
 2012,Chum,171112,696.2,Westward,L,SPen
-2008,Coho,227553,697.1,Westward,M,South Pen
+2008,Coho,227553,697.1,Westward,M,SPen
 2008,Chum,190321,698.64,A-Y-K,X,WAK
 2005,Coho,207261,699.45,A-Y-K,W,WAK
 2014,Coho,222063,699.97,A-Y-K,W,WAK
 2002,Chinook,82058,708.05,Southeastern,B,SEAK
 1991,Chinook,89986,708.84,Southeastern,B,SEAK
 2011,Chinook,97266,714.14,Southeastern,B,SEAK
-2009,Coho,248941,717.2,Westward,M,South Pen
+2009,Coho,248941,717.2,Westward,M,SPen
 2010,Chum,230313,718.19,A-Y-K,W,WAK
 1992,Pink,506467,718.52,Westward,M,WAK
 1985,Chum,224765,720.16,A-Y-K,W,WAK
-1987,Coho,225120,720.65,Westward,M,South Pen
-2015,Coho,271898,720.8,Westward,M,South Pen
+1987,Coho,225120,720.65,Westward,M,SPen
+2015,Coho,271898,720.8,Westward,M,SPen
 1998,Chinook,72346,722.05,Central,E,PWS
 1992,Chum,222134,722.27,Westward,L,SPen
 2015,Coho,224976,723.22,Central,E,PWS
@@ -1172,7 +1172,7 @@
 1995,Chinook,68783,749.16,Central,E,PWS
 2000,Coho,247837,750.12,Central,H,CI
 2010,Pink,489781,754.77,Westward,L,SPen
-1995,Coho,264346,755.47,Westward,M,South Pen
+1995,Coho,264346,755.47,Westward,M,SPen
 1999,Chum,685329,755.64,Central,T,WAK
 2013,Coho,272113,758.77,Central,H,CI
 1990,Pink,550008,760.06,Westward,L,SPen
@@ -1181,7 +1181,7 @@
 1989,Sockeye,250068,768.45,Southeastern,C,SEAK
 2005,Sockeye,279599,772.24,Southeastern,C,SEAK
 2012,Coho,210466,772.68,Central,E,PWS
-2000,Coho,257245,774.35,Westward,M,South Pen
+2000,Coho,257245,774.35,Westward,M,SPen
 1985,Coho,191162,775.48,Westward,L,SPen
 2001,Coho,222490,779.2,A-Y-K,W,WAK
 2008,Chum,209325,782.95,Westward,L,SPen
@@ -1200,7 +1200,7 @@
 2006,Chinook,106962,815.62,Central,T,WAK
 2003,Sockeye,287380,818.33,Southeastern,C,SEAK
 1992,Pink,499538,820.83,Central,T,WAK
-2014,Coho,297894,821.86,Westward,M,South Pen
+2014,Coho,297894,821.86,Westward,M,SPen
 2008,Chum,226446,825.9,Central,H,CI
 1988,Pink,565390,828.89,Southeastern,D,SEAK
 1992,Chinook,106117,829.11,Southeastern,D,SEAK
@@ -1214,7 +1214,7 @@
 1990,Chinook,96194,841.93,A-Y-K,Y,WAK
 2011,Chum,269503,842.59,Westward,L,SPen
 1996,Chinook,91653,846.92,A-Y-K,Y,WAK
-2013,Coho,294973,853.67,Westward,M,South Pen
+2013,Coho,294973,853.67,Westward,M,SPen
 2007,Chum,302656,855.06,A-Y-K,Y,WAK
 2007,Coho,285669,855.41,Southeastern,C,SEAK
 1989,Coho,227551,855.85,Westward,M,WAK
@@ -1229,8 +1229,8 @@
 1989,Chum,207854,874.9,Southeastern,C,SEAK
 1993,Chinook,96999,875.64,A-Y-K,Y,WAK
 2009,Coho,291573,875.84,Westward,K,Kod
-1994,Coho,255905,879.66,Westward,M,South Pen
-1991,Coho,317129,882.27,Westward,M,South Pen
+1994,Coho,255905,879.66,Westward,M,SPen
+1991,Coho,317129,882.27,Westward,M,SPen
 1988,Coho,233973,883.01,Westward,M,WAK
 1991,Chum,239923,884.98,A-Y-K,X,WAK
 2003,Pink,502638,887.1,Westward,L,SPen
@@ -1238,7 +1238,7 @@
 1988,Chinook,100794,893.93,A-Y-K,Y,WAK
 2009,Chinook,127205,898.29,Southeastern,D,SEAK
 1994,Coho,237204,905.75,Westward,L,SPen
-1996,Coho,293374,909.56,Westward,M,South Pen
+1996,Coho,293374,909.56,Westward,M,SPen
 1997,Chum,317606,912.09,Central,T,WAK
 1989,Chinook,102280,914.53,A-Y-K,Y,WAK
 1986,Chinook,99970,916.79,A-Y-K,Y,WAK
@@ -1260,7 +1260,7 @@
 2004,Sockeye,351396,961.38,Southeastern,C,SEAK
 2010,Chinook,134053,961.6,Southeastern,D,SEAK
 1998,Sockeye,342970,967.69,Southeastern,A,SEAK
-1990,Coho,307218,967.71,Westward,M,South Pen
+1990,Coho,307218,967.71,Westward,M,SPen
 2000,Coho,310257,968.66,A-Y-K,W,WAK
 1994,Coho,241919,970.32,Westward,M,WAK
 2012,Chum,285614,971.2,Westward,M,WAK
@@ -1306,7 +1306,7 @@
 1986,Chum,349269,1072.63,A-Y-K,W,WAK
 1988,Chum,284747,1073.78,Southeastern,C,SEAK
 1986,Pink,647125,1076.97,Westward,L,SPen
-2014,Pink,722450,1077.47,Westward,M,South Pen
+2014,Pink,722450,1077.47,Westward,M,SPen
 1992,Chum,289187,1087.4,A-Y-K,X,WAK
 2006,Coho,329925,1088.94,Southeastern,C,SEAK
 2011,Sockeye,407169,1094.41,Southeastern,B,SEAK
@@ -1324,7 +1324,7 @@
 2012,Coho,343734,1119.67,Southeastern,A,SEAK
 1995,Coho,307795,1121.77,Westward,K,Kod
 2015,Coho,397696,1121.97,Westward,K,Kod
-2010,Pink,838783,1125.84,Westward,M,South Pen
+2010,Pink,838783,1125.84,Westward,M,SPen
 1987,Sockeye,398503,1133.55,Southeastern,B,SEAK
 1985,Coho,284166,1142.86,Westward,K,Kod
 2015,Chinook,193654,1150.52,Southeastern,D,SEAK
@@ -1355,7 +1355,7 @@
 1993,Pink,967748,1208.83,Central,H,CI
 1995,Chinook,126292,1214.33,A-Y-K,Y,WAK
 2015,Chum,305391,1215.92,A-Y-K,X,WAK
-1992,Coho,418232,1218.64,Westward,M,South Pen
+1992,Coho,418232,1218.64,Westward,M,SPen
 1986,Chum,317020,1222.04,Southeastern,C,SEAK
 2009,Coho,300615,1225.54,Central,E,PWS
 2003,Coho,351767,1228.17,Westward,K,Kod
@@ -1391,7 +1391,7 @@
 1985,Chinook,146114,1341.83,A-Y-K,Y,WAK
 2008,Pink,805965,1349.63,Westward,M,WAK
 2008,Chum,322596,1353.49,Southeastern,C,SEAK
-1989,Coho,443843,1353.9,Westward,M,South Pen
+1989,Coho,443843,1353.9,Westward,M,SPen
 2005,Coho,396841,1355.13,Westward,K,Kod
 2002,Sockeye,462418,1356.57,Southeastern,A,SEAK
 1988,Chum,393527,1361.11,Westward,M,WAK
@@ -1422,7 +1422,7 @@
 2000,Coho,437385,1501.55,Southeastern,A,SEAK
 2014,Pink,916314,1502.47,Central,H,CI
 2015,Coho,461523,1503.16,Southeastern,A,SEAK
-2014,Chum,501966,1520.57,Westward,M,South Pen
+2014,Chum,501966,1520.57,Westward,M,SPen
 1991,Pink,1169298,1523.06,Westward,L,SPen
 1996,Coho,450512,1526.61,Southeastern,C,SEAK
 2015,Coho,504883,1532.71,Southeastern,B,SEAK
@@ -1445,7 +1445,7 @@
 2003,Sockeye,583055,1630.33,Southeastern,B,SEAK
 1990,Chum,522535,1633.72,A-Y-K,W,WAK
 1991,Coho,557895,1633.73,A-Y-K,W,WAK
-1988,Coho,505533,1636.87,Westward,M,South Pen
+1988,Coho,505533,1636.87,Westward,M,SPen
 2005,Chinook,229243,1641.95,Southeastern,D,SEAK
 1986,Sockeye,521960,1647.81,Southeastern,A,SEAK
 2013,Sockeye,604489,1656.42,Southeastern,A,SEAK
@@ -1475,7 +1475,7 @@
 2003,Coho,511491,1778.25,Southeastern,A,SEAK
 1988,Pink,1127272,1787.9,Southeastern,A,SEAK
 1996,Coho,459319,1789.56,Central,E,PWS
-2001,Sockeye,614873,1800.12,Westward,M,South Pen
+2001,Sockeye,614873,1800.12,Westward,M,SPen
 1988,Chum,475416,1804.66,Southeastern,D,SEAK
 2012,Sockeye,624028,1810.97,Southeastern,A,SEAK
 2007,Pink,1155046,1813.55,Westward,M,WAK
@@ -1504,20 +1504,20 @@
 2010,Chum,480147,1910.96,Southeastern,C,SEAK
 1989,Pink,1364675,1911.79,Central,H,CI
 1992,Pink,1175961,1912.05,Central,H,CI
-1987,Pink,1208556,1916.31,Westward,M,South Pen
+1987,Pink,1208556,1916.31,Westward,M,SPen
 2004,Sockeye,718828,1921.3,Southeastern,B,SEAK
 2004,Coho,578253,1927.18,Southeastern,C,SEAK
 2001,Coho,494179,1929.07,Central,E,PWS
-2015,Chum,680252,1930.6,Westward,M,South Pen
+2015,Chum,680252,1930.6,Westward,M,SPen
 1992,Coho,533185,1935.71,Southeastern,C,SEAK
 1989,Coho,645552,1943.28,Southeastern,B,SEAK
 2012,Chum,679463,1944.97,Central,T,WAK
 1994,Coho,599551,1951.75,Central,H,CI
 2014,Chum,453100,1957.13,Southeastern,C,SEAK
 2004,Coho,584321,1960.42,Southeastern,B,SEAK
-1997,Chum,627996,1964.45,Westward,M,South Pen
+1997,Chum,627996,1964.45,Westward,M,SPen
 2006,Coho,556310,1969.07,Westward,K,Kod
-2003,Chum,639772,1977.84,Westward,M,South Pen
+2003,Chum,639772,1977.84,Westward,M,SPen
 1988,Sockeye,791605,1977.95,Southeastern,B,SEAK
 2003,Coho,521917,1979.48,Central,E,PWS
 2015,Sockeye,766952,1981.57,Southeastern,B,SEAK
@@ -1537,7 +1537,7 @@
 2004,Sockeye,704652,2045.59,Westward,L,SPen
 2015,Coho,629552,2045.81,Southeastern,D,SEAK
 2013,Chum,726420,2046.48,A-Y-K,Y,WAK
-2012,Chum,625325,2048.8,Westward,M,South Pen
+2012,Chum,625325,2048.8,Westward,M,SPen
 2005,Sockeye,787127,2048.93,Southeastern,B,SEAK
 1985,Chum,521373,2053.93,A-Y-K,X,WAK
 2005,Coho,694799,2062.33,Southeastern,A,SEAK
@@ -1561,12 +1561,12 @@
 2014,Pink,1298214,2160.72,Central,T,WAK
 1997,Coho,570374,2166.96,Southeastern,A,SEAK
 1998,Sockeye,786356,2171.84,Southeastern,B,SEAK
-2007,Chum,681121,2192.79,Westward,M,South Pen
+2007,Chum,681121,2192.79,Westward,M,SPen
 1999,Pink,1698651,2197.85,Westward,L,SPen
 1997,Sockeye,770347,2204.73,Westward,L,SPen
 2007,Coho,735110,2205.91,Southeastern,D,SEAK
 2010,Pink,1250752,2209.35,Southeastern,A,SEAK
-2005,Chum,742434,2219.54,Westward,M,South Pen
+2005,Chum,742434,2219.54,Westward,M,SPen
 1985,Coho,677540,2224.01,Central,H,CI
 1992,Chum,679559,2235.46,Westward,K,Kod
 2013,Coho,619538,2235.54,Central,E,PWS
@@ -1583,14 +1583,14 @@
 2011,Chum,626404,2294.68,Southeastern,C,SEAK
 2002,Chum,650178,2296.28,Westward,K,Kod
 1992,Sockeye,798272,2316.65,Southeastern,A,SEAK
-1998,Chum,721068,2318.84,Westward,M,South Pen
+1998,Chum,721068,2318.84,Westward,M,SPen
 1994,Chum,646868,2319.75,Southeastern,C,SEAK
 1988,Coho,552100,2323.2,Southeastern,A,SEAK
 1985,Chum,614545,2328.29,Southeastern,D,SEAK
 1998,Coho,621637,2340.84,Southeastern,A,SEAK
 1985,Coho,717559,2343.85,Southeastern,D,SEAK
 2014,Coho,679244,2354.1,Southeastern,C,SEAK
-2004,Chum,794660,2359.79,Westward,M,South Pen
+2004,Chum,794660,2359.79,Westward,M,SPen
 2001,Sockeye,821086,2363.21,Southeastern,A,SEAK
 1998,Coho,677096,2378.19,Southeastern,B,SEAK
 2011,Sockeye,927491,2391.18,Westward,M,WAK
@@ -1633,14 +1633,14 @@
 2010,Chum,734903,2558.42,Westward,K,Kod
 1992,Chum,684959,2562.79,Southeastern,C,SEAK
 1987,Pink,1541615,2564.5,Southeastern,C,SEAK
-2010,Chum,794279,2566.38,Westward,M,South Pen
+2010,Chum,794279,2566.38,Westward,M,SPen
 2007,Chum,728927,2570.51,Westward,K,Kod
 2008,Coho,692290,2571.43,Southeastern,B,SEAK
 1996,Chum,826631,2578.88,Central,T,WAK
 1988,Sockeye,795841,2592.03,Westward,L,SPen
 1992,Coho,782558,2593.03,A-Y-K,W,WAK
-1999,Chum,840030,2593.1,Westward,M,South Pen
-2008,Chum,814138,2622.24,Westward,M,South Pen
+1999,Chum,840030,2593.1,Westward,M,SPen
+2008,Chum,814138,2622.24,Westward,M,SPen
 1992,Pink,1554073,2630.45,Westward,L,SPen
 1994,Coho,781370,2634.92,Southeastern,C,SEAK
 2007,Sockeye,834547,2635.01,Westward,L,SPen
@@ -1649,15 +1649,15 @@
 2015,Pink,1978211,2650.69,Westward,L,SPen
 2006,Sockeye,902709,2653.05,Westward,L,SPen
 1989,Coho,767425,2654.33,Southeastern,A,SEAK
-1996,Chum,794642,2654.35,Westward,M,South Pen
+1996,Chum,794642,2654.35,Westward,M,SPen
 1995,Sockeye,1030594,2667.89,Southeastern,B,SEAK
 2000,Coho,896063,2674.44,Southeastern,D,SEAK
 2008,Pink,1604247,2687.1,Southeastern,C,SEAK
 2002,Coho,749979,2693.31,Southeastern,A,SEAK
-2002,Sockeye,1036722,2695.66,Westward,M,South Pen
+2002,Sockeye,1036722,2695.66,Westward,M,SPen
 1995,Chum,758545,2702.72,Central,E,PWS
 2001,Chum,831949,2707.87,Central,T,WAK
-2002,Chum,820257,2710.62,Westward,M,South Pen
+2002,Chum,820257,2710.62,Westward,M,SPen
 1986,Chum,860886,2711.4,A-Y-K,Y,WAK
 2003,Chum,933031,2733.84,Central,T,WAK
 1986,Pink,1834791,2743.66,Southeastern,C,SEAK
@@ -1677,15 +1677,15 @@
 1993,Coho,1130886,2877.57,Southeastern,D,SEAK
 1999,Coho,1042333,2894.37,Southeastern,A,SEAK
 2005,Coho,999006,2900.34,Southeastern,D,SEAK
-2003,Sockeye,1055270,2905.24,Westward,M,South Pen
+2003,Sockeye,1055270,2905.24,Westward,M,SPen
 1991,Chum,741967,2906.98,Southeastern,A,SEAK
 1998,Sockeye,1054439,2920.25,Westward,L,SPen
 2004,Coho,816949,2922.47,Southeastern,A,SEAK
 1992,Coho,840645,2923.4,Southeastern,B,SEAK
-2011,Chum,979187,2951.72,Westward,M,South Pen
+2011,Chum,979187,2951.72,Westward,M,SPen
 1990,Chum,1055409,2965.74,Central,T,WAK
 1994,Coho,863986,2972.49,A-Y-K,W,WAK
-1993,Chum,1048257,2976.13,Westward,M,South Pen
+1993,Chum,1048257,2976.13,Westward,M,SPen
 1991,Chum,874853,2978.48,Southeastern,D,SEAK
 2008,Coho,784796,2984.77,Southeastern,D,SEAK
 2015,Chum,1095947,2999.91,Central,T,WAK
@@ -1697,14 +1697,14 @@
 1991,Sockeye,1154279,3014.35,Southeastern,B,SEAK
 2000,Coho,714288,3033.06,Central,E,PWS
 2012,Pink,1675608,3062.39,Southeastern,D,SEAK
-1989,Chum,994231,3072.01,Westward,M,South Pen
+1989,Chum,994231,3072.01,Westward,M,SPen
 2006,Coho,763720,3095.15,Central,E,PWS
 2012,Chum,866423,3095.74,Westward,K,Kod
 1986,Chum,799123,3096.37,Southeastern,D,SEAK
 1985,Chum,1068461,3101.28,Central,T,WAK
 2010,Coho,880179,3101.57,Southeastern,D,SEAK
 1996,Coho,1007426,3102.07,Southeastern,D,SEAK
-2013,Chum,952544,3108.39,Westward,M,South Pen
+2013,Chum,952544,3108.39,Westward,M,SPen
 2013,Coho,1098566,3120.71,Southeastern,B,SEAK
 1992,Chum,880129,3148.11,Southeastern,A,SEAK
 2006,Pink,1876646,3167.99,Central,H,CI
@@ -1714,15 +1714,15 @@
 1991,Coho,885595,3180.57,Southeastern,A,SEAK
 1996,Coho,943608,3231.27,Southeastern,A,SEAK
 1989,Sockeye,1289536,3232.6,Westward,K,Kod
-2001,Chum,933691,3232.94,Westward,M,South Pen
+2001,Chum,933691,3232.94,Westward,M,SPen
 1987,Sockeye,1209510,3245.79,Westward,M,WAK
 1991,Chum,1029071,3258.82,Westward,K,Kod
-2010,Sockeye,1287807,3259.8,Westward,M,South Pen
+2010,Sockeye,1287807,3259.8,Westward,M,SPen
 2003,Sockeye,1100297,3261.19,Westward,L,SPen
-1996,Pink,2207503,3261.3,Westward,M,South Pen
+1996,Pink,2207503,3261.3,Westward,M,SPen
 2015,Chum,804051,3267.08,Southeastern,C,SEAK
 1993,Coho,1167992,3274.94,Southeastern,A,SEAK
-1997,Pink,2321371,3280.61,Westward,M,South Pen
+1997,Pink,2321371,3280.61,Westward,M,SPen
 1999,Chum,913867,3281.58,Westward,K,Kod
 1995,Chum,851077,3283.28,Southeastern,C,SEAK
 1987,Chum,765797,3285.8,Southeastern,A,SEAK
@@ -1742,14 +1742,14 @@
 1988,Chum,790356,3489.47,Southeastern,A,SEAK
 1992,Coho,1123467,3494.88,Southeastern,D,SEAK
 2010,Sockeye,1439656,3503.04,Westward,K,Kod
-1986,Sockeye,1223089,3541.1,Westward,M,South Pen
+1986,Sockeye,1223089,3541.1,Westward,M,SPen
 2008,Chum,1259761,3554.14,Central,T,WAK
 2005,Chum,830327,3554.8,Southeastern,C,SEAK
 1993,Chum,1123664,3558.11,Southeastern,A,SEAK
 1989,Chum,1258808,3570.23,Central,T,WAK
 1986,Sockeye,1288213,3574.56,Central,E,PWS
 1991,Pink,3119362,3584.93,Southeastern,D,SEAK
-2002,Pink,2170809,3589.76,Westward,M,South Pen
+2002,Pink,2170809,3589.76,Westward,M,SPen
 1991,Chum,1289749,3597.76,Central,T,WAK
 1989,Sockeye,1175316,3613.37,Central,E,PWS
 1989,Sockeye,1159287,3614.8,Westward,L,SPen
@@ -1758,12 +1758,12 @@
 2005,Pink,2355670,3637.54,Central,H,CI
 2008,Sockeye,1301040,3659.66,Central,E,PWS
 1994,Sockeye,1383835,3678.62,Southeastern,B,SEAK
-1990,Chum,1237945,3680.22,Westward,M,South Pen
+1990,Chum,1237945,3680.22,Westward,M,SPen
 2004,Coho,1105140,3680.37,Southeastern,D,SEAK
 1994,Coho,1167769,3680.41,Southeastern,B,SEAK
 2006,Sockeye,1585630,3687.14,Westward,K,Kod
 2008,Pink,2389958,3715.99,Westward,L,SPen
-2000,Chum,1066653,3723.3,Westward,M,South Pen
+2000,Chum,1066653,3723.3,Westward,M,SPen
 2003,Chum,1151885,3742.48,Westward,K,Kod
 2009,Sockeye,1198105,3747.8,Westward,L,SPen
 2009,Chum,1325250,3759.44,Central,T,WAK
@@ -1771,7 +1771,7 @@
 1995,Coho,1171124,3773.72,Southeastern,D,SEAK
 1998,Coho,1142173,3777.05,Southeastern,D,SEAK
 1999,Coho,1469487,3784.18,Southeastern,D,SEAK
-2014,Sockeye,1429447,3784.23,Westward,M,South Pen
+2014,Sockeye,1429447,3784.23,Westward,M,SPen
 1992,Sockeye,1277449,3797.88,Westward,L,SPen
 2002,Pink,2441407,3830.12,Central,H,CI
 1986,Chum,1134397,3833.09,Westward,K,Kod
@@ -1790,10 +1790,10 @@
 2003,Sockeye,1483638,3977.32,Westward,M,WAK
 1996,Coho,1101633,3982.38,A-Y-K,W,WAK
 1989,Chum,1001783,4010.23,Central,E,PWS
-1992,Chum,1316709,4014.51,Westward,M,South Pen
-1990,Pink,2865864,4027.55,Westward,M,South Pen
-1988,Sockeye,1473651,4034.12,Westward,M,South Pen
-2006,Chum,1186362,4034.66,Westward,M,South Pen
+1992,Chum,1316709,4014.51,Westward,M,SPen
+1990,Pink,2865864,4027.55,Westward,M,SPen
+1988,Sockeye,1473651,4034.12,Westward,M,SPen
+2006,Chum,1186362,4034.66,Westward,M,SPen
 1997,Pink,2885557,4034.95,Central,H,CI
 1990,Chum,967384,4042.28,Central,E,PWS
 1994,Chum,1058227,4071.83,Central,E,PWS
@@ -1804,7 +1804,7 @@
 1999,Sockeye,1783804,4107.65,Westward,M,WAK
 2006,Chum,1082132,4128.41,Westward,K,Kod
 2005,Chum,1397086,4131.15,Central,T,WAK
-1985,Chum,1348726,4141.56,Westward,M,South Pen
+1985,Chum,1348726,4141.56,Westward,M,SPen
 2002,Coho,1186528,4155.76,Southeastern,D,SEAK
 2000,Pink,2729994,4158.17,Southeastern,A,SEAK
 1986,Chum,1228810,4159.71,Central,H,CI
@@ -1813,29 +1813,29 @@
 2012,Chum,932651,4212.16,Southeastern,C,SEAK
 1988,Chum,1309633,4212.24,A-Y-K,Y,WAK
 2000,Sockeye,1431540,4228.36,Central,E,PWS
-1987,Sockeye,1449753,4330.67,Westward,M,South Pen
+1987,Sockeye,1449753,4330.67,Westward,M,SPen
 2000,Pink,2767748,4341.32,Southeastern,C,SEAK
 1986,Coho,1261946,4353.03,Southeastern,B,SEAK
 1986,Pink,2709626,4375.96,Central,H,CI
-1996,Sockeye,1543134,4389.24,Westward,M,South Pen
+1996,Sockeye,1543134,4389.24,Westward,M,SPen
 2000,Sockeye,1581086,4420.76,Central,H,CI
-1987,Chum,1375887,4425.63,Westward,M,South Pen
+1987,Chum,1375887,4425.63,Westward,M,SPen
 2000,Chum,1194448,4427.21,Westward,K,Kod
 1987,Chum,1529142,4484.69,Central,T,WAK
 1997,Chum,1059830,4490.31,Southeastern,C,SEAK
 2009,Sockeye,1728360,4493.43,Westward,K,Kod
 1988,Chum,1446618,4515.72,A-Y-K,W,WAK
 1992,Coho,1198910,4551.29,Southeastern,A,SEAK
-2000,Pink,3562866,4564.18,Westward,M,South Pen
+2000,Pink,3562866,4564.18,Westward,M,SPen
 2004,Pink,2876094,4570.79,Central,H,CI
 1987,Chum,1125934,4587.77,Southeastern,B,SEAK
 2008,Sockeye,1821656,4599.07,Westward,K,Kod
 1994,Sockeye,1618973,4602.07,Westward,L,SPen
 1989,Sockeye,1726940,4609.72,Westward,M,WAK
 1996,Sockeye,1640271,4617.93,Southeastern,B,SEAK
-2009,Sockeye,1725481,4618.67,Westward,M,South Pen
+2009,Sockeye,1725481,4618.67,Westward,M,SPen
 1997,Sockeye,1660126,4622.09,Southeastern,B,SEAK
-1991,Chum,1588791,4625.17,Westward,M,South Pen
+1991,Chum,1588791,4625.17,Westward,M,SPen
 1988,Chum,1469715,4626.71,Central,T,WAK
 1998,Chum,1271950,4636.72,Central,E,PWS
 1993,Sockeye,1697351,4652.69,Westward,L,SPen
@@ -1859,7 +1859,7 @@
 2000,Chum,1218114,4937.87,Southeastern,C,SEAK
 2004,Sockeye,1892525,4979.05,Central,E,PWS
 1995,Pink,3374322,4997.92,Southeastern,D,SEAK
-2006,Sockeye,1851491,5009.39,Westward,M,South Pen
+2006,Sockeye,1851491,5009.39,Westward,M,SPen
 2001,Chum,1260954,5013.74,Southeastern,C,SEAK
 2001,Sockeye,1511587,5021.46,Westward,L,SPen
 1996,Sockeye,1911126,5037.62,Westward,M,WAK
@@ -1874,13 +1874,13 @@
 2007,Sockeye,2014208,5174.75,Westward,K,Kod
 1995,Chum,1522810,5176.6,Westward,K,Kod
 1995,Sockeye,1724045,5226.44,Westward,L,SPen
-2011,Sockeye,1919235,5229.3,Westward,M,South Pen
-1994,Sockeye,2107233,5234.07,Westward,M,South Pen
+2011,Sockeye,1919235,5229.3,Westward,M,SPen
+1994,Sockeye,2107233,5234.07,Westward,M,SPen
 1989,Chum,1157272,5254.04,Southeastern,B,SEAK
 2014,Chum,1516962,5272.61,Central,E,PWS
-1985,Sockeye,2144416,5291.94,Westward,M,South Pen
+1985,Sockeye,2144416,5291.94,Westward,M,SPen
 1987,Sockeye,1742059,5293.72,Central,E,PWS
-2009,Chum,1684944,5297.95,Westward,M,South Pen
+2009,Chum,1684944,5297.95,Westward,M,SPen
 2005,Sockeye,1988771,5325.09,Central,E,PWS
 2007,Chum,1939714,5332.85,Central,T,WAK
 1998,Pink,3471269,5375.15,Southeastern,A,SEAK
@@ -1890,46 +1890,46 @@
 2009,Sockeye,1919185,5448.42,Central,E,PWS
 2004,Chum,1471947,5449,Southeastern,C,SEAK
 2000,Pink,3600089,5458.94,Southeastern,D,SEAK
-2012,Sockeye,2022630,5465.15,Westward,M,South Pen
+2012,Sockeye,2022630,5465.15,Westward,M,SPen
 2001,Sockeye,2047600,5471.07,Central,H,CI
 1996,Pink,3486930,5472.57,Westward,K,Kod
-1995,Chum,1728321,5490.81,Westward,M,South Pen
+1995,Chum,1728321,5490.81,Westward,M,SPen
 1999,Sockeye,2036707,5526.04,Central,E,PWS
 2009,Pink,3913548,5529.65,Southeastern,C,SEAK
-2008,Sockeye,2249150,5560.62,Westward,M,South Pen
+2008,Sockeye,2249150,5560.62,Westward,M,SPen
 2012,Sockeye,1800121,5563.87,Westward,L,SPen
 2006,Sockeye,2428080,5564,Central,H,CI
 1997,Sockeye,2154956,5600.94,Westward,M,WAK
-2000,Sockeye,2006487,5610.2,Westward,M,South Pen
+2000,Sockeye,2006487,5610.2,Westward,M,SPen
 1992,Pink,3310644,5626.35,Westward,K,Kod
 1995,Pink,3827093,5645.86,Southeastern,C,SEAK
 2012,Sockeye,2239301,5664.9,Westward,K,Kod
-2004,Sockeye,2206683,5687.08,Westward,M,South Pen
+2004,Sockeye,2206683,5687.08,Westward,M,SPen
 2006,Pink,2858795,5692.53,Southeastern,B,SEAK
-1998,Sockeye,2183776,5703.87,Westward,M,South Pen
+1998,Sockeye,2183776,5703.87,Westward,M,SPen
 2010,Sockeye,2045144,5711.55,Central,E,PWS
-1986,Chum,1749651,5726.41,Westward,M,South Pen
+1986,Chum,1749651,5726.41,Westward,M,SPen
 1988,Chum,1426976,5757.39,Westward,K,Kod
 1995,Chum,1492531,5800.8,Southeastern,A,SEAK
 2014,Chum,1579253.8,5857.06,Southeastern,D,SEAK
 1991,Sockeye,2392882,5863.23,Westward,M,WAK
 2010,Sockeye,2233550,5875.21,Westward,M,WAK
 1991,Sockeye,1899294,5882.1,Westward,L,SPen
-1997,Sockeye,2281566,5901.18,Westward,M,South Pen
+1997,Sockeye,2281566,5901.18,Westward,M,SPen
 1997,Sockeye,2506463,5971.06,Westward,K,Kod
 1998,Chum,1469067,5995.92,Southeastern,A,SEAK
 2001,Chum,1592578.82,6015.26,Southeastern,A,SEAK
-2013,Sockeye,2242691,6037.84,Westward,M,South Pen
-1991,Sockeye,2319957,6040.25,Westward,M,South Pen
+2013,Sockeye,2242691,6037.84,Westward,M,SPen
+1991,Sockeye,2319957,6040.25,Westward,M,SPen
 2006,Sockeye,2379945,6052.63,Westward,M,WAK
-2007,Sockeye,2450221,6093.88,Westward,M,South Pen
+2007,Sockeye,2450221,6093.88,Westward,M,SPen
 2011,Sockeye,2269302,6114.39,Westward,K,Kod
 1990,Sockeye,2427807,6117.81,Westward,M,WAK
 1994,Coho,1847811,6119.93,Southeastern,D,SEAK
 2003,Pink,3809197,6173.65,Southeastern,D,SEAK
 2006,Chum,1342632,6174.57,Southeastern,C,SEAK
 1991,Sockeye,2507889,6189.78,Central,H,CI
-1986,Pink,4031487,6192.19,Westward,M,South Pen
+1986,Pink,4031487,6192.19,Westward,M,SPen
 2000,Sockeye,1775225,6198.89,Westward,L,SPen
 2006,Chum,2243659,6262.71,Central,T,WAK
 1990,Sockeye,2093650,6264.01,Westward,L,SPen
@@ -1941,23 +1941,23 @@
 2009,Sockeye,2340089,6374.64,Central,H,CI
 2004,Sockeye,2437623,6391.52,Westward,M,WAK
 2006,Sockeye,2524501,6402.93,Central,E,PWS
-1990,Sockeye,2386917,6408.72,Westward,M,South Pen
+1990,Sockeye,2386917,6408.72,Westward,M,SPen
 1985,Sockeye,2598831,6426.09,Westward,M,WAK
 2011,Chum,1914525,6427.71,Central,E,PWS
 1986,Chum,1705426,6452.2,Central,E,PWS
-2006,Pink,4264143,6464.48,Westward,M,South Pen
-1988,Chum,1908507,6466.5,Westward,M,South Pen
+2006,Pink,4264143,6464.48,Westward,M,SPen
+1988,Chum,1908507,6466.5,Westward,M,SPen
 1986,Sockeye,2471437,6488.52,Westward,M,WAK
-2005,Sockeye,2338318,6495.46,Westward,M,South Pen
+2005,Sockeye,2338318,6495.46,Westward,M,SPen
 1994,Sockeye,2878238,6505.54,Westward,K,Kod
 2013,Sockeye,2334623,6519.42,Central,E,PWS
 2009,Sockeye,2430163,6547.77,Westward,M,WAK
 2002,Sockeye,2263328,6555.68,Central,E,PWS
 2006,Pink,3730885,6556.98,Southeastern,D,SEAK
 2006,Pink,3804819,6618.06,Southeastern,A,SEAK
-1994,Chum,2192079,6666.04,Westward,M,South Pen
+1994,Chum,2192079,6666.04,Westward,M,SPen
 2001,Sockeye,2659732,6685.56,Westward,K,Kod
-2001,Pink,4021482,6726.97,Westward,M,South Pen
+2001,Pink,4021482,6726.97,Westward,M,SPen
 2014,Pink,3942104.7,6729.38,Southeastern,C,SEAK
 1986,Chum,1700256,6729.73,Southeastern,B,SEAK
 2013,Sockeye,2577209,6750.12,Westward,K,Kod
@@ -1968,7 +1968,7 @@
 1987,Chum,1953777,6884.51,Central,E,PWS
 1994,Sockeye,2783327,6957.3,Westward,M,WAK
 2015,Sockeye,2736624,6973.54,Westward,M,WAK
-1989,Sockeye,2661217,6980.86,Westward,M,South Pen
+1989,Sockeye,2661217,6980.86,Westward,M,SPen
 2003,Chum,2303342,7001.09,Southeastern,C,SEAK
 1988,Sockeye,2701276,7025.39,Westward,K,Kod
 2015,Chum,2512460,7045.23,Central,E,PWS
@@ -1978,15 +1978,15 @@
 2014,Sockeye,2621776,7178.54,Central,H,CI
 1988,Chum,1850523,7186.13,Central,E,PWS
 1994,Coho,1924750,7186.28,Southeastern,A,SEAK
-1995,Sockeye,3016211,7304.59,Westward,M,South Pen
+1995,Sockeye,3016211,7304.59,Westward,M,SPen
 2008,Sockeye,2804722,7319.59,Central,H,CI
 1992,Pink,4935142,7347.1,Southeastern,A,SEAK
-1999,Sockeye,2991819,7391.84,Westward,M,South Pen
-2003,Pink,4262920,7400.84,Westward,M,South Pen
+1999,Sockeye,2991819,7391.84,Westward,M,SPen
+2003,Pink,4262920,7400.84,Westward,M,SPen
 1992,Chum,1943647,7471.9,Southeastern,B,SEAK
 1993,Pink,5761097,7474.56,Central,E,PWS
 2005,Chum,2099493,7493.47,Central,E,PWS
-2011,Pink,5005771,7502.81,Westward,M,South Pen
+2011,Pink,5005771,7502.81,Westward,M,SPen
 2003,Sockeye,2730160,7556.89,Central,E,PWS
 2000,Sockeye,2906466,7559.59,Westward,K,Kod
 1987,Pink,4224856,7589.23,Southeastern,B,SEAK
@@ -2007,10 +2007,10 @@
 2010,Sockeye,2928105,8126.36,Central,H,CI
 1996,Pink,5842445,8157.02,Southeastern,C,SEAK
 2002,Pink,5061116,8164.91,Southeastern,D,SEAK
-1985,Pink,4431016,8172.2,Westward,M,South Pen
+1985,Pink,4431016,8172.2,Westward,M,SPen
 1995,Sockeye,3242594,8177.67,Central,H,CI
 2002,Chum,1902819,8184.54,Southeastern,B,SEAK
-2015,Sockeye,3209917,8189.4,Westward,M,South Pen
+2015,Sockeye,3209917,8189.4,Westward,M,SPen
 1996,Chum,2103559,8257.31,Central,E,PWS
 1987,Pink,5075508,8304.01,Westward,K,Kod
 1986,Sockeye,3188049,8406.58,Westward,K,Kod
@@ -2022,7 +2022,7 @@
 1997,Chum,2227193,8693.35,Central,E,PWS
 2002,Pink,5618069,8770.14,Southeastern,A,SEAK
 2002,Sockeye,3101775,8871.3,Central,H,CI
-1992,Sockeye,3445914,8873.18,Westward,M,South Pen
+1992,Sockeye,3445914,8873.18,Westward,M,SPen
 2009,Chum,2923237,8881.95,Southeastern,D,SEAK
 2007,Sockeye,3410482,8884.05,Westward,M,WAK
 2001,Pink,5787782,8904.46,Southeastern,A,SEAK
@@ -2038,7 +2038,7 @@
 2015,Pink,6436882,9187.71,Central,H,CI
 1989,Pink,6825124,9238.89,Westward,K,Kod
 1993,Chum,2662908,9257.37,Southeastern,B,SEAK
-1993,Sockeye,3689074,9322.19,Westward,M,South Pen
+1993,Sockeye,3689074,9322.19,Westward,M,SPen
 1999,Sockeye,3116527,9330.42,Westward,L,SPen
 2013,Chum,2163849,9341.15,Southeastern,B,SEAK
 2007,Sockeye,3231202,9343.27,Central,E,PWS
@@ -2054,7 +2054,7 @@
 2002,Chum,2428321,9859.02,Southeastern,D,SEAK
 2011,Sockeye,3542007,9930.06,Central,E,PWS
 2001,Chum,2689934,9940.09,Southeastern,D,SEAK
-2004,Pink,6681447,9955.7,Westward,M,South Pen
+2004,Pink,6681447,9955.7,Westward,M,SPen
 1994,Pink,7146473,9962.74,Southeastern,D,SEAK
 2004,Sockeye,4169615,10007.88,Westward,K,Kod
 2010,Chum,2795353,10015.4,Southeastern,D,SEAK
@@ -2084,38 +2084,38 @@
 2009,Chum,3222176,10979.09,Central,E,PWS
 1985,Sockeye,4338826,10991.8,Central,H,CI
 2003,Chum,3804895,11006.92,Central,E,PWS
-2013,Pink,7802907,11037.27,Westward,M,South Pen
+2013,Pink,7802907,11037.27,Westward,M,SPen
 1999,Chum,2960822,11069.22,Central,E,PWS
 1999,Sockeye,4653057,11107.15,Westward,K,Kod
 1985,Pink,8068192,11140.54,Southeastern,A,SEAK
 2007,Chum,3579068,11248.55,Central,E,PWS
 1997,Pink,6378258,11366.61,Southeastern,A,SEAK
 2012,Sockeye,3700809,11379.83,Central,E,PWS
-1988,Pink,7044824,11396.89,Westward,M,South Pen
+1988,Pink,7044824,11396.89,Westward,M,SPen
 1993,Pink,8909350,11431.85,Southeastern,A,SEAK
 2009,Chum,3656981,11486.3,Southeastern,A,SEAK
-2009,Pink,7921119,11531.17,Westward,M,South Pen
+2009,Pink,7921119,11531.17,Westward,M,SPen
 1994,Chum,3146616,11549.55,Southeastern,B,SEAK
 2015,Pink,7136113,11581.9,Southeastern,D,SEAK
 2007,Chum,3300046,11648.81,Southeastern,A,SEAK
-1999,Pink,8456449,11739.99,Westward,M,South Pen
+1999,Pink,8456449,11739.99,Westward,M,SPen
 1997,Pink,7044507,11932.17,Southeastern,C,SEAK
 1997,Sockeye,4163400,11946.88,Central,E,PWS
 2008,Chum,3215818,11952.53,Southeastern,D,SEAK
 2005,Pink,7294985,12003.63,Southeastern,C,SEAK
 1998,Pink,7833285,12117.79,Southeastern,C,SEAK
 1985,Pink,7334825,12140.09,Westward,K,Kod
-2007,Pink,7306366,12194.72,Westward,M,South Pen
+2007,Pink,7306366,12194.72,Westward,M,SPen
 1985,Pink,8723321,12246.22,Southeastern,C,SEAK
 1992,Pink,8202467,12258.68,Southeastern,C,SEAK
 1996,Sockeye,4375582,12261.74,Central,H,CI
 2012,Chum,3819046,12340.99,Central,E,PWS
 1990,Sockeye,5248407,12388.15,Westward,K,Kod
-1989,Pink,7292658,12415.87,Westward,M,South Pen
+1989,Pink,7292658,12415.87,Westward,M,SPen
 1989,Pink,7864318,12457.09,Southeastern,C,SEAK
 2007,Chum,3085619,12696.18,Southeastern,B,SEAK
 1996,Sockeye,4970390,12809.74,Westward,K,Kod
-1998,Pink,8047998,12823.1,Westward,M,South Pen
+1998,Pink,8047998,12823.1,Westward,M,SPen
 1997,Sockeye,4449602,12982.66,Central,H,CI
 1988,Pink,8863871,13001.23,Southeastern,B,SEAK
 1986,Sockeye,5029612,13011.92,Central,H,CI
@@ -2128,10 +2128,10 @@
 2004,Pink,7978668,13424.31,Southeastern,D,SEAK
 2013,Chum,4142976,13662.56,Southeastern,D,SEAK
 2010,Chum,3338596,13697.32,Southeastern,B,SEAK
-2005,Pink,9424892,13728.65,Westward,M,South Pen
+2005,Pink,9424892,13728.65,Westward,M,SPen
 2013,Chum,4070524.98,13759.35,Central,E,PWS
 2004,Sockeye,5067942,13871.24,Central,H,CI
-1994,Pink,9179853,14020.11,Westward,M,South Pen
+1994,Pink,9179853,14020.11,Westward,M,SPen
 1994,Pink,8162564,14114.12,Westward,K,Kod
 2008,Chum,3586688,14152.32,Southeastern,A,SEAK
 2003,Pink,8701937,14227.1,Southeastern,A,SEAK
@@ -2143,10 +2143,10 @@
 2005,Pink,9203404,14696.41,Southeastern,D,SEAK
 2000,Pink,9927397,14741.24,Westward,K,Kod
 2008,Pink,8788655,14761.95,Westward,K,Kod
-1992,Pink,9770386,14833.82,Westward,M,South Pen
+1992,Pink,9770386,14833.82,Westward,M,SPen
 2005,Sockeye,5484572,14886.67,Central,H,CI
-1993,Pink,9928107,15118.75,Westward,M,South Pen
-1991,Pink,10616756,15134.98,Westward,M,South Pen
+1993,Pink,9928107,15118.75,Westward,M,SPen
+1991,Pink,10616756,15134.98,Westward,M,SPen
 1989,Sockeye,5184634,15369.68,Central,H,CI
 1995,Chum,3964732,15429.78,Southeastern,B,SEAK
 1998,Pink,9641248,15671.01,Southeastern,D,SEAK
@@ -2180,7 +2180,7 @@
 2000,Chum,5163769,18820.71,Central,E,PWS
 1997,Chum,4663093,18930.38,Southeastern,B,SEAK
 1986,Pink,11809223,19585.97,Westward,K,Kod
-2008,Pink,12724702,19640.11,Westward,M,South Pen
+2008,Pink,12724702,19640.11,Westward,M,SPen
 2011,Pink,11945124,19785.34,Southeastern,C,SEAK
 2015,Pink,11901794,19851.22,Southeastern,B,SEAK
 1998,Chum,5429998,20233.25,Southeastern,D,SEAK
@@ -2194,7 +2194,7 @@
 1991,Pink,16642841,22020.8,Westward,K,Kod
 2003,Pink,14067235,22652.55,Westward,K,Kod
 1994,Pink,16718148,22876.33,Southeastern,C,SEAK
-2015,Pink,16715252,23835.95,Westward,M,South Pen
+2015,Pink,16715252,23835.95,Westward,M,SPen
 2002,Chum,6373517,23851.39,Central,E,PWS
 2012,Chum,5146367,24128.26,Southeastern,B,SEAK
 2011,Pink,16648792,24242.93,Westward,K,Kod
@@ -2204,7 +2204,7 @@
 2009,Pink,19001363,25872.9,Central,E,PWS
 1995,Pink,16065231,25983.55,Central,E,PWS
 1998,Sockeye,10038228,26158.28,Central,T,WAK
-1995,Pink,16311942,26635.68,Westward,M,South Pen
+1995,Pink,16311942,26635.68,Westward,M,SPen
 1999,Pink,21084620,26727.72,Southeastern,A,SEAK
 1999,Chum,6617667,26767.19,Southeastern,D,SEAK
 1996,Chum,6696542,27183.43,Southeastern,D,SEAK
@@ -2318,65 +2318,65 @@
 2003,Steelhead,1,,Southeastern,C,SEAK
 1990,Steelhead,36,,Southeastern,D,SEAK
 1985,Steelhead,,,Westward,M,WAK
-1985,Steelhead,,,Westward,M,South Pen
+1985,Steelhead,,,Westward,M,SPen
 1986,Steelhead,,,Westward,M,WAK
-1986,Steelhead,,,Westward,M,South Pen
+1986,Steelhead,,,Westward,M,SPen
 1987,Steelhead,,,Westward,M,WAK
-1987,Steelhead,,,Westward,M,South Pen
+1987,Steelhead,,,Westward,M,SPen
 1988,Steelhead,,,Westward,M,WAK
-1988,Steelhead,,,Westward,M,South Pen
+1988,Steelhead,,,Westward,M,SPen
 1989,Steelhead,,,Westward,M,WAK
-1989,Steelhead,,,Westward,M,South Pen
+1989,Steelhead,,,Westward,M,SPen
 1990,Steelhead,,,Westward,M,WAK
-1990,Steelhead,,,Westward,M,South Pen
+1990,Steelhead,,,Westward,M,SPen
 1991,Steelhead,,,Westward,M,WAK
-1991,Steelhead,,,Westward,M,South Pen
+1991,Steelhead,,,Westward,M,SPen
 1992,Steelhead,,,Westward,M,WAK
-1992,Steelhead,,,Westward,M,South Pen
+1992,Steelhead,,,Westward,M,SPen
 1993,Steelhead,,,Westward,M,WAK
-1993,Steelhead,,,Westward,M,South Pen
+1993,Steelhead,,,Westward,M,SPen
 1994,Steelhead,,,Westward,M,WAK
-1994,Steelhead,,,Westward,M,South Pen
+1994,Steelhead,,,Westward,M,SPen
 1995,Steelhead,,,Westward,M,WAK
-1995,Steelhead,,,Westward,M,South Pen
+1995,Steelhead,,,Westward,M,SPen
 1996,Steelhead,,,Westward,M,WAK
-1996,Steelhead,,,Westward,M,South Pen
+1996,Steelhead,,,Westward,M,SPen
 1997,Steelhead,,,Westward,M,WAK
-1997,Steelhead,,,Westward,M,South Pen
+1997,Steelhead,,,Westward,M,SPen
 1998,Steelhead,,,Westward,M,WAK
-1998,Steelhead,,,Westward,M,South Pen
+1998,Steelhead,,,Westward,M,SPen
 1999,Steelhead,,,Westward,M,WAK
-1999,Steelhead,,,Westward,M,South Pen
+1999,Steelhead,,,Westward,M,SPen
 2000,Steelhead,,,Westward,M,WAK
-2000,Steelhead,,,Westward,M,South Pen
+2000,Steelhead,,,Westward,M,SPen
 2001,Steelhead,,,Westward,M,WAK
-2001,Steelhead,,,Westward,M,South Pen
+2001,Steelhead,,,Westward,M,SPen
 2002,Steelhead,,,Westward,M,WAK
-2002,Steelhead,,,Westward,M,South Pen
+2002,Steelhead,,,Westward,M,SPen
 2003,Steelhead,,,Westward,M,WAK
-2003,Steelhead,,,Westward,M,South Pen
+2003,Steelhead,,,Westward,M,SPen
 2004,Steelhead,,,Westward,M,WAK
-2004,Steelhead,,,Westward,M,South Pen
+2004,Steelhead,,,Westward,M,SPen
 2005,Steelhead,,,Westward,M,WAK
-2005,Steelhead,,,Westward,M,South Pen
+2005,Steelhead,,,Westward,M,SPen
 2006,Steelhead,,,Westward,M,WAK
-2006,Steelhead,,,Westward,M,South Pen
+2006,Steelhead,,,Westward,M,SPen
 2007,Steelhead,,,Westward,M,WAK
-2007,Steelhead,,,Westward,M,South Pen
+2007,Steelhead,,,Westward,M,SPen
 2008,Steelhead,,,Westward,M,WAK
-2008,Steelhead,,,Westward,M,South Pen
+2008,Steelhead,,,Westward,M,SPen
 2009,Steelhead,,,Westward,M,WAK
-2009,Steelhead,,,Westward,M,South Pen
+2009,Steelhead,,,Westward,M,SPen
 2010,Steelhead,,,Westward,M,WAK
-2010,Steelhead,,,Westward,M,South Pen
+2010,Steelhead,,,Westward,M,SPen
 2011,Steelhead,,,Westward,M,WAK
-2011,Steelhead,,,Westward,M,South Pen
+2011,Steelhead,,,Westward,M,SPen
 2012,Steelhead,,,Westward,M,WAK
-2012,Steelhead,,,Westward,M,South Pen
+2012,Steelhead,,,Westward,M,SPen
 2013,Steelhead,,,Westward,M,WAK
-2013,Steelhead,,,Westward,M,South Pen
+2013,Steelhead,,,Westward,M,SPen
 2014,Steelhead,,,Westward,M,WAK
-2014,Steelhead,,,Westward,M,South Pen
+2014,Steelhead,,,Westward,M,SPen
 2015,Steelhead,,,Westward,M,WAK
 2006,Pink,3,,A-Y-K,X,WAK
 2006,Sockeye,5,,A-Y-K,X,WAK
