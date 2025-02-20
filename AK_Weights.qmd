@@ -14,58 +14,36 @@ echo: false
 
 library("readxl")
 library("tidyverse")
-library(reshape2)
+library("reshape2")
 ```
 
 ```{r}
-#| label: Load pink salmon data
-# load supplemental data tables from Ruggerone & Irvine (2018) for pink salmon (not grabbing the final "total" column)
-pink <- list(
-  #adult_N, adult_B, avgWt, tot_B
-  
-  # Table S9 total adult return abundance (hatchery & wild)
-  adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70"),
+#| label: load avgerage weight data
+# load Alaska salmon average weight data back-calculated from Ruggerone and Irvine (2018)), NPAFC commercial fisheries data, and ADF&G commercial fisheries data.
 
-   # Table S9 total adult return biomass (hatchery & wild)
-   adult_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 13-16 Tot ret (bioma) 52-15!A6:O70")  
-)
-
-```
-
-```{r}
-#| label: calc_avg_wt
-
-# back-calculate average weughts used in R&I  
-avg_wt <- (pink$adult_B[,-1]/1000)/pink$adult_N[,-1]
-avg_wt <- cbind(Year=seq(1952,2015,1),avg_wt)
-
-avg_wt.long <- melt(avg_wt, id ="Year", variable.name="Region", value.name="avg_wt")
-```
-
-
-```{r}
-#| label: read NPAFC data
-
-NPAFC <- read_csv("data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv")
-NPAFC_AK <- filter(NPAFC, Region=="Alaska" & Fishery=="Commercial" & between(Year,1952,2015) & Species=="Pink")
-
+RI_avgwt <- read_csv("output/RI_average_weight.csv", show_col_types = FALSE)
+NPAFC_avgwt <- read_csv("output/NPAFC_average_weight.csv", show_col_types = FALSE)
+# load ADF&G average weight data aggregated by R&I Regions
+ADFG_RI_avgwt <- read_csv("output/ADFG_RI_average_weight.csv", show_col_types = FALSE)
+# load ADF&G average weight data aggregated by Commercial Fisheries Regions
+ADFG_CF_avgwt <- read_csv("output/ADFG_CF_average_weight.csv", show_col_types = FALSE)
 ```
 
 ```{r}
 #| label: read ADF&G data
 
-ADFG <- read_csv("data/Salmon Landings for ESR_Sept 2023.csv")
-ADFG <- cbind(ADFG,ADFG[,8]*0.45359237)
-colnames(ADFG)[13] <- "Wt_kg"       
-ADFG <- cbind(ADFG,ADFG$Wt_kg/ADFG$`Number Of Fish (estimated)`)
-colnames(ADFG)[14] <- "avg_wt" 
+#ADFG <- read_csv("data/Salmon Landings for ESR_Sept 2023.csv")
+#ADFG <- cbind(ADFG,ADFG[,8]*0.45359237)
+#colnames(ADFG)[13] <- "Wt_kg"       
+#ADFG <- cbind(ADFG,ADFG$Wt_kg/ADFG$`Number Of Fish (estimated)`)
+#colnames(ADFG)[14] <- "avg_wt" 
 ```
 
 ```{r}
 #| label: fig-R&I_avg_wt
 #| fig-cap: "Average weight of Alaska pink salmon back-calculated from supplementary abundance and biomass data provided by Ruggerone and Irivne (2018)"
-p <- ggplot(data = avg_wt.long, aes(x = Year, y = avg_wt)) + geom_point()
-p + facet_wrap(~Region) 
+#p <- ggplot(data = avg_wt.long, aes(x = Year, y = avg_wt)) + geom_point()
+#p + facet_wrap(~Region) 
 
 # starting with pink salmon
 # plot avg wt 1952-2015 back calculated from R&I for each AK region (SEAK, PWS, CI, Kod, SPen, WAK)
@@ -78,14 +56,19 @@ p + facet_wrap(~Region)
 #| label: fig-NPAFC_AK_avgwt
 #| fig-cap: "Average weight of Alaska pink salmon by areas reported to NPAFC, 1952 to 2015. Note area designations change in 1985. Source: NPAFC (2024)"
 
-p <- ggplot(data = NPAFC_AK, aes(x = Year, y = avg_wt)) + geom_point()
-p + facet_wrap(~Area)     
+#p <- ggplot(data = NPAFC_AK, aes(x = Year, y = avg_wt)) + geom_point()
+#p + facet_wrap(~Area)     
 ```
-
 
 ## Introduction
 
-In examination of the 2018 paper by Ruggerone and Irvine and the supplementary data, in order to better understand the methods, assumptions and sources of data, it would seem that more appropriate regional average weights for each of the species could have been used to convert adult abundance estimates to adult biomass for Alaska. This is specific to the 1985 to 2015 estimates. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Central (or Southcentral), and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details). This change means there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas were separate from the Central Region and the Western Alaska Region to a new region call Westward. The Westward Region includes Kodiak, Chignik and South Alaska Peninsula management areas (formerly included in Central Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik.
+In examination of the 2018 paper by Ruggerone and Irvine and specifically the associated supplementary data[^1], it would seem that more appropriate regional average weights for each of the species could have been used to convert adult abundance estimates to adult biomass for Alaska. This is specific to the 1985 to 2015 estimates. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Southcentral[^2], and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details). This change means there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas were separated from the Central Region and the Western Alaska Region to a new region called Westward. The Westward Region includes Kodiak, Chignik and South Alaska Peninsula management areas (formerly included in Southcentral Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik.
+
+[^1]: Ruggerone & Irvine (2018), supplementary information: <https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx>
+
+[^2]: The proper name for the region was Central, but is referred to as Southcentral in the NPAFC catch statistics database to avoid confusion because they encompass somewhat different geographic area.
+
+The potential confusion between Western/Westard and Southcentral/Central appears to have lead to applying inaccurate average weights calculated from catch statistics sourced from the NPAFC database when estimating adult return biomass (Supplementary Tables 13-15) for Alaska pink, chum and sockeye salmon. Alternatively, this might have been a concious choice of the authors because these were the data that were readily available; however, this descion was not explicitly documented in their paper. As an example, we back-calculated the average weights used to estimate the adult return biomass for the Western Alaska region in Ruggerone and Irvine (2018) and compared them to the average weights for Western and Westard regions calculated from the NPAFC catch statistics database as described in Ruggerone and Irvine (2018) (@fig-RIaverageweight).
 
 ## Methods
 
@@ -101,23 +84,46 @@ In examination of the 2018 paper by Ruggerone and Irvine and the supplementary d
 
 -   Calculate difference in annual biomass for each area/AK/total
 
--   Data are located: <https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx>
-
--   see if I can read directly from url
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+# label: fig-RIaverageweight
+# fig-cap: "Average weights back-calculated from Ruggerone and Irvine (2018) for Alaska pink, chum and sockeye salmon by region, 1952-2015."
+
+p <- ggplot(data = filter(RI_avgwt, Region %in% c("WAK", "SPen","Kod","CI","PWS","SEAK")), aes(x = Year, y = avg_wt)) + 
+  geom_point() + 
+  facet_grid(cols=vars(Species), rows=vars(Region), scales = "free")+
+  ggtitle("Backcalculated Average Weights from R&I - AK pink salmon") +
+  ylab("Average Weight (kg)")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggsave("RI_avgwt_fig.png",p,"png",width = 6.5,units = "in")
 ```
 
-You can add options to executable code like this
+![Average weights back-calculated from Ruggerone and Irvine (2018) for Alaska pink, chum and sockeye salmon by region, 1952-2015.](RI_avgwt_fig.png){#fig-RIaverageweight fig-align="center"}
+
+
 
 ```{r}
-#| echo: false
-2 * 2
+#| label: fig-RIaverageweight
+# draft figures comparing R&I with NPAFC data 
+p <-ggplot()+
+  geom_point(data = filter(RI_avgwt, Region =="WAK"), aes(x = Year, y = avg_wt))+
+  geom_line(data = filter(NPAFC_avgwt, Region == "Western"),aes(x = Year, y = avg_wt), color = "red")+
+  geom_line(data = filter(NPAFC_avgwt, Region == "Westward"),aes(x = Year, y = avg_wt), color = "blue")+
+  facet_wrap(~Species, scales = "free", ncol=1) 
+p 
+
+ggsave("fig.png",p,"png",width = 6.5,units = "in")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+
+x <- data.frame( filter(RI_avgwt, Region =="WAK", Species == "Pink"),
+                 filter(NPAFC_avgwt, Region =="Western", Species == "Pink"),
+                 filter(NPAFC_avgwt, Region =="Westward", Species == "Pink")
+                        )
+
+x <- x[,c(2,5,10,15)]
+x
+
+```
+
