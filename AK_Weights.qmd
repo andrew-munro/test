@@ -1,9 +1,14 @@
 ---
-title: "AK Weights"
-format: docx
+title: "Pacific Salmon Biomass Trends - Update"
+format: 
+  docx:
+    reference-doc: custom-reference-doc.docx
+   
 editor: visual
 
-echo: false
+execute:
+  echo: false
+message: false
 ---
 
 ```{r}
@@ -15,6 +20,22 @@ echo: false
 library("readxl")
 library("tidyverse")
 library("reshape2")
+library("flextable")
+```
+
+```{r}
+#| label: table theme
+customtab_defaults <- function(){
+set_flextable_defaults(font.family = "Calibri",
+font.size = 10,
+border.color = "black")
+}
+
+custom_tab <- function(df){
+df %>%
+padding(padding = 0, part = "all")  %>%
+fontsize(size=9, part="footer")
+}
 ```
 
 ```{r}
@@ -60,15 +81,56 @@ ADFG_CF_avgwt <- read_csv("output/ADFG_CF_average_weight.csv", show_col_types = 
 #p + facet_wrap(~Area)     
 ```
 
+## Abstract
+
+(Insert words here)
+
 ## Introduction
 
-In examination of the 2018 paper by Ruggerone and Irvine and specifically the associated supplementary data[^1], it would seem that more appropriate regional average weights for each of the species could have been used to convert adult abundance estimates to adult biomass for Alaska. This is specific to the 1985 to 2015 estimates. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Southcentral[^2], and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details). This change means there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas were separated from the Central Region and the Western Alaska Region to a new region called Westward. The Westward Region includes Kodiak, Chignik and South Alaska Peninsula management areas (formerly included in Southcentral Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik.
+Pacific salmon (*Oncorhynchus* spp.) are an important natural, economic, and cultural resource for many people across the northern Pacific Rim, including all five North Pacific Anadromous Fish Commission (NPAFC) member nations. Providing the most up-to-date abundance and biomass estimates that are as accurate as possible given the constraints of the available data are an important contribution to the science and management of these species. Periodically updates to these estimates are provided (e.g., Irvine et al. 2016), with the most recent being Ruggerone and Irvine (2018). In 2024 the NPAFC Working Group on Stock Assessment (WGSA) acknowledged that updating these estimates was an important endeavor (2024 NPAFC Annual Report). Given the complexity of the analysis, this is anticipated to be a multi-year process.
+
+The purpose of this report is to provide an update to estimates of adult return biomass and total biomass (mature and immature) for Alaska-origin pink, chum, and sockeye salmon. As a result, North Pacific-wide estimates are also updated. In examination of the most recent published estimates in Ruggerone and Irvine (2018) and specifically the associated supplementary data[^1], it would seem that more appropriate regional average weights for each of the species should have been used to convert adult abundance estimates to adult biomass for Alaska because region-specific average weights were applied to adult abundance estimates from non-overlapping region to estimate adult biomass. This inconsistency pertains to the data from 1985 to 2015. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Southcentral[^2], and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details). This change is reflected in the catch statistics data set available from NPAFC[^3], which was used by Ruggerone and Irvine (2018) to estimate average weight from commercial catch numbers and weight in order to estimate adult return biomass; therefore there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas previously included in the (South) Central Region and the Western Alaska Region to a new region called Westward. The Westward Region includes Kodiak, Chignik, and South Alaska Peninsula management areas (formerly included in Southcentral Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik (@fig-ADFG_regions, see NPAFC Statistics Metadata Report for additional details).
 
 [^1]: Ruggerone & Irvine (2018), supplementary information: <https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx>
 
 [^2]: The proper name for the region was Central, but is referred to as Southcentral in the NPAFC catch statistics database to avoid confusion because they encompass somewhat different geographic area.
 
-The potential confusion between Western/Westard and Southcentral/Central appears to have lead to applying inaccurate average weights calculated from catch statistics sourced from the NPAFC database when estimating adult return biomass (Supplementary Tables 13-15) for Alaska pink, chum and sockeye salmon. Alternatively, this might have been a concious choice of the authors because these were the data that were readily available; however, this descion was not explicitly documented in their paper. As an example, we back-calculated the average weights used to estimate the adult return biomass for the Western Alaska region in Ruggerone and Irvine (2018) and compared them to the average weights for Western and Westard regions calculated from the NPAFC catch statistics database as described in Ruggerone and Irvine (2018) (@fig-RIaverageweight).
+[^3]: NPAFC Statistics: Pacific Salmonid Catch and Hatchery Release Data: <https://www.npafc.org/statistics/>.
+
+::: {#fig-ADFG_regions layout-ncol="1"}
+![Current](ADFG_CurrentRegions.png){#fig-ADFG_Current fig-align="center" width="5in"}
+
+![Pre-1985](ADFG_pre1985Regions.png){#fig-ADFG_pre1985}
+
+Alaska reporting areas for salmon commercial catch (a) 1985 to present and (b) 1925 to 1984. In earlier documents (e.g. Statistical Yearbooks, NPAFC documents), the reporting area of "South Central" (or "Southcentral") may have been named "Central". The name was changed to "South Central" in current NPAFC documents and statistics data file to indicate the reporting area is different in the early period (1925–1984) than in the current period (1985–present). Map credit: Google Maps. \<https//maps.google.com\>.
+:::
+
+The potential confusion between Western/Westward and Southcentral/Central appears to have lead to applying inaccurate average weights calculated from catch statistics sourced from the NPAFC database when estimating adult return biomass (Supplementary Tables 13–15) for Alaska pink, chum and sockeye salmon. Alternatively, this might have been a conscious choice of the authors because these were the data that were readily available; however, this decision was not explicitly documented in their paper. To illustrate this, we back-calculated the average weights used to estimate the adult return biomass for the Western Alaska region in Ruggerone and Irvine (2018) and compared them to the average weights for Western and Westard regions calculated from the NPAFC catch statistics database as described in Ruggerone and Irvine (2018) (@fig-RIaverageweight, @tbl-WestwardWestern_avgwt). From the figure and table, it can be seen that the back-calculated average weights used in Ruggerone and Irvine (2018) match the average weights calculated from the NPAFC data set (as one would expect) for the years 1952 to 1984. From 1985 to 2015, however, there are no catch statistics reported for the Western Alaska region in the NPAFC catch statistics file, but the back-calculated average weights do match those of the Westward Region calculated from the NPAFC data.
+
+
+```{r}
+#| label: fig-RIaverageweight
+#| fig-cap: Comparison of Western region average weights back-calculated from Ruggerone and Irvine (black dots), to average weights for Western (Red solid line) and Westward (blue dashed line) calculated from NPAFC data, 1952-2015[^3]. Note that prior to 1985 salmon catches from Alaska are Refer to Figure 1 for differences between Western and Westward.
+#| fig-width: 6
+#| fig-height: 5
+#| warning: false
+
+# draft figures comparing R&I with NPAFC data 
+p <-ggplot()+
+  geom_point(data = filter(RI_avgwt, Region =="WAK"), aes(x = Year, y = avg_wt, color="R&I-Western"))+
+  geom_line(data = filter(NPAFC_avgwt, Region == "Western"),aes(x = Year, y = avg_wt, color = "NPAFC-Western"),linetype="solid")+
+  geom_line(data = filter(NPAFC_avgwt, Region == "Westward"),aes(x = Year, y = avg_wt, color = "NPAFC-Westward"), linetype= "longdash")+
+   ylab("Average Weight (kg)")+
+  facet_wrap(~Species, scales = "free", ncol=1)+
+   scale_color_manual(name= "Source/Region",
+                      values=c("R&I-Western" = "black",
+                               "NPAFC-Western" = "red",
+                               "NPAFC-Westward" = "blue"))
+
+p 
+
+ggsave("fig.png",p,"png",width = 4,units = "in", dpi=300)
+```
 
 ## Methods
 
@@ -87,6 +149,7 @@ The potential confusion between Western/Westard and Southcentral/Central appears
 ```{r}
 # label: fig-RIaverageweight
 # fig-cap: "Average weights back-calculated from Ruggerone and Irvine (2018) for Alaska pink, chum and sockeye salmon by region, 1952-2015."
+# | message=false
 
 p <- ggplot(data = filter(RI_avgwt, Region %in% c("WAK", "SPen","Kod","CI","PWS","SEAK")), aes(x = Year, y = avg_wt)) + 
   geom_point() + 
@@ -95,35 +158,121 @@ p <- ggplot(data = filter(RI_avgwt, Region %in% c("WAK", "SPen","Kod","CI","PWS"
   ylab("Average Weight (kg)")+
   theme(plot.title = element_text(hjust = 0.5))
 
-ggsave("RI_avgwt_fig.png",p,"png",width = 6.5,units = "in")
+ggsave("RI_avgwt_fig.png",p,"png",width = 6.5,units = "in", dpi=300)
 ```
 
 ![Average weights back-calculated from Ruggerone and Irvine (2018) for Alaska pink, chum and sockeye salmon by region, 1952-2015.](RI_avgwt_fig.png){#fig-RIaverageweight fig-align="center"}
 
+## References
 
+Irvine, J.R., A. Tompkins, T. Saito, K. B. Seong, J. K. Kim, N. Klovach, H. Bartlett, and E. Volk. 2012. Pacific Salmon Status and Abundance Trends - 2012 Update. NPAFC Doc. 1422. Rev. 2. 90 pp. (Available at http://www.npafc.org).
 
+Ruggerone, G.T. and J.R. Irvine. 2018. Numbers and Biomass of Natural- and Hatchery-Origin Pink Salmon, Chum Salmon, and Sockeye Salmon in the North Pacific Ocean, 1925-2015. Mar. Coast. Fish. 10:152-168.
+
+{{< pagebreak >}}
+
+## Appendix
+
+---
+crossref:
+  custom:
+    - kind: float
+      key: suppltbl
+      reference-prefix: Table A
+      caption-prefix: Table A
+      space-before-numbering: false
+      caption-location: top
+---
+
+::: {#suppltbl-WestwardWestern_avgwt_pink}
 ```{r}
-#| label: fig-RIaverageweight
-# draft figures comparing R&I with NPAFC data 
-p <-ggplot()+
-  geom_point(data = filter(RI_avgwt, Region =="WAK"), aes(x = Year, y = avg_wt))+
-  geom_line(data = filter(NPAFC_avgwt, Region == "Western"),aes(x = Year, y = avg_wt), color = "red")+
-  geom_line(data = filter(NPAFC_avgwt, Region == "Westward"),aes(x = Year, y = avg_wt), color = "blue")+
-  facet_wrap(~Species, scales = "free", ncol=1) 
-p 
-
-ggsave("fig.png",p,"png",width = 6.5,units = "in")
-```
-
-```{r}
+customtab_defaults()
 
 x <- data.frame( filter(RI_avgwt, Region =="WAK", Species == "Pink"),
                  filter(NPAFC_avgwt, Region =="Western", Species == "Pink"),
                  filter(NPAFC_avgwt, Region =="Westward", Species == "Pink")
-                        )
-
+                  )
 x <- x[,c(2,5,10,15)]
-x
+colnames(x) <- c("Year","WAK","Western","Westward")
 
+x <- flextable(x) %>%
+  padding(padding = 0, part = "all")%>% 
+  add_header_row(values = c("","R&I", "NPAFC"), colwidths = c(1,1,2)) %>%
+  add_header_row(values = c("","Pink Salmon Average Wegiht (kg)"), colwidths = c(1,3)) %>%
+  colformat_num(big.mark="") %>%
+  colformat_double(j = c("WAK","Western","Westward"), digits=2)%>%
+  footnote(i = c(63,64), j = 1,
+           value = as_paragraph(
+             c(" See text footnote 3")),
+             ref_symbols = c("a")
+           ) %>%
+  align(align = "center", part = "header") %>%
+   align(align = "center", part = "body")
+
+custom_tab(x)
 ```
 
+Comparison of Western region average weights (kg) back-calculated from Ruggerone and Irvine (2018) to average weights for Western and Westward pink salmon calculated from NPAFC data, 1952–2015. Refer to Figure 1 for differences between Western and Westward.
+:::
+
+::: {#suppltbl-WestwardWestern_avgwt_chum}
+```{r}
+customtab_defaults()
+
+x <- data.frame( filter(RI_avgwt, Region =="WAK", Species == "Chum"),
+                 filter(NPAFC_avgwt, Region =="Western", Species == "Chum"),
+                 filter(NPAFC_avgwt, Region =="Westward", Species == "Chum")
+                  )
+x <- x[,c(2,5,10,15)]
+colnames(x) <- c("Year","WAK","Western","Westward")
+
+x <- flextable(x) %>%
+  padding(padding = 0, part = "all")%>% 
+  add_header_row(values = c("","R&I", "NPAFC"), colwidths = c(1,1,2)) %>%
+  add_header_row(values = c("","Chum Salmon Average Wegiht (kg)"), colwidths = c(1,3)) %>%
+  colformat_num(big.mark="") %>%
+  colformat_double(j = c("WAK","Western","Westward"), digits=2)%>%
+  footnote(i = c(63,64), j = 1,
+           value = as_paragraph(
+             c(" See text footnote 3")),
+             ref_symbols = c("a")
+           ) %>%
+  align(align = "center", part = "header") %>%
+   align(align = "center", part = "body")
+
+custom_tab(x)
+```
+
+Comparison of Western region average weights (kg) back-calculated from Ruggerone and Irvine (2018) to average weights for Western and Westward chum salmon calculated from NPAFC data, 1952–2015. Refer to Figure 1 for differences between Western and Westward.
+:::
+
+::: {#suppltbl-WestwardWestern_avgwt_sock}
+```{r}
+customtab_defaults()
+
+x <- data.frame( filter(RI_avgwt, Region =="WAK", Species == "Sockeye"),
+                 filter(NPAFC_avgwt, Region =="Western", Species == "Sockeye"),
+                 filter(NPAFC_avgwt, Region =="Westward", Species == "Sockeye")
+                  )
+x <- x[,c(2,5,10,15)]
+colnames(x) <- c("Year","WAK","Western","Westward")
+
+x <- flextable(x) %>%
+  padding(padding = 0, part = "all")%>% 
+  add_header_row(values = c("","R&I", "NPAFC"), colwidths = c(1,1,2)) %>%
+  add_header_row(values = c("","Sockeye Salmon Average Wegiht (kg)"), colwidths = c(1,3)) %>%
+  colformat_num(big.mark="") %>%
+  colformat_double(j = c("WAK","Western","Westward"), digits=2)%>%
+  footnote(i = c(63,64), j = 1,
+           value = as_paragraph(
+             c(" See text footnote 3")),
+             ref_symbols = c("a")
+           ) %>%
+  align(align = "center", part = "header") %>%
+   align(align = "center", part = "body")
+
+custom_tab(x)
+```
+
+Comparison of Western region average weights (kg) back-calculated from Ruggerone and Irvine (2018) to average weights for Western and Westward sockeye salmon calculated from NPAFC data, 1952–2015. Refer to Figure 1 for differences between Western and Westward.
+:::

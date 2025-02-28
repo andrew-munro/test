@@ -17,7 +17,7 @@ library("readxl")
 library("tidyverse")
 library("reshape2")
 
-# Ruggerone and Irvine divide Alaska up into 6 regions/areas that include Southeastern Alaska & Yakutat, Prince William Sound, Cook Inlet, Kodiak (Island & Mainland), South Alaska Peninsula (including Chignik), and Western Alaska (including N. Alaska Peninsula, Bristol Bay, Arctic-Yukon-Kuskokwim & Kotzebue)  
+# Ruggerone and Irvine divide Alaska up into 6 regions/areas that include Southeastern Alaska & Yakutat, Prince William Sound, Cook Inlet, Kodiak (Island & Mainland), South Alaska Peninsula (including Chignik), and Western Alaska (including N. Alaska Peninsula & Aleutian Islands, Bristol Bay, Arctic-Yukon-Kuskokwim & Kotzebue)  
 # Average weights for SPen, Kod, CI, and PWS all the same. 
 
 # load supplemental data tables from Ruggerone & Irvine (2018) for pink salmon (not grabbing the final "total" column)
@@ -90,6 +90,20 @@ RI_avgwt <- cbind(
              RI_avgwt[c(2,3,1,4)]
   )                   
 
+# simplified data frame of total to adult biomass ratio back calculated from R&I data.
+# single annual ratio regions within Asia and North America for each species
+# For 2006-2015 R&I used 2005 value for sockeye and chum (per methods in paper); however,
+# pink salmon seems to use a different value (best guess is a rounded 3 year average for 2003-2005).
+# quick cross-check with Eggers (2009) data indicates that R&I data matches (with rounding of run weight and total biomass to 1 decimal).
+
+biomass_ratio <- cbind(Year = seq(1952,2015,1),
+                       Pink_Asia = pink$biom_ratio$Japan,
+                       Pink_NA = pink$biom_ratio$PWS,
+                       Chum_Asia = chum$biom_ratio$Japan,
+                       Chum_NA = chum$biom_ratio$PWS,
+                       Sock_Asia = sock$biom_ratio$EKam,
+                       Sock_NA = sock$biom_ratio$PWS)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 # Alaska data reported to NPAFC are divided differently before and after 1985 and are called Reporting Areas in the database.
 # Pre-1985, the Alaska catch data are summarized into 3 reporting areas: Southeast, South Central (Central in Statistical Yearbooks), and Western.
@@ -139,6 +153,11 @@ write_csv(RI_avgwt, "output/RI_average_weight.csv")
 write_csv(NPAFC_avgwt, "output/NPAFC_average_weight.csv")
 write_csv(ADFG_RI_avgwt, "output/ADFG_RI_average_weight.csv")
 write_csv(ADFG_CF_avgwt, "output/ADFG_CF_average_weight.csv")
+
+
+
+write.csv(biomass_ratio,"output/RI_biomass_ratio.csv", row.names = FALSE)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 
 # plot R&I Alaska pink avg wt data by region  
@@ -213,7 +232,7 @@ p <-ggplot()+
 dev.new()
 p 
 
-#plot regions in RI that used South Central/Central Region as basis for avg weight
+# plot regions in RI that used South Central/Central Region as basis for avg weight
 dev.new()
 ggplot(data = filter(RI_avgwt, Region %in% c("SPen","Kod","CI","PWS")), aes(x = Year, y = avg_wt, colour=Region)) + 
   geom_jitter()
@@ -240,6 +259,9 @@ p
 
 ################################################################################
 
+biomass_ratio <-as.data.frame(biomass_ratio)
+biomass_ratio <- filter(biomass_ratio, Year>=1985)
+
 RI_adultN_pink <- melt(pink$adult_N %>% select( c(Year,WAK,SPen,Kod,CI,PWS,SEAK)), id = "Year", variable.name = "Region", value.name = "number")
 RI_adultN_chum <- melt(chum$adult_N %>% select( c(Year,WAK,SPen,Kod,CI,PWS,SEAK)), id = "Year", variable.name = "Region", value.name = "number")
 RI_adultN_sock <- melt(sock$adult_N %>% select( c(Year,WAK,SPen,Kod,CI,PWS,SEAK)), id = "Year", variable.name = "Region", value.name = "number")
@@ -255,12 +277,15 @@ RI_adultB_sock <- filter(RI_adultB_sock, Year>=1985)
 
 New_pink <-merge(filter(RI_adultN_pink, Year>=1985), filter(ADFG_RI_avgwt, Species=="Pink"), by = c("Region","Year"), all = TRUE)
 New_pink <- cbind(New_pink, weight = New_pink$number*New_pink$avg_wt*1000)
+New_pink <- cbind(New_pink, biomass = New_pink$weight*biomass_ratio$Pink_NA)
 
 New_chum <-merge(filter(RI_adultN_chum, Year>=1985), filter(ADFG_RI_avgwt, Species=="Chum"), by = c("Region","Year"), all = TRUE)
 New_chum <- cbind(New_chum, weight = New_chum$number*New_chum$avg_wt*1000)
+New_chum <- cbind(New_chum, biomass = New_chum$weight*biomass_ratio$Chum_NA)
 
 New_sock <-merge(filter(RI_adultN_sock, Year>=1985), filter(ADFG_RI_avgwt, Species=="Sockeye"), by = c("Region","Year"), all = TRUE)
 New_sock <- cbind(New_sock, weight = New_sock$number*New_sock$avg_wt*1000)
+New_sock <- cbind(New_sock, biomass = New_sock$weight*biomass_ratio$Sock_NA)
 
 p <- ggplot(data = New_pink, aes(x=Year, y=weight))+
   geom_bar(stat="identity",color="black")+
@@ -268,6 +293,12 @@ p <- ggplot(data = New_pink, aes(x=Year, y=weight))+
 dev.new()
 p
 
+
+p <- ggplot(data = New_pink, aes(x=Year, y=biomass))+
+  geom_bar(stat="identity",color="black")+
+  facet_wrap(~Region, scales = "free", ncol=3)
+dev.new()
+p
 New_old_pink<- rbind(
   cbind(Source=rep("R&I",length(RI_adultB_pink[1])),RI_adultB_pink),
   cbind(Source=rep("New",length(New_pink[1])),New_pink[,c(2,1,7)])
@@ -434,4 +465,54 @@ plot(x$N_fish,x$y)
 
 p <- ggplot(data = x, aes(x = Year, y = y)) + geom_point() + facet_wrap(~Region+Species, scales = "free", ncol=3)  
 windows()
+p
+
+
+#compare NPAFC data with new ADF&G data to confirm the same
+
+NPAFC_AKb <- filter(NPAFC_AK[,c(3,4,6,7,8)], Year >= 1985, Area %in% c("Arctic Yukon Kuskokwim", "Westward","Central", "Southeast"))
+colnames(NPAFC_AKb)[1] <- "Region"
+
+NPAFC_AKb <- cbind(Source=rep("NPAFC",length(NPAFC_AKb[1])),NPAFC_AKb)
+NPAFC_AKb$Region[NPAFC_AKb$Region == "Arctic Yukon Kuskokwim"] <- "A-Y-K"
+
+colnames(ADFG_CF)[c(4,5)] <- c("N_fish","Wt_fish")
+ADFG_CF <- cbind(Source=rep("ADFG",length(ADFG_CF[1])),ADFG_CF)
+ADFG_CF$Region[ADFG_CF$Region == "Southeastern"] <- "Southeast"
+
+combined <- rbind(NPAFC_AKb,ADFG_CF)
+
+df = ADFG_CF[,2:6] %>% inner_join(NPAFC_AKb[,2:6], by = c("Region","Species","Year"))
+df2 = merge(ADFG_CF[,2:6],NPAFC_AKb[,2:6], by = c("Region","Species","Year"), all=TRUE)
+df2 = cbind(df2, N_diff=df2$N_fish.x-df2$N_fish.y, Wt_diff=df2$Wt_fish.x-df2$Wt_fish.y )
+p = ggplot(df2, aes(x=N_fish.x, y=N_fish.y))+ 
+  geom_point() + 
+  facet_grid(cols=vars(Species), rows=vars(Region), scales = "free")
+dev.new()
+p
+
+p = ggplot(df2, aes(x=Wt_fish.x, y=Wt_fish.y))+ 
+  geom_point() + 
+  facet_grid(cols=vars(Species), rows=vars(Region), scales = "free")
+dev.new()
+p
+
+p = ggplot(df2, aes(x=Wt_fish.x, y=Wt_fish.y, label= Year))+ 
+  geom_point() + 
+  geom_text(hjust=0, vjust=0, data=subset(df2, Wt_diff != 0))+
+facet_wrap(. ~ Species + Region, scales = "free")
+dev.new()
+p
+
+p = ggplot(df2, aes(x=N_fish.x, y=N_fish.y, label= Year))+ 
+  geom_point() + 
+  geom_text(hjust=0, vjust=0, data=subset(df2, N_diff != 0), size =3)+
+  facet_wrap(. ~ Species + Region, scales = "free")
+dev.new()
+p
+
+p = ggplot(df2, aes(x=N_diff, y=Wt_diff))+ 
+  geom_point() + 
+  facet_wrap(. ~ Species + Region, scales = "free")
+dev.new()
 p
