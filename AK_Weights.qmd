@@ -3,12 +3,14 @@ title: "Pacific Salmon Biomass Trends - Update"
 format: 
   docx:
     reference-doc: custom-reference-doc.docx
+    fig-dpi: 300
+    fig-format: png
    
 editor: visual
 
 execute:
   echo: false
-message: false
+  message: false
 ---
 
 ```{r}
@@ -34,12 +36,12 @@ border.color = "black")
 custom_tab <- function(df){
 df %>%
 padding(padding = 0, part = "all")  %>%
-fontsize(size=9, part="footer")
+fontsize(size = 9, part = "footer")
 }
 ```
 
 ```{r}
-#| label: load avgerage weight data
+#| label: load average weight data
 # load Alaska salmon average weight data back-calculated from Ruggerone and Irvine (2018)), NPAFC commercial fisheries data, and ADF&G commercial fisheries data.
 
 RI_avgwt <- read_csv("output/RI_average_weight.csv", show_col_types = FALSE)
@@ -89,7 +91,7 @@ ADFG_CF_avgwt <- read_csv("output/ADFG_CF_average_weight.csv", show_col_types = 
 
 Pacific salmon (*Oncorhynchus* spp.) are an important natural, economic, and cultural resource for many people across the northern Pacific Rim, including all five North Pacific Anadromous Fish Commission (NPAFC) member nations. Providing the most up-to-date abundance and biomass estimates that are as accurate as possible given the constraints of the available data are an important contribution to the science and management of these species. Periodically updates to these estimates are provided (e.g., Irvine et al. 2016), with the most recent being Ruggerone and Irvine (2018). In 2024 the NPAFC Working Group on Stock Assessment (WGSA) acknowledged that updating these estimates was an important endeavor (2024 NPAFC Annual Report). Given the complexity of the analysis, this is anticipated to be a multi-year process.
 
-The purpose of this report is to provide an update to estimates of adult return biomass and total biomass (mature and immature) for Alaska-origin pink, chum, and sockeye salmon. As a result, North Pacific-wide estimates are also updated. In examination of the most recent published estimates in Ruggerone and Irvine (2018) and specifically the associated supplementary data[^1], it would seem that more appropriate regional average weights for each of the species should have been used to convert adult abundance estimates to adult biomass for Alaska because region-specific average weights were applied to adult abundance estimates from non-overlapping region to estimate adult biomass. This inconsistency pertains to the data from 1985 to 2015. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Southcentral[^2], and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details). This change is reflected in the catch statistics data set available from NPAFC[^3], which was used by Ruggerone and Irvine (2018) to estimate average weight from commercial catch numbers and weight in order to estimate adult return biomass; therefore there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas previously included in the (South) Central Region and the Western Alaska Region to a new region called Westward. The Westward Region includes Kodiak, Chignik, and South Alaska Peninsula management areas (formerly included in Southcentral Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik (@fig-ADFG_regions, see NPAFC Statistics Metadata Report for additional details).
+The purpose of this report is to provide an update to estimates of adult return biomass and total biomass (mature and immature) for Alaska-origin pink, chum, and sockeye salmon. As a result, North Pacific-wide estimates are also updated. In examination of the most recent published estimates in Ruggerone and Irvine (2018) and specifically the associated supplementary data[^1], it would seem that more appropriate regional average weights for each of the species should have been used to convert adult abundance estimates to adult biomass for Alaska because region-specific average weights were applied to adult abundance estimates from non-overlapping regions to estimate adult biomass. This inconsistency pertains to the data from 1985 to 2015. In 1985, Alaska Department of Fish and Game, Division of Commercial Fisheries modified Alaska's Commercial Fisheries Regions from 3 regions (Southeast Alaska, Southcentral[^2], and Western Alaska) to the 4 current regions (Southeast Alaska, Central, Westward, and Arctic-Yukon-Kuskokwim). In 1985, Alaska also changed the reporting of commercial fisheries, sport fishing and subsistence catches to these regions for the annual NPAFC catch statistics (see Metadata report for details[^3]). This change is reflected in the catch statistics data set available from NPAFC[^3], which was used by Ruggerone and Irvine (2018) to estimate average weight from commercial catch numbers and weight in order to estimate adult return biomass; therefore there is a discontinuity in the regional time series for Alaska data. Of particular note, some management areas previously included in the (South) Central Region and the Western Alaska Region were included in a new region called Westward. The Westward Region includes Kodiak, Chignik, and South Alaska Peninsula management areas (formerly included in Southcentral Region) and North Alaska Peninsula (formerly included in Western Region). Furthermore, starting in 1985, Bristol Bay Management Area (formerly Western Alaska) was included in Central Region. Note the similarity in names for the former **Western Alaska Region**, which included management areas from the North Alaska Peninsula and north to Kotzebue, and the current **Westward Region**, which includes both North and South Alaska Peninsula as well as Kodiak and Chignik (@fig-ADFG_regions, see NPAFC Statistics Metadata Report for additional details).
 
 [^1]: Ruggerone & Irvine (2018), supplementary information: <https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx>
 
@@ -98,19 +100,20 @@ The purpose of this report is to provide an update to estimates of adult return 
 [^3]: NPAFC Statistics: Pacific Salmonid Catch and Hatchery Release Data: <https://www.npafc.org/statistics/>.
 
 ::: {#fig-ADFG_regions layout-ncol="1"}
-![Current](ADFG_CurrentRegions.png){#fig-ADFG_Current fig-align="center" width="5in"}
+![Current](ADFG_CurrentRegions.png){#fig-ADFG_Current}
 
-![Pre-1985](ADFG_pre1985Regions.png){#fig-ADFG_pre1985}
+![Pre-1985](ADFG_pre1985Regions.png){#fig-ADFG_pre1985} 
 
-Alaska reporting areas for salmon commercial catch (a) 1985 to present and (b) 1925 to 1984. In earlier documents (e.g. Statistical Yearbooks, NPAFC documents), the reporting area of "South Central" (or "Southcentral") may have been named "Central". The name was changed to "South Central" in current NPAFC documents and statistics data file to indicate the reporting area is different in the early period (1925–1984) than in the current period (1985–present). Map credit: Google Maps. \<https//maps.google.com\>.
+
+Alaska reporting areas for salmon commercial catch (a) 1985 to present and (b) 1925 to 1984. In earlier documents (e.g. Statistical Yearbooks, NPAFC documents), the reporting area of "South Central" (or "Southcentral") may have been named "Central". The name was changed to "South Central" in current NPAFC documents and statistics data file to indicate the reporting area is different in the early period (1925–1984) than in the current period (1985–present). Map credit: Google Maps. <https://maps.google.com>
 :::
 
-The potential confusion between Western/Westward and Southcentral/Central appears to have lead to applying inaccurate average weights calculated from catch statistics sourced from the NPAFC database when estimating adult return biomass (Supplementary Tables 13–15) for Alaska pink, chum and sockeye salmon. Alternatively, this might have been a conscious choice of the authors because these were the data that were readily available; however, this decision was not explicitly documented in their paper. To illustrate this, we back-calculated the average weights used to estimate the adult return biomass for the Western Alaska region in Ruggerone and Irvine (2018) and compared them to the average weights for Western and Westard regions calculated from the NPAFC catch statistics database as described in Ruggerone and Irvine (2018) (@fig-RIaverageweight, @tbl-WestwardWestern_avgwt). From the figure and table, it can be seen that the back-calculated average weights used in Ruggerone and Irvine (2018) match the average weights calculated from the NPAFC data set (as one would expect) for the years 1952 to 1984. From 1985 to 2015, however, there are no catch statistics reported for the Western Alaska region in the NPAFC catch statistics file, but the back-calculated average weights do match those of the Westward Region calculated from the NPAFC data.
+The potential confusion between Western/Westward and Southcentral/Central appears to have lead to applying inaccurate average weights calculated from catch statistics sourced from the NPAFC database when estimating adult return biomass (Supplementary Tables 13–15) for Alaska pink, chum, and sockeye salmon. Alternatively, this might have been a conscious choice of the authors because these were the data that were readily available; however, this decision was not explicitly documented in their paper. To illustrate this, we back-calculated the average weights used to estimate the adult return biomass for the Western Alaska region in Ruggerone and Irvine (2018) and compared them to the average weights for Western and Westward regions calculated from the NPAFC catch statistics database as described in Ruggerone and Irvine (2018) (@fig-RIaverageweight, @suppltbl-WestwardWestern_avgwt_pink, @suppltbl-WestwardWestern_avgwt_chum, @suppltbl-WestwardWestern_avgwt_sock). From the figure and table, it can be seen that the back-calculated average weights used in Ruggerone and Irvine (2018) match the average weights calculated from the NPAFC data set (as one would expect) for the years 1952 to 1984. From 1985 to 2015, however, there are no catch statistics reported for the Western Alaska region in the NPAFC catch statistics file, but the back-calculated average weights do match those of the Westward Region calculated from the NPAFC data.
 
 
 ```{r}
 #| label: fig-RIaverageweight
-#| fig-cap: Comparison of Western region average weights back-calculated from Ruggerone and Irvine (black dots), to average weights for Western (Red solid line) and Westward (blue dashed line) calculated from NPAFC data, 1952-2015[^3]. Note that prior to 1985 salmon catches from Alaska are Refer to Figure 1 for differences between Western and Westward.
+#| fig-cap: Comparison of Western region average weights back-calculated from Ruggerone and Irvine (black dots), to average weights for Western (Red solid line) and Westward (blue dashed line) calculated from NPAFC data, 1952-2015[^3]. Refer to Figure 1 for differences between Western and Westward.
 #| fig-width: 6
 #| fig-height: 5
 #| warning: false
@@ -134,17 +137,15 @@ ggsave("fig.png",p,"png",width = 4,units = "in", dpi=300)
 
 ## Methods
 
--   show how average weights calculated from NPAFC data were misapplied. Specifically, Westward average weights were used to convert AYK numbers to biomass and Central average weights were applied to management areas in Westward (NEED TO DOUBLE CHECK ON THIS)
+-   Need AK commercial harvest data (numbers and weights) that are supplied to NPAFC, but broken down by appropriate management areas. 
 
-    -   essentially see if I can replicate R&I biomass estimates
-
--   Need AK commercial harvest data (numbers and weights) that are supplied to NPAFC, but broken down by appropriate management areas. (use data supplied for ESR, but cross check with NPAFC provided data
-
-    -   Note - might need to pull data so splits Area M into North and South Pen (or do I?)
+    -   Note - need to pull data to split out S. Pen districts from Area M (AI and N. Pen are part of Western) 
 
 -   Calculate annual average weights of fish for each species and management area and/or areas as specified in R&I then apply to their abundance estimates.
 
 -   Calculate difference in annual biomass for each area/AK/total
+
+Commercial catch data from 1985 to 2015 were obtained from the ADF&G fish ticket database and included number of pink, chum and sockeye salmon harvested as well as the weight of the catch (in metric tonnes) that was aggregated by the same reporting regions in Alaska as defined in Ruggerone and Irvine (2018). These reporting regions were Southeast Alaska, Prince William Sound, Cook Inlet, Kodiak (including Kodiak Island and mainland), South Alaska Peninsula (including Chignik), and Western Alaska (including North Alaska Peninsula and Aleutian Islands, Bristol Bay, and the Arctic-Yukon-Kuskokwim Region). These data were cross checked with the NPAFC catch statistics to identify and resolve any differences (see Appendix table X). Annual average weight (in kg) for each species and region was calculated using catch weight and catch numbers. The data were examined for outliers and replaced with *(describe methods)*.    
 
 ```{r}
 # label: fig-RIaverageweight

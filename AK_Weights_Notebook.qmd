@@ -1,0 +1,74 @@
+---
+title: "Updating biomass estimates of Ruggerone & Irvine (2018)"
+subtitle: "Correcting Alaska salmon biomass estimates"
+format: html
+code-fold: true
+code-summary: "Show the code"
+
+editor: visual
+---
+
+Author: Andrew Munro, ADF&G Contact: andrew.munro\@alaska.gov
+
+Date: Feb. 2025
+
+## Project Overview
+
+Exploration of R&I supplementary data tables indicated that for Alaska salmon that regional average weights were misapplied in calculation of adult biomass for years 1985-2015 when reporting regions in Alaska changed in the NPAFC catch statistics. This script prepares the data for comparisons and updated biomass estimates.
+
+```{r}
+#| label: load-packages
+#| message: false
+#| warning: false
+#| error: false
+#| echo: false
+library("readxl")
+library("tidyverse")
+library("reshape2")
+```
+
+## Methods
+
+The initial step for this analysis was to load the necessary supplementary data tables[^1] from Ruggerone and Irvine (2018) When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+[^1]: Ruggerone & Irvine (2018), supplementary information: <https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx>
+
+```{r}
+#| label: load Ruggerone and Irvine supplemental data
+# load supplemental data tables from Ruggerone & Irvine (2018) for pink salmon (not grabbing the final "total" column)
+pink <- list(
+  #adult_N, adult_B, avg_wt
+  # Table S9 total adult return abundance (hatchery & wild) - millions of fish
+       adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70"),
+  # Table S9 total adult return biomass (hatchery & wild) - metric tonnes
+       adult_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 13-16 Tot ret (bioma) 52-15!A6:O70"),
+  # Table S17 total (mature and immature) biomass
+       tot_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 17-20Tot biom (mat+yng)52-15!A5:O69")
+  )
+
+# back-calculate average weights used in R&I - kg
+pink <- append(pink, list(avg_wt = pink$adult_B[,-1]/pink$adult_N[,-1]/1000))
+pink$avg_wt <- cbind(Year = seq(1952,2015,1),pink$avg_wt)
+# back-calculate ratios used to convert adult return biomass to total (mature and immature) biomass.
+pink <- append(pink, list(biom_ratio = pink$tot_B[,-1]/pink$adult_B[,-1]))
+pink$biom_ratio <- cbind(Year=seq(1952,2015,1),pink$biom_ratio)
+
+chum <- list(
+  # adult_N, adult_B, avg_wt
+  # Table S10 total adult return abundance (hatchery & wild) - millions of fish
+  adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!R6:AF70"),
+  # Table S14 adult biomass (hatchery & wild) - metric tonnes 
+  adult_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 13-16 Tot ret (bioma) 52-15!R6:AF70"),
+  # Table S18 total (mature and immature) biomass
+  tot_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 17-20Tot biom (mat+yng)52-15!R5:AF69")
+)
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
