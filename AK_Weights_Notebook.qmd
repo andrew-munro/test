@@ -1,5 +1,5 @@
 ---
-title: "Updating biomass estimates of Ruggerone & Irvine (2018)"
+title: "Updating salmon biomass estimates of Ruggerone & Irvine (2018)"
 subtitle: "Correcting Alaska salmon biomass estimates"
 format: html
 code-fold: true
@@ -8,13 +8,17 @@ code-summary: "Show the code"
 editor: visual
 ---
 
-Author: Andrew Munro, ADF&G Contact: andrew.munro\@alaska.gov
+Author: Andrew Munro, ADF&G 
+
+Contact: andrew.munro@alaska.gov
 
 Date: Feb. 2025
 
 ## Project Overview
 
-Exploration of R&I supplementary data tables indicated that for Alaska salmon that regional average weights were misapplied in calculation of adult biomass for years 1985-2015 when reporting regions in Alaska changed in the NPAFC catch statistics. This script prepares the data for comparisons and updated biomass estimates.
+Exploration of R&I supplementary data tables indicated that for Alaska salmon that regional average weights were misapplied in calculation of adult biomass for years 1985-2015. Ruggerone and Irvine (2018) methods used NPAFC catch statistics (numbers and weight) to calculate average weights that were then used to estimate adult return biomass. In 1985, the reporting regions in Alaska changed in the NPAFC catch statistics from 3 regions to the 4 current ADF&G Commercial Fisheries Regions, which include different geographic locations; therefore, the NPAFC catch statistics were not aggregarted in such a way to correctly esimate average weights for the regions in Ruggerone and Irvine (2018). 
+
+This script prepares the data for comparisons and updated biomass estimates.
 
 ```{r}
 #| label: load-packages
@@ -29,32 +33,27 @@ library("reshape2")
 
 ## Methods
 
-The initial step for this analysis was to load the necessary supplementary data tables[^1] from Ruggerone and Irvine (2018) When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+*Ruggerone and Irvine data*
+
+The initial step for this analysis was to load the necessary supplementary data tables[^1] from Ruggerone and Irvine (2018). These include Supplementary Tables 9-11 adult return abundance (millions of fish), Supplementary Tables 13-15 adult return biomass (metric tons), and total biomass (mature and immature) for pink, chum, and sockeye salmon
 
 [^1]: Ruggerone & Irvine (2018), supplementary information: <https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&file=mcf210023-sup-0001-TableS1-S24.xlsx>
 
 ```{r}
 #| label: load Ruggerone and Irvine supplemental data
-# load supplemental data tables from Ruggerone & Irvine (2018) for pink salmon (not grabbing the final "total" column)
+# load supplemental data tables from Ruggerone & Irvine (2018) for pink, chum, and sockeye salmon (not grabbing the final "total" column) as list for each species. 
+
+# adult_N, adult_B, avg_wt
 pink <- list(
-  #adult_N, adult_B, avg_wt
   # Table S9 total adult return abundance (hatchery & wild) - millions of fish
        adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70"),
-  # Table S9 total adult return biomass (hatchery & wild) - metric tonnes
+  # Table S13 total adult return biomass (hatchery & wild) - metric tonnes
        adult_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 13-16 Tot ret (bioma) 52-15!A6:O70"),
   # Table S17 total (mature and immature) biomass
        tot_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 17-20Tot biom (mat+yng)52-15!A5:O69")
   )
 
-# back-calculate average weights used in R&I - kg
-pink <- append(pink, list(avg_wt = pink$adult_B[,-1]/pink$adult_N[,-1]/1000))
-pink$avg_wt <- cbind(Year = seq(1952,2015,1),pink$avg_wt)
-# back-calculate ratios used to convert adult return biomass to total (mature and immature) biomass.
-pink <- append(pink, list(biom_ratio = pink$tot_B[,-1]/pink$adult_B[,-1]))
-pink$biom_ratio <- cbind(Year=seq(1952,2015,1),pink$biom_ratio)
-
 chum <- list(
-  # adult_N, adult_B, avg_wt
   # Table S10 total adult return abundance (hatchery & wild) - millions of fish
   adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!R6:AF70"),
   # Table S14 adult biomass (hatchery & wild) - metric tonnes 
@@ -62,13 +61,88 @@ chum <- list(
   # Table S18 total (mature and immature) biomass
   tot_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 17-20Tot biom (mat+yng)52-15!R5:AF69")
 )
+
+sock <- list(
+  # Table S11 total adult return abundance (hatchery & wild)
+  adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!AI6:AW70"),
+  # Table S15 adult biomass (hatchery & wild)   
+  adult_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 13-16 Tot ret (bioma) 52-15!AI6:AW70"),
+  # Table S19 total (mature and immature) biomass
+  tot_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 17-20Tot biom (mat+yng)52-15!AI5:AW69")
+)
 ```
 
-You can add options to executable code like this
+Average weights (in kg) used in Ruggerone and Irvine (2018) were then back-calculated for each region by dividing the adult return biomass by the number of adult returns. The data were filtered to the Alaska regions reported in Ruggerone and Irvine: Western Alaska (WAK), South Alaska Peninsula (SPen), Kodiak (Kod), Cook Inlet (CI), Prince William Sound (PWS), and Southeast Alaska (SEAK).
 
 ```{r}
-#| echo: false
-2 * 2
+#| label: back-calculate average weights
+# back-calculate average weights used in R&I - kg
+pink <- append(pink, list(avg_wt = pink$adult_B[,-1]/pink$adult_N[,-1]/1000))
+pink$avg_wt <- cbind(Year = seq(1952,2015,1),pink$avg_wt)
+
+chum <- append(chum, list(avg_wt = chum$adult_B[,-1]/chum$adult_N[,-1]/1000))
+chum$avg_wt <- cbind(Year = seq(1952,2015,1),chum$avg_wt)
+
+sock <- append(sock, list(avg_wt = sock$adult_B[,-1]/sock$adult_N[,-1]/1000))
+sock$avg_wt <- cbind(Year = seq(1952,2015,1),sock$avg_wt)
+
+n_yrs <- dim(pink$adult_N)[1]
+
+# combine R&I average weight data in long format, and filter to Alaska regions
+RI_avgwt <- rbind(
+  cbind(Species=rep("Pink", n_yrs),
+        melt(pink$avg_wt, id = "Year", variable.name = "Region", value.name = "avg_wt")),
+  cbind(Species=rep("Chum", n_yrs),
+        melt(chum$avg_wt, id = "Year", variable.name = "Region", value.name = "avg_wt")),
+  cbind(Species=rep("Sockeye", n_yrs),
+        melt(sock$avg_wt, id = "Year", variable.name = "Region", value.name = "avg_wt"))
+  )
+
+RI_avgwt <- filter(RI_avgwt, Region %in% c("WAK", "SPen","Kod","CI","PWS","SEAK"))
+RI_avgwt <- cbind(
+  Source=rep("R&I", dim(pink$adult_N)[1]),
+             RI_avgwt[c(2,3,1,4)]
+  )
+
+head(RI_avgwt)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+*NPAFC catch statistics*
+
+The NPAFC catch statistic were then loaded and filtered to include only Alaska commercial catch data for pink, chum and sockeye for 1952 to 2015. Following the methods described in Ruggerone and Irvine, the average weights by Alaska reporting regions (labeled 'Area' in the catch statisitcs data file) were calculated. The 2024 NPAFC catch statistics data file[^2] was used for this analysis.
+
+::: {.callout-note}
+Because the author assisted with the 2024 NPAFC catch statistics update, a version of the data in long data format was available to use for this analysis. 
+
+For final, it might be necessary to download the posted catch statistics file and run script to convert it from the available wide data format.
+:::
+
+::: {.callout-note}
+Ruggerone and Irvine (2018) cite the source of NPAFC catch statistics data as the version available in 2017. 
+I have this data file (provided by NPAFC Secretariat) and could compare data to see if there were any changes or updates for the years included in this analysis.
+:::
+
+[^2]: North Pacific Anadromous Fish Commission (NPAFC) Pacific salmonid catch statistics (updated June 2024). North Pacific Anadromous Fish Commission, Vancouver.  <https://www.npafc.org/statistics/>
+
+```{r}
+#| label: load NPAFC catch statistics 
+
+# Alaska data reported to NPAFC are divided differently before and after 1985 and are called Reporting Areas in the database.
+# Pre-1985, the Alaska catch data are summarized into 3 reporting areas: Southeast, South Central (Central in Statistical Yearbooks), and Western.
+# 1985 and on, there are 4 reporting areas that match the Division of Commercial Fisheries regions: Southeast, Central (including PWS, CI and Bristol Bay), Westward (including Kodiak Island and Mainland, Chignik, N. & S. Alaska Peninsula), and Arctic-Yukon-Kuskokwim (including Kotzebue)    up into 6 regions/areas that include Southeastern Alaska & Yakutat, Prince William Sound, Cook Inlet, Kodiak (Island & Mainland), South Alaska Peninsula (including Chignik), and Western Alaska (including N. Alaska Peninsula, Bristol Bay, Arctic-Yukon-Kuskokwim & Kotzebue)  
+     
+# load NPAFC catch data (2024 update), filter to AK commercial catch only and R&I range of years)
+NPAFC <- read_csv("data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv", show_col_types = FALSE)
+NPAFC_AK <- filter(NPAFC, Region=="Alaska" & Fishery=="Commercial" & Area !="Whole state" & between(Year,1952,2015) & Species %in% c("Pink","Chum","Sockeye"))
+
+# calculate average weight  (numbers = indiv; weight = MT) and remove extraneous columns
+NPAFC_avgwt <- data.frame(NPAFC_AK,avg_wt=NPAFC_AK$Wt_fish/NPAFC_AK$N_fish*1000)
+NPAFC_avgwt <- NPAFC_avgwt[c(3,4,6,9)]
+NPAFC_avgwt$Area <- factor(NPAFC_avgwt$Area, levels = c("Western","South Central","Southeast","Arctic Yukon Kuskokwim","Westward","Central"))             
+NPAFC_avgwt <- data.frame(Source=rep("NPAFC", length(NPAFC_avgwt[1])), NPAFC_avgwt[,c(3,1,2,4)])
+colnames(NPAFC_avgwt)[3] <- "Region"
+
+head(NPAFC_avgwt)
+```
+
+*ADF&G data*

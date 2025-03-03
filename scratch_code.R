@@ -25,7 +25,7 @@ pink <- list(
   #adult_N, adult_B, avg_wt
   # Table S9 total adult return abundance (hatchery & wild) - millions of fish
        adult_N = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 9-12 Total ret (nos) 52-15!A6:O70"),
-  # Table S9 total adult return biomass (hatchery & wild) - metric tonnes
+  # Table S13 total adult return biomass (hatchery & wild) - metric tonnes
        adult_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 13-16 Tot ret (bioma) 52-15!A6:O70"),
   # Table S17 total (mature and immature) biomass
        tot_B = read_excel("data/mcf210023-sup-0001-tables1-s24.xlsx", range = "ST 17-20Tot biom (mat+yng)52-15!A5:O69")

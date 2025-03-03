@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Updating biomass estimates of Ruggerone &amp; Irvine (2018)</title>
+<title>Updating salmon biomass estimates of Ruggerone &amp; Irvine (2018)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Updating biomass estimates of Ruggerone &amp; Irvine (2018)</h1>
+<h1 class="title">Updating salmon biomass estimates of Ruggerone &amp; Irvine (2018)</h1>
 <p class="subtitle lead">Correcting Alaska salmon biomass estimates</p>
 </div>
 
@@ -97,57 +97,164 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Author: Andrew Munro, ADF&amp;G Contact: andrew.munro@alaska.gov</p>
+<p>Author: Andrew Munro, ADF&amp;G</p>
+<p>Contact: andrew.munro@alaska.gov</p>
 <p>Date: Feb.&nbsp;2025</p>
 <section id="project-overview" class="level2">
 <h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
-<p>Exploration of R&amp;I supplementary data tables indicated that for Alaska salmon that regional average weights were misapplied in calculation of adult biomass for years 1985-2015 when reporting regions in Alaska changed in the NPAFC catch statistics. This script prepares the data for comparisons and updated biomass estimates.</p>
+<p>Exploration of R&amp;I supplementary data tables indicated that for Alaska salmon that regional average weights were misapplied in calculation of adult biomass for years 1985-2015. Ruggerone and Irvine (2018) methods used NPAFC catch statistics (numbers and weight) to calculate average weights that were then used to estimate adult return biomass. In 1985, the reporting regions in Alaska changed in the NPAFC catch statistics from 3 regions to the 4 current ADF&amp;G Commercial Fisheries Regions, which include different geographic locations; therefore, the NPAFC catch statistics were not aggregarted in such a way to correctly esimate average weights for the regions in Ruggerone and Irvine (2018).</p>
+<p>This script prepares the data for comparisons and updated biomass estimates.</p>
 </section>
-<section id="running-code" class="level2">
-<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p><em>Ruggerone and Irvine data</em></p>
+<p>The initial step for this analysis was to load the necessary supplementary data tables<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from Ruggerone and Irvine (2018). These include Supplementary Tables 9-11 adult return abundance (millions of fish), Supplementary Tables 13-15 adult return biomass (metric tons), and total biomass (mature and immature) for pink, chum, and sockeye salmon</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load supplemental data tables from Ruggerone &amp; Irvine (2018) for pink salmon (not grabbing the final "total" column)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pink <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#adult_N, adult_B, avg_wt</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S9 total adult return abundance (hatchery &amp; wild) - millions of fish</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">adult_N =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 9-12 Total ret (nos) 52-15!A6:O70"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S9 total adult return biomass (hatchery &amp; wild) - metric tonnes</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">adult_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 13-16 Tot ret (bioma) 52-15!A6:O70"</span>),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S17 total (mature and immature) biomass</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">tot_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 17-20Tot biom (mat+yng)52-15!A5:O69"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># back-calculate average weights used in R&amp;I - kg</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>pink <span class="ot">&lt;-</span> <span class="fu">append</span>(pink, <span class="fu">list</span>(<span class="at">avg_wt =</span> pink<span class="sc">$</span>adult_B[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span>pink<span class="sc">$</span>adult_N[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span><span class="dv">1000</span>))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>pink<span class="sc">$</span>avg_wt <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Year =</span> <span class="fu">seq</span>(<span class="dv">1952</span>,<span class="dv">2015</span>,<span class="dv">1</span>),pink<span class="sc">$</span>avg_wt)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># back-calculate ratios used to convert adult return biomass to total (mature and immature) biomass.</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>pink <span class="ot">&lt;-</span> <span class="fu">append</span>(pink, <span class="fu">list</span>(<span class="at">biom_ratio =</span> pink<span class="sc">$</span>tot_B[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span>pink<span class="sc">$</span>adult_B[,<span class="sc">-</span><span class="dv">1</span>]))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>pink<span class="sc">$</span>biom_ratio <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Year=</span><span class="fu">seq</span>(<span class="dv">1952</span>,<span class="dv">2015</span>,<span class="dv">1</span>),pink<span class="sc">$</span>biom_ratio)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>chum <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># adult_N, adult_B, avg_wt</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S10 total adult return abundance (hatchery &amp; wild) - millions of fish</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">adult_N =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 9-12 Total ret (nos) 52-15!R6:AF70"</span>),</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S14 adult biomass (hatchery &amp; wild) - metric tonnes </span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">adult_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 13-16 Tot ret (bioma) 52-15!R6:AF70"</span>),</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S18 total (mature and immature) biomass</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">tot_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 17-20Tot biom (mat+yng)52-15!R5:AF69"</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load supplemental data tables from Ruggerone &amp; Irvine (2018) for pink, chum, and sockeye salmon (not grabbing the final "total" column) as list for each species. </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># adult_N, adult_B, avg_wt</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pink <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S9 total adult return abundance (hatchery &amp; wild) - millions of fish</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">adult_N =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 9-12 Total ret (nos) 52-15!A6:O70"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S13 total adult return biomass (hatchery &amp; wild) - metric tonnes</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">adult_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 13-16 Tot ret (bioma) 52-15!A6:O70"</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S17 total (mature and immature) biomass</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">tot_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 17-20Tot biom (mat+yng)52-15!A5:O69"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>chum <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S10 total adult return abundance (hatchery &amp; wild) - millions of fish</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">adult_N =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 9-12 Total ret (nos) 52-15!R6:AF70"</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S14 adult biomass (hatchery &amp; wild) - metric tonnes </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">adult_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 13-16 Tot ret (bioma) 52-15!R6:AF70"</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S18 total (mature and immature) biomass</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">tot_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 17-20Tot biom (mat+yng)52-15!R5:AF69"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>sock <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S11 total adult return abundance (hatchery &amp; wild)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">adult_N =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 9-12 Total ret (nos) 52-15!AI6:AW70"</span>),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S15 adult biomass (hatchery &amp; wild)   </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">adult_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 13-16 Tot ret (bioma) 52-15!AI6:AW70"</span>),</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Table S19 total (mature and immature) biomass</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">tot_B =</span> <span class="fu">read_excel</span>(<span class="st">"data/mcf210023-sup-0001-tables1-s24.xlsx"</span>, <span class="at">range =</span> <span class="st">"ST 17-20Tot biom (mat+yng)52-15!AI5:AW69"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>You can add options to executable code like this</p>
+<p>Average weights (in kg) used in Ruggerone and Irvine (2018) were then back-calculated for each region by dividing the adult return biomass by the number of adult returns. The data were filtered to the Alaska regions reported in Ruggerone and Irvine: Western Alaska (WAK), South Alaska Peninsula (SPen), Kodiak (Kod), Cook Inlet (CI), Prince William Sound (PWS), and Southeast Alaska (SEAK).</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># back-calculate average weights used in R&amp;I - kg</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pink <span class="ot">&lt;-</span> <span class="fu">append</span>(pink, <span class="fu">list</span>(<span class="at">avg_wt =</span> pink<span class="sc">$</span>adult_B[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span>pink<span class="sc">$</span>adult_N[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pink<span class="sc">$</span>avg_wt <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Year =</span> <span class="fu">seq</span>(<span class="dv">1952</span>,<span class="dv">2015</span>,<span class="dv">1</span>),pink<span class="sc">$</span>avg_wt)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>chum <span class="ot">&lt;-</span> <span class="fu">append</span>(chum, <span class="fu">list</span>(<span class="at">avg_wt =</span> chum<span class="sc">$</span>adult_B[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span>chum<span class="sc">$</span>adult_N[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>chum<span class="sc">$</span>avg_wt <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Year =</span> <span class="fu">seq</span>(<span class="dv">1952</span>,<span class="dv">2015</span>,<span class="dv">1</span>),chum<span class="sc">$</span>avg_wt)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sock <span class="ot">&lt;-</span> <span class="fu">append</span>(sock, <span class="fu">list</span>(<span class="at">avg_wt =</span> sock<span class="sc">$</span>adult_B[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span>sock<span class="sc">$</span>adult_N[,<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>sock<span class="sc">$</span>avg_wt <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Year =</span> <span class="fu">seq</span>(<span class="dv">1952</span>,<span class="dv">2015</span>,<span class="dv">1</span>),sock<span class="sc">$</span>avg_wt)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>n_yrs <span class="ot">&lt;-</span> <span class="fu">dim</span>(pink<span class="sc">$</span>adult_N)[<span class="dv">1</span>]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># combine R&amp;I average weight data in long format, and filter to Alaska regions</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>RI_avgwt <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="at">Species=</span><span class="fu">rep</span>(<span class="st">"Pink"</span>, n_yrs),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">melt</span>(pink<span class="sc">$</span>avg_wt, <span class="at">id =</span> <span class="st">"Year"</span>, <span class="at">variable.name =</span> <span class="st">"Region"</span>, <span class="at">value.name =</span> <span class="st">"avg_wt"</span>)),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="at">Species=</span><span class="fu">rep</span>(<span class="st">"Chum"</span>, n_yrs),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">melt</span>(chum<span class="sc">$</span>avg_wt, <span class="at">id =</span> <span class="st">"Year"</span>, <span class="at">variable.name =</span> <span class="st">"Region"</span>, <span class="at">value.name =</span> <span class="st">"avg_wt"</span>)),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="at">Species=</span><span class="fu">rep</span>(<span class="st">"Sockeye"</span>, n_yrs),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">melt</span>(sock<span class="sc">$</span>avg_wt, <span class="at">id =</span> <span class="st">"Year"</span>, <span class="at">variable.name =</span> <span class="st">"Region"</span>, <span class="at">value.name =</span> <span class="st">"avg_wt"</span>))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>RI_avgwt <span class="ot">&lt;-</span> <span class="fu">filter</span>(RI_avgwt, Region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"WAK"</span>, <span class="st">"SPen"</span>,<span class="st">"Kod"</span>,<span class="st">"CI"</span>,<span class="st">"PWS"</span>,<span class="st">"SEAK"</span>))</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>RI_avgwt <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">Source=</span><span class="fu">rep</span>(<span class="st">"R&amp;I"</span>, <span class="fu">dim</span>(pink<span class="sc">$</span>adult_N)[<span class="dv">1</span>]),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>             RI_avgwt[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">4</span>)]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(RI_avgwt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>  Source Year Region Species   avg_wt
+1    R&amp;I 1952    WAK    Pink 1.568366
+2    R&amp;I 1953    WAK    Pink 1.582993
+3    R&amp;I 1954    WAK    Pink 1.575665
+4    R&amp;I 1955    WAK    Pink 1.582986
+5    R&amp;I 1956    WAK    Pink 1.547125
+6    R&amp;I 1957    WAK    Pink 1.582628</code></pre>
 </div>
 </div>
-<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+<p>The NPAFC catch statistic were then loaded and filtered to include only Alaska commercial catch data for pink, chum and sockeye for 1952 to 2015. Following the methods described in Ruggerone and Irvine, the average weights by Alaska reporting regions (labeled ‘Area’ in the catch statisitcs data file) were calculated. The 2024 NPAFC catch statistics data file<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> was used for this analysis.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because the author assisted with the 2024 NPAFC catch statistics update, a version of the data in long data format was available to use for this analysis.</p>
+<p>For final, it might be necessary to download the posted catch statistics file and run script to convert it from the available wide data format.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ruggerone and Irvine (2018) cite the source of NPAFC catch statistics data as the version available in 2017. I have this data file (provided by NPAFC Secretariat) and could compare data to see if there were any changes or updates for the years included in this analysis.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alaska data reported to NPAFC are divided differently before and after 1985 and are called Reporting Areas in the database.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-1985, the Alaska catch data are summarized into 3 reporting areas: Southeast, South Central (Central in Statistical Yearbooks), and Western.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1985 and on, there are 4 reporting areas that match the Division of Commercial Fisheries regions: Southeast, Central (including PWS, CI and Bristol Bay), Westward (including Kodiak Island and Mainland, Chignik, N. &amp; S. Alaska Peninsula), and Arctic-Yukon-Kuskokwim (including Kotzebue)    up into 6 regions/areas that include Southeastern Alaska &amp; Yakutat, Prince William Sound, Cook Inlet, Kodiak (Island &amp; Mainland), South Alaska Peninsula (including Chignik), and Western Alaska (including N. Alaska Peninsula, Bristol Bay, Arctic-Yukon-Kuskokwim &amp; Kotzebue)  </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># load NPAFC catch data (2024 update), filter to AK commercial catch only and R&amp;I range of years)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>NPAFC <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>NPAFC_AK <span class="ot">&lt;-</span> <span class="fu">filter</span>(NPAFC, Region<span class="sc">==</span><span class="st">"Alaska"</span> <span class="sc">&amp;</span> Fishery<span class="sc">==</span><span class="st">"Commercial"</span> <span class="sc">&amp;</span> Area <span class="sc">!=</span><span class="st">"Whole state"</span> <span class="sc">&amp;</span> <span class="fu">between</span>(Year,<span class="dv">1952</span>,<span class="dv">2015</span>) <span class="sc">&amp;</span> Species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Pink"</span>,<span class="st">"Chum"</span>,<span class="st">"Sockeye"</span>))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate average weight  (numbers = indiv; weight = MT) and remove extraneous columns</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>NPAFC_avgwt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(NPAFC_AK,<span class="at">avg_wt=</span>NPAFC_AK<span class="sc">$</span>Wt_fish<span class="sc">/</span>NPAFC_AK<span class="sc">$</span>N_fish<span class="sc">*</span><span class="dv">1000</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>NPAFC_avgwt <span class="ot">&lt;-</span> NPAFC_avgwt[<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">9</span>)]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>NPAFC_avgwt<span class="sc">$</span>Area <span class="ot">&lt;-</span> <span class="fu">factor</span>(NPAFC_avgwt<span class="sc">$</span>Area, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Western"</span>,<span class="st">"South Central"</span>,<span class="st">"Southeast"</span>,<span class="st">"Arctic Yukon Kuskokwim"</span>,<span class="st">"Westward"</span>,<span class="st">"Central"</span>))             </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>NPAFC_avgwt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Source=</span><span class="fu">rep</span>(<span class="st">"NPAFC"</span>, <span class="fu">length</span>(NPAFC_avgwt[<span class="dv">1</span>])), NPAFC_avgwt[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>)])</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(NPAFC_avgwt)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">"Region"</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(NPAFC_avgwt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Source Year                 Region Species avg_wt
+1  NPAFC 1952 Arctic Yukon Kuskokwim    Chum     NA
+2  NPAFC 1953 Arctic Yukon Kuskokwim    Chum     NA
+3  NPAFC 1954 Arctic Yukon Kuskokwim    Chum     NA
+4  NPAFC 1955 Arctic Yukon Kuskokwim    Chum     NA
+5  NPAFC 1956 Arctic Yukon Kuskokwim    Chum     NA
+6  NPAFC 1957 Arctic Yukon Kuskokwim    Chum     NA</code></pre>
+</div>
+</div>
 </section>
 
-</main>
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Ruggerone &amp; Irvine (2018), supplementary information: <a href="https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&amp;file=mcf210023-sup-0001-TableS1-S24.xlsx" class="uri">https://afspubs.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fmcf2.10023&amp;file=mcf210023-sup-0001-TableS1-S24.xlsx</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>North Pacific Anadromous Fish Commission (NPAFC) Pacific salmonid catch statistics (updated June 2024). North Pacific Anadromous Fish Commission, Vancouver. <a href="https://www.npafc.org/statistics/" class="uri">https://www.npafc.org/statistics/</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
