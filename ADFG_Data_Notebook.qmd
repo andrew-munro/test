@@ -1,0 +1,373 @@
+---
+title: "ADF&G harvest data for Ruggerone & Irvine Alaska salmon bimoass update"
+format: html
+code-fold: true
+code-summary: "Show the code"
+
+editor: visual
+---
+
+Date: March 2025
+
+```{r}
+#| label: load-packages
+#| message: false
+#| warning: false
+#| error: false
+#| echo: false
+library("readxl")
+library("tidyverse")
+library("reshape2")
+library("arsenal")
+```
+
+## Overview
+
+This script processes and combines two OceanAK queries to produce a single data set that can be used in updating biomass estimates for Alaska salmon from Ruggerone and Irvine (2018) by aggregating the catch numbers and weight into the same regions as in Ruggerone and Irvine. The queries were modified from the NPAFC 3 yr query used to provide commercial catch statistics to NPAFC. The modification was to filter data from 1985-2015 and add a column with Management Area. An additional query that filtered management area to just Area M and included a column with district number so that South Alaska Peninsula districts could be separated from the rest of Area M and aggregated with Chignik (Area L) to match the SPen region in Ruggerone and Irvine. The remainder of Area M (North Alaska Peninsula and Aleutian Islands) is aggregated with Western Alaska.
+
+::: callout-important
+This is a temporary *ad-hoc* approach while waiting for someone with more OceanAK skills could write a query that provides a single data set with limited post-processing.
+:::
+
+## Methods
+
+Two queries were ran in OceanAK and the results were output to Excel files
+
+::: {.callout-note appearance="minimal"}
+**NPAFC_by_manage_area**
+
+*Filters*:
+
+-   Batch Year is less than 2016
+-   AND Case WHEN Species Name IN ('chinook,... is equal to / is in salmon, chinook; salmon, chum; salmon, coho; salmon, pink; salmon, sockeye; trout, steelhead
+-   AND Delivery Condition Code is not equal to / is not in 14
+-   AND Region Desc is equal to / is in A-Y-K Region; Central Region; Southeastern Region; Westward Region
+
+*Selected Columns*: Year, Species Common Name, Number Of Animals (sum), Whole Pounds (in metric tons, Landed Weight (in metric tons), Region Desc, Management Area
+:::
+
+::: {.callout-note appearance="minimal"}
+**NPAFC_areaM**
+
+*Filters*:
+
+-   Batch Year is less than 2016
+-   AND Case WHEN Species Name IN ('chinook,... is equal to / is in salmon, chinook; salmon, chum; salmon, coho; salmon, pink; salmon, sockeye; trout, steelhead
+-   AND Delivery Condition Code is not equal to / is not in 14
+-   AND Region Desc is equal to / is in Westward Region
+-   AND Management Area is equal to / is in M
+
+*Selected Columns*: Year, Species Common Name, Number Of Animals (sum), Whole Pounds (in metric tons, Landed Weight (in metric tons), Region Desc, Management Area, District Number
+:::
+
+These data files were then loaded into the R environment and processed so they could be merged and used in the update of the biomass estimates for Alaska:
+
+```{r}
+#| label: load OceanAK queries
+
+path <- "C:/Users/armunro/OneDrive - State of Alaska/Documents/GitHub/"
+
+AreaM <- read_excel(paste0(path,"NPAFC_areaM.xlsx"))
+NPAFC_MgmtArea <- read_excel(paste0(path,"NPAFC_MgmtArea.xlsx"))
+```
+
+Processing of the Area M data set included, renaming column names, simplifying species names, filtering to the species of interest (chum, pink and sockeye), adding a column (Area) identifying whether a district is located in the South Alaska Peninsula or North Alaska Peninsula (including Aleutian Islands). Finally, the data were summarized by species, area, and year.
+
+```{r}
+#| label: clean up Area M data set
+#| warning: false
+
+colnames(AreaM) <- c("Year","Species","N_fish","Whole_wt","Landed_wt","Region","Mgmt_Area","District")
+AreaM <- filter(AreaM, Species %in% c("salmon, pink", "salmon, chum", "salmon, sockeye"))
+
+AreaM$Species[AreaM$Species == "salmon, chum"] <- "chum"
+AreaM$Species[AreaM$Species == "salmon, pink"] <- "pink"
+AreaM$Species[AreaM$Species == "salmon, sockeye"] <- "sockeye"
+
+AreaM$District <- as.numeric(AreaM$District)
+AreaM$Area <- cut(AreaM$District, c(280,300,399), c("SPen", "NPen"))
+
+AreaM_Sum <- AreaM %>% group_by(Species,Area,Year) %>%
+          summarise(N_fish = sum(N_fish),Whole_wt = sum(Whole_wt),Landed_wt = sum(Landed_wt))
+
+AreaM_Tot <-AreaM %>% group_by(Species,Year) %>%
+          summarise(N_fish = sum(N_fish),Whole_wt = sum(Whole_wt),Landed_wt = sum(Landed_wt))
+```
+
+Similarly, the data by management area was processed by renaming column names, simplifying species names, filtering to the species of interest (chum, pink and sockeye), simplifying CF region names, and adding a column (RI_Region) categorizing Management Areas into the regions used in Ruggerone and Irvine. Area M was identified as 'NA' because it is split among different regions in Ruggerone and Irvine and will be replaced when the two data sets are merged.
+
+```{r}
+#| label: clean up ADFG by Management Area data set
+#| warning: false
+
+colnames(NPAFC_MgmtArea) <- c("Year","Species","N_fish","Whole_wt","Landed_wt","Region","Mgmt_Area")
+NPAFC_MgmtArea <- filter(NPAFC_MgmtArea, Species %in% c("salmon, pink", "salmon, chum", "salmon, sockeye"))
+
+NPAFC_MgmtArea$Species[NPAFC_MgmtArea$Species == "salmon, chum"] <- "chum"
+NPAFC_MgmtArea$Species[NPAFC_MgmtArea$Species == "salmon, pink"] <- "pink"
+NPAFC_MgmtArea$Species[NPAFC_MgmtArea$Species == "salmon, sockeye"] <- "sockeye"
+
+NPAFC_MgmtArea$Region[NPAFC_MgmtArea$Region == "A-Y-K Region"] <- "AYK"
+NPAFC_MgmtArea$Region[NPAFC_MgmtArea$Region == "Central Region"] <- "Central"
+NPAFC_MgmtArea$Region[NPAFC_MgmtArea$Region == "Southeastern Region"] <- "Southeast"
+NPAFC_MgmtArea$Region[NPAFC_MgmtArea$Region == "Westward Region"] <- "Westward"
+
+df <- NPAFC_MgmtArea %>% 
+  mutate(RI_Region = case_when(
+  Region == "AYK" ~ "Western",
+  Mgmt_Area == "T" ~ "Western",
+  Mgmt_Area == "M" ~ "NA",
+  Mgmt_Area == "L" ~ "SPen",
+  Mgmt_Area == "K" ~ "Kod",
+  Mgmt_Area == "H" ~ "CI",
+  Mgmt_Area == "F" ~ "Western",
+  Mgmt_Area == "E" ~ "PWS",
+  Region == "Southeast" ~ "SEAK",
+  ))
+```
+
+Prior to merging the Area M-only data set, the data between the two data sets were compared (total catch by species and year). Check totals from Area M to confirm they are the same:
+
+```{r}
+#| label: Cross-check Area M values from both queries
+#| warning: false
+
+MgmtAreaM <- filter(NPAFC_MgmtArea, Mgmt_Area == "M")
+MgmtAreaM <- MgmtAreaM[,c(2,1,3,4,5)]
+MgmtAreaM <- MgmtAreaM[order(MgmtAreaM$Species,MgmtAreaM$Year), decreasing = FALSE]
+
+# compare data sets using the comparedf function in arsenal package
+df_diff <-comparedf(AreaM_Tot,MgmtAreaM)
+
+df_diff
+```
+
+Comparison of the two data frames indicate that **there are no differences** between them.
+
+Therefore we can safely remove the Area M rows from the NPAFC_MgmtArea data frame and replace it with the Area M data that splits out South Alaska Peninsula.
+
+```{r}
+#| label: merge the results from the 2 queries
+
+# filter out Area M from the data frame where data are aggregated by management area
+df <- filter(df, Mgmt_Area != "M")
+
+# reconfigure columns summarized Area M data frame to match 
+AreaM_Sum2 <- cbind(AreaM_Sum[,c(3,1,4,5,6)], 
+              Region = rep("Westward",dim(AreaM_Sum)[1]),
+              Mgmt_Area = rep("M",dim(AreaM_Sum)[1]),
+              AreaM_Sum[,2])
+
+colnames(AreaM_Sum2)[which(names(AreaM_Sum2)== "Area")] <- "RI_Region"
+
+# merge the two data frames with rbind
+df <- rbind(df,AreaM_Sum2)
+df$RI_Region[df$RI_Region == "NPen"] <- "Western"
+```
+
+Now we can summarize the data by the regions used in Ruggerone and Irvine:
+
+```{r}
+#| warning: false
+df_RI <- df %>% group_by(Species,RI_Region,Year) %>%
+          summarise(Region = Region, N_fish = sum(N_fish),Whole_wt = sum(Whole_wt),Landed_wt = sum(Landed_wt))
+
+head(df_RI)
+```
+
+And summarize by CF reporting regions to compare with current NPAFC catch statistics:
+
+```{r}
+#| warning: false
+df_CF <- df %>% group_by(Species,Region,Year) %>% summarise(N_fish = sum(N_fish),Whole_wt = sum(Whole_wt),Landed_wt = sum(Landed_wt)) %>% ungroup()
+
+x=  data.frame(Species = "pink",Region = "AYK",Year= "2001", N_fish =NA, Whole_wt =NA, Landed_wt =NA)
+x2=  data.frame(Species = "pink",Region = "AYK",Year= "2002", N_fish =NA, Whole_wt =NA, Landed_wt =NA)
+
+df_CF <- rbind(df_CF,x,x2
+              )
+
+df_CF
+```
+
+**Now for some QA/QC with the current NPAFC data.**
+
+These data were compared to current NPAFC catch statistics (number and weight) to identify any discrepancies. Both the current (May 2024) and the 2017 data file referenced in Ruggerone and Irvine were available.
+
+Load 2017 data set and filter to relevant species and years:
+
+```{r}
+#| label: load NPAFC catch statistics data (2017 and 2024 data files)
+#| warning: false
+path <- "C:/Users/armunro/OneDrive - State of Alaska/Salmon_Abundance_Biomass_Exploration/NPAFC data used in R&I/"
+
+# using code from NPAFC_CatchData_Tidy.r used in the Salmon_Catch_Statistics Rproject for NPAFC
+
+# Load data, skipping first row that contains data set title, and renaming some of the names for id variables
+catch <- read_excel(paste0(path,"NPAFC_Catch_Stat_31July2017Color-coded.xls"), skip=1)
+colnames(catch)[1:6] <- c("Country", "Region",	"Area",	"Species",	"Fishery",	"Data_Type")
+
+# Data are catch numbers and catch weight, simplify Data Type descriptions
+catch[catch == "Number (000's)"] <- "N_fish"
+catch[catch == "Round wt (MT)"] <- "Wt_fish"
+
+# Melt, tidy, and scale number of fish to whole fish
+catch_melt <- melt(catch, id=1:6, variable.name = "Year")
+catch_melt$value <- as.numeric(catch_melt$value) # Warning NAs introduced - because <0.5 for some cell entries (handled as zeros in summations per metadata report)
+catch_melt <- dcast(catch_melt, ... ~ Data_Type)
+catch_melt$N_fish <- round(catch_melt$N_fish, digits = 3)*1000 #ensure in terms of whole fish
+# Subset NPAFC data to just Alaska commercial fisheries for 1952-2015
+catch_AK <- filter(catch_melt, Region == "Alaska" & Fishery == "Commercial" & Area !="Whole state" & Year %in% (1952:2015) & Species %in% c("Chum","Pink", "Sockeye"))
+
+catch_AK$Year <- as.numeric(levels(catch_AK$Year))[catch_AK$Year] 
+```
+
+Load current NPAFC data and similarly filter:
+
+```{r}
+#| warning: false
+# load NPAFC catch data (2024 update), filter to AK commercial catch only and R&I range of years)
+NPAFC <- read_csv("data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv", show_col_types = FALSE)
+NPAFC_AK <- filter(NPAFC, Region=="Alaska" & Fishery=="Commercial" & Area !="Whole state" & between(Year,1952,2015) & Species %in% c("Pink","Chum","Sockeye"))
+```
+
+Compare the two data frames:
+
+```{r}
+#| label: compare 2017 and 2024 NPAFC catch data
+
+df_diff_NPAFC <- comparedf(catch_AK,NPAFC_AK)
+
+df_diff_NPAFC
+
+x = summary(df_diff_NPAFC)
+
+y <- unique(x$diffs.table[,3])
+
+dfofdiff <- rbind(catch_AK[y,], NPAFC_AK[y,])
+
+catch_AK[y,3:8]
+
+NPAFC_AK[y,3:8]
+
+```
+
+------------------------------------------------------------------------
+
+Now to compare reconfigured ADF&G data with current NPAFC data. Let's compare numbers first
+
+```{r}
+# temp - just numbers of fish comaprison
+df_CFb <- df_CF[,-6]
+colnames(df_CFb)[5] <- "Wt_fish"
+df_CFb$Year <- as.numeric(df_CFb$Year)
+df_CFb <-df_CFb[,-5]
+df_CFb <- df_CFb[order(df_CFb$Species,df_CFb$Region,df_CFb$Year), decreasing = FALSE]
+
+
+# reconfigure current NPAFC data set to be able to compare with ADF&G
+CF_new <- filter(NPAFC_AK, Year >=1985)
+
+df_NPAFC$Species[df_NPAFC$Species == "Chum"] <- "chum"
+df_NPAFC$Species[df_NPAFC$Species == "Pink"] <- "pink"
+df_NPAFC$Species[df_NPAFC$Species == "Sockeye"] <- "sockeye"
+
+df_NPAFC$Area[df_NPAFC$Area == "Arctic Yukon Kuskokwim"] <- "AYK"
+
+df_NPAFC <- df_NPAFC[,c(4,3,6,7)]
+
+df_NPAFC <- filter(df_NPAFC, Area %in% c("AYK", "Westward", "Central", "Southeast"))
+colnames(df_NPAFC)[2] <- "Region"
+
+df_NPAFC <- df_NPAFC[order(df_NPAFC$Species,df_NPAFC$Region,df_NPAFC$Year), decreasing = FALSE]
+g <- comparedf(df_CFb,df_NPAFC)
+
+g2 <- summary(g)
+
+g
+
+g2
+
+y <- unique(g2$diffs.table[,3])
+
+df_CFb[y,]
+
+df_NPAFC[y,]
+```
+
+```{r}
+# temp only whole wt comparison
+df_CFb <- df_CF[,-6]
+colnames(df_CFb)[5] <- "Wt_fish"
+df_CFb$Year <- as.numeric(df_CFb$Year)
+#df_CFb <-df_CFb[,-4]
+df_CFb <- df_CFb[order(df_CFb$Species,df_CFb$Region,df_CFb$Year), decreasing = FALSE]
+
+
+# reconfigure current NPAFC data set to be able to compare with ADF&G
+df_NPAFC <- filter(NPAFC_AK, Year >=1985)
+
+df_NPAFC$Species[df_NPAFC$Species == "Chum"] <- "chum"
+df_NPAFC$Species[df_NPAFC$Species == "Pink"] <- "pink"
+df_NPAFC$Species[df_NPAFC$Species == "Sockeye"] <- "sockeye"
+
+df_NPAFC$Area[df_NPAFC$Area == "Arctic Yukon Kuskokwim"] <- "AYK"
+
+df_NPAFC <- df_NPAFC[,c(4,3,6,8)]
+
+df_NPAFC <- filter(df_NPAFC, Area %in% c("AYK", "Westward", "Central", "Southeast"))
+colnames(df_NPAFC)[2] <- "Region"
+
+df_NPAFC <- df_NPAFC[order(df_NPAFC$Species,df_NPAFC$Region,df_NPAFC$Year), decreasing = FALSE]
+g <- comparedf(df_CFb,df_NPAFC)
+
+g2 <- summary(g)
+
+g
+
+g2
+
+y <- unique(g2$diffs.table[,3])
+
+df_CFb[y,]
+
+df_NPAFC[y,]
+
+wt_diff <-cbind(df_NPAFC[y,], df_NPAFC[y,4]-df_CFb[y,4])
+```
+
+```{r}
+#| label: OceanAK dash
+CF_new <- read_csv("C:/Users/armunro/OneDrive - State of Alaska/Documents/GitHub/NPAFC_DynamicReportingAreas_CF.csv")
+
+colnames(CF_new) <- c("Year", "Species","N_fish","Wt_fish","Region")
+
+CF_new <- filter(CF_new, Year <= 2015, Species %in% c("salmon, pink", "salmon, chum", "salmon, sockeye"))
+
+
+CF_new$Species[CF_new$Species == "salmon, chum"] <- "chum"
+CF_new$Species[CF_new$Species == "salmon, pink"] <- "pink"
+CF_new$Species[CF_new$Species == "salmon, sockeye"] <- "sockeye"
+
+CF_new$Region[CF_new$Region == "A-Y-K Region"] <- "AYK"
+CF_new$Region[CF_new$Region == "Central Region"] <- "Central"
+CF_new$Region[CF_new$Region == "Southeastern Region"] <- "Southeast"
+CF_new$Region[CF_new$Region == "Westward Region"] <- "Westward"
+
+CF_new <- CF_new[,c(2,5,1,3,4)]
+
+x=  data.frame(Species = "pink",Region = "AYK",Year= "2001", N_fish =NA, Wt_fish =NA)
+x2=  data.frame(Species = "pink",Region = "AYK",Year= "2002", N_fish =NA, Wt_fish =NA)
+
+CF_new <- rbind(CF_new,x,x2)
+CF_new$Year <- as.numeric(CF_new$Year) 
+CF_new <- CF_new[order(CF_new$Species,CF_new$Region,CF_new$Year), decreasing = FALSE]
+v = comparedf(df_CFb,CF_new)
+v2 = summary(v)
+
+
+CF_newB <- CF_new[,-4]
+
+w= comparedf(df_NPAFC, CF_newB)
+w2 = summary(v)
+```

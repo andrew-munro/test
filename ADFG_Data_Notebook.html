@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ADF&amp;G harvest data for Ruggerone &amp; Irvine Alaska salmon bimoass update</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="ADFG_Data_Notebook_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ADFG_Data_Notebook_files/libs/quarto-html/quarto.js"></script>
+<script src="ADFG_Data_Notebook_files/libs/quarto-html/popper.min.js"></script>
+<script src="ADFG_Data_Notebook_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ADFG_Data_Notebook_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ADFG_Data_Notebook_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ADFG_Data_Notebook_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ADFG_Data_Notebook_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ADFG_Data_Notebook_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ADFG_Data_Notebook_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ADF&amp;G harvest data for Ruggerone &amp; Irvine Alaska salmon bimoass update</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Date: March 2025</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This script processes and combines two OceanAK queries to produce a single data set that can be used in updating biomass estimates for Alaska salmon from Ruggerone and Irvine (2018) by aggregating the catch numbers and weight into the same regions as in Ruggerone and Irvine. The queries were modified from the NPAFC 3 yr query used to provide commercial catch statistics to NPAFC. The modification was to filter data from 1985-2015 and add a column with Management Area. An additional query that filtered management area to just Area M and included a column with district number so that South Alaska Peninsula districts could be separated from the rest of Area M and aggregated with Chignik (Area L) to match the SPen region in Ruggerone and Irvine. The remainder of Area M (North Alaska Peninsula and Aleutian Islands) is aggregated with Western Alaska.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a temporary <em>ad-hoc</em> approach while waiting for someone with more OceanAK skills could write a query that provides a single data set with limited post-processing.</p>
+</div>
+</div>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p>Two queries were ran in OceanAK and the results were output to Excel files</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>NPAFC_by_manage_area</strong></p>
+<p><em>Filters</em>:</p>
+<ul>
+<li>Batch Year is less than 2016</li>
+<li>AND Case WHEN Species Name IN (’chinook,… is equal to / is in salmon, chinook; salmon, chum; salmon, coho; salmon, pink; salmon, sockeye; trout, steelhead</li>
+<li>AND Delivery Condition Code is not equal to / is not in 14</li>
+<li>AND Region Desc is equal to / is in A-Y-K Region; Central Region; Southeastern Region; Westward Region</li>
+</ul>
+<p><em>Selected Columns</em>: Year, Species Common Name, Number Of Animals (sum), Whole Pounds (in metric tons, Landed Weight (in metric tons), Region Desc, Management Area</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>NPAFC_areaM</strong></p>
+<p><em>Filters</em>:</p>
+<ul>
+<li>Batch Year is less than 2016</li>
+<li>AND Case WHEN Species Name IN (’chinook,… is equal to / is in salmon, chinook; salmon, chum; salmon, coho; salmon, pink; salmon, sockeye; trout, steelhead</li>
+<li>AND Delivery Condition Code is not equal to / is not in 14</li>
+<li>AND Region Desc is equal to / is in Westward Region</li>
+<li>AND Management Area is equal to / is in M</li>
+</ul>
+<p><em>Selected Columns</em>: Year, Species Common Name, Number Of Animals (sum), Whole Pounds (in metric tons, Landed Weight (in metric tons), Region Desc, Management Area, District Number</p>
+</div>
+</div>
+</div>
+<p>These data files were then loaded into the R environment and processed so they could be merged and used in the update of the biomass estimates for Alaska:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"C:/Users/armunro/OneDrive - State of Alaska/Documents/GitHub/"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>AreaM <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="fu">paste0</span>(path,<span class="st">"NPAFC_areaM.xlsx"</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="fu">paste0</span>(path,<span class="st">"NPAFC_MgmtArea.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Processing of the Area M data set included, renaming column names, simplifying species names, filtering to the species of interest (chum, pink and sockeye), adding a column (Area) identifying whether a district is located in the South Alaska Peninsula or North Alaska Peninsula (including Aleutian Islands). Finally, the data were summarized by species, area, and year.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(AreaM) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Year"</span>,<span class="st">"Species"</span>,<span class="st">"N_fish"</span>,<span class="st">"Whole_wt"</span>,<span class="st">"Landed_wt"</span>,<span class="st">"Region"</span>,<span class="st">"Mgmt_Area"</span>,<span class="st">"District"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>AreaM <span class="ot">&lt;-</span> <span class="fu">filter</span>(AreaM, Species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"salmon, pink"</span>, <span class="st">"salmon, chum"</span>, <span class="st">"salmon, sockeye"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>AreaM<span class="sc">$</span>Species[AreaM<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"salmon, chum"</span>] <span class="ot">&lt;-</span> <span class="st">"chum"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>AreaM<span class="sc">$</span>Species[AreaM<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"salmon, pink"</span>] <span class="ot">&lt;-</span> <span class="st">"pink"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>AreaM<span class="sc">$</span>Species[AreaM<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"salmon, sockeye"</span>] <span class="ot">&lt;-</span> <span class="st">"sockeye"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>AreaM<span class="sc">$</span>District <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(AreaM<span class="sc">$</span>District)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>AreaM<span class="sc">$</span>Area <span class="ot">&lt;-</span> <span class="fu">cut</span>(AreaM<span class="sc">$</span>District, <span class="fu">c</span>(<span class="dv">280</span>,<span class="dv">300</span>,<span class="dv">399</span>), <span class="fu">c</span>(<span class="st">"SPen"</span>, <span class="st">"NPen"</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>AreaM_Sum <span class="ot">&lt;-</span> AreaM <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Species,Area,Year) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>          <span class="fu">summarise</span>(<span class="at">N_fish =</span> <span class="fu">sum</span>(N_fish),<span class="at">Whole_wt =</span> <span class="fu">sum</span>(Whole_wt),<span class="at">Landed_wt =</span> <span class="fu">sum</span>(Landed_wt))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>AreaM_Tot <span class="ot">&lt;-</span>AreaM <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Species,Year) <span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>          <span class="fu">summarise</span>(<span class="at">N_fish =</span> <span class="fu">sum</span>(N_fish),<span class="at">Whole_wt =</span> <span class="fu">sum</span>(Whole_wt),<span class="at">Landed_wt =</span> <span class="fu">sum</span>(Landed_wt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Similarly, the data by management area was processed by renaming column names, simplifying species names, filtering to the species of interest (chum, pink and sockeye), simplifying CF region names, and adding a column (RI_Region) categorizing Management Areas into the regions used in Ruggerone and Irvine. Area M was identified as ‘NA’ because it is split among different regions in Ruggerone and Irvine and will be replaced when the two data sets are merged.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(NPAFC_MgmtArea) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Year"</span>,<span class="st">"Species"</span>,<span class="st">"N_fish"</span>,<span class="st">"Whole_wt"</span>,<span class="st">"Landed_wt"</span>,<span class="st">"Region"</span>,<span class="st">"Mgmt_Area"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea <span class="ot">&lt;-</span> <span class="fu">filter</span>(NPAFC_MgmtArea, Species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"salmon, pink"</span>, <span class="st">"salmon, chum"</span>, <span class="st">"salmon, sockeye"</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea<span class="sc">$</span>Species[NPAFC_MgmtArea<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"salmon, chum"</span>] <span class="ot">&lt;-</span> <span class="st">"chum"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea<span class="sc">$</span>Species[NPAFC_MgmtArea<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"salmon, pink"</span>] <span class="ot">&lt;-</span> <span class="st">"pink"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea<span class="sc">$</span>Species[NPAFC_MgmtArea<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"salmon, sockeye"</span>] <span class="ot">&lt;-</span> <span class="st">"sockeye"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea<span class="sc">$</span>Region[NPAFC_MgmtArea<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">"A-Y-K Region"</span>] <span class="ot">&lt;-</span> <span class="st">"AYK"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea<span class="sc">$</span>Region[NPAFC_MgmtArea<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">"Central Region"</span>] <span class="ot">&lt;-</span> <span class="st">"Central"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea<span class="sc">$</span>Region[NPAFC_MgmtArea<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">"Southeastern Region"</span>] <span class="ot">&lt;-</span> <span class="st">"Southeast"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>NPAFC_MgmtArea<span class="sc">$</span>Region[NPAFC_MgmtArea<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">"Westward Region"</span>] <span class="ot">&lt;-</span> <span class="st">"Westward"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> NPAFC_MgmtArea <span class="sc">%&gt;%</span> </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RI_Region =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  Region <span class="sc">==</span> <span class="st">"AYK"</span> <span class="sc">~</span> <span class="st">"Western"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  Mgmt_Area <span class="sc">==</span> <span class="st">"T"</span> <span class="sc">~</span> <span class="st">"Western"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  Mgmt_Area <span class="sc">==</span> <span class="st">"M"</span> <span class="sc">~</span> <span class="st">"NA"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  Mgmt_Area <span class="sc">==</span> <span class="st">"L"</span> <span class="sc">~</span> <span class="st">"SPen"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  Mgmt_Area <span class="sc">==</span> <span class="st">"K"</span> <span class="sc">~</span> <span class="st">"Kod"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  Mgmt_Area <span class="sc">==</span> <span class="st">"H"</span> <span class="sc">~</span> <span class="st">"CI"</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  Mgmt_Area <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">~</span> <span class="st">"Western"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  Mgmt_Area <span class="sc">==</span> <span class="st">"E"</span> <span class="sc">~</span> <span class="st">"PWS"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  Region <span class="sc">==</span> <span class="st">"Southeast"</span> <span class="sc">~</span> <span class="st">"SEAK"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Prior to merging the Area M-only data set, the data between the two data sets were compared (total catch by species and year). Check totals from Area M to confirm they are the same:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>MgmtAreaM <span class="ot">&lt;-</span> <span class="fu">filter</span>(NPAFC_MgmtArea, Mgmt_Area <span class="sc">==</span> <span class="st">"M"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>MgmtAreaM <span class="ot">&lt;-</span> MgmtAreaM[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>MgmtAreaM <span class="ot">&lt;-</span> MgmtAreaM[<span class="fu">order</span>(MgmtAreaM<span class="sc">$</span>Species,MgmtAreaM<span class="sc">$</span>Year), decreasing <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># compare data sets using the comparedf function in arsenal package</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df_diff <span class="ot">&lt;-</span><span class="fu">comparedf</span>(AreaM_Tot,MgmtAreaM)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compare Object
+
+Function Call: 
+comparedf(x = AreaM_Tot, y = MgmtAreaM)
+
+Shared: 5 non-by variables and 93 observations.
+Not shared: 0 variables and 0 observations.
+
+Differences found in 0/5 variables compared.
+0 variables compared have non-identical attributes.</code></pre>
+</div>
+</div>
+<p>Comparison of the two data frames indicate that <strong>there are no differences</strong> between them.</p>
+<p>Therefore we can safely remove the Area M rows from the NPAFC_MgmtArea data frame and replace it with the Area M data that splits out South Alaska Peninsula.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter out Area M from the data frame where data are aggregated by management area</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">filter</span>(df, Mgmt_Area <span class="sc">!=</span> <span class="st">"M"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># reconfigure columns summarized Area M data frame to match </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>AreaM_Sum2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(AreaM_Sum[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)], </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">Region =</span> <span class="fu">rep</span>(<span class="st">"Westward"</span>,<span class="fu">dim</span>(AreaM_Sum)[<span class="dv">1</span>]),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">Mgmt_Area =</span> <span class="fu">rep</span>(<span class="st">"M"</span>,<span class="fu">dim</span>(AreaM_Sum)[<span class="dv">1</span>]),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>              AreaM_Sum[,<span class="dv">2</span>])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(AreaM_Sum2)[<span class="fu">which</span>(<span class="fu">names</span>(AreaM_Sum2)<span class="sc">==</span> <span class="st">"Area"</span>)] <span class="ot">&lt;-</span> <span class="st">"RI_Region"</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># merge the two data frames with rbind</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df,AreaM_Sum2)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>RI_Region[df<span class="sc">$</span>RI_Region <span class="sc">==</span> <span class="st">"NPen"</span>] <span class="ot">&lt;-</span> <span class="st">"Western"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Now we can summarize the data by the regions used in Ruggerone and Irvine:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_RI <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Species,RI_Region,Year) <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">summarise</span>(<span class="at">Region =</span> Region, <span class="at">N_fish =</span> <span class="fu">sum</span>(N_fish),<span class="at">Whole_wt =</span> <span class="fu">sum</span>(Whole_wt),<span class="at">Landed_wt =</span> <span class="fu">sum</span>(Landed_wt))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_RI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+# Groups:   Species, RI_Region, Year [6]
+  Species RI_Region Year  Region   N_fish Whole_wt Landed_wt
+  &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 chum    CI        1985  Central  803487    2781.     2781.
+2 chum    CI        1986  Central 1228810    4160.     4160.
+3 chum    CI        1987  Central  511405    1733.     1733.
+4 chum    CI        1988  Central 1036520    3863.     3863.
+5 chum    CI        1989  Central  138788     462.      462.
+6 chum    CI        1990  Central  361502    1168.     1168.</code></pre>
+</div>
+</div>
+<p>And summarize by CF reporting regions to compare with current NPAFC catch statistics:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_CF <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Species,Region,Year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">N_fish =</span> <span class="fu">sum</span>(N_fish),<span class="at">Whole_wt =</span> <span class="fu">sum</span>(Whole_wt),<span class="at">Landed_wt =</span> <span class="fu">sum</span>(Landed_wt)) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span>  <span class="fu">data.frame</span>(<span class="at">Species =</span> <span class="st">"pink"</span>,<span class="at">Region =</span> <span class="st">"AYK"</span>,<span class="at">Year=</span> <span class="st">"2001"</span>, <span class="at">N_fish =</span><span class="cn">NA</span>, <span class="at">Whole_wt =</span><span class="cn">NA</span>, <span class="at">Landed_wt =</span><span class="cn">NA</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>x2<span class="ot">=</span>  <span class="fu">data.frame</span>(<span class="at">Species =</span> <span class="st">"pink"</span>,<span class="at">Region =</span> <span class="st">"AYK"</span>,<span class="at">Year=</span> <span class="st">"2002"</span>, <span class="at">N_fish =</span><span class="cn">NA</span>, <span class="at">Whole_wt =</span><span class="cn">NA</span>, <span class="at">Landed_wt =</span><span class="cn">NA</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df_CF <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_CF,x,x2</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>df_CF</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 372 × 6
+   Species Region Year   N_fish Whole_wt Landed_wt
+   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+ 1 chum    AYK    1985  1665406    5684.     5684.
+ 2 chum    AYK    1986  1618508    5273.     5273.
+ 3 chum    AYK    1987  1255844    3966.     3966.
+ 4 chum    AYK    1988  3217051   10464.    10464.
+ 5 chum    AYK    1989  2354291    7699.     7699.
+ 6 chum    AYK    1990  1195153    3986.     3986.
+ 7 chum    AYK    1991  1415579    4412.     4412.
+ 8 chum    AYK    1992  1172649    3840.     3840.
+ 9 chum    AYK    1993   327207    1030.     1030.
+10 chum    AYK    1994   637195    1941.     1941.
+# ℹ 362 more rows</code></pre>
+</div>
+</div>
+<p><strong>Now for some QA/QC with the current NPAFC data.</strong></p>
+<p>These data were compared to current NPAFC catch statistics (number and weight) to identify any discrepancies. Both the current (May 2024) and the 2017 data file referenced in Ruggerone and Irvine were available.</p>
+<p>Load 2017 data set and filter to relevant species and years:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"C:/Users/armunro/OneDrive - State of Alaska/Salmon_Abundance_Biomass_Exploration/NPAFC data used in R&amp;I/"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># using code from NPAFC_CatchData_Tidy.r used in the Salmon_Catch_Statistics Rproject for NPAFC</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data, skipping first row that contains data set title, and renaming some of the names for id variables</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>catch <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="fu">paste0</span>(path,<span class="st">"NPAFC_Catch_Stat_31July2017Color-coded.xls"</span>), <span class="at">skip=</span><span class="dv">1</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(catch)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Country"</span>, <span class="st">"Region"</span>,  <span class="st">"Area"</span>, <span class="st">"Species"</span>,  <span class="st">"Fishery"</span>,  <span class="st">"Data_Type"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Data are catch numbers and catch weight, simplify Data Type descriptions</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>catch[catch <span class="sc">==</span> <span class="st">"Number (000's)"</span>] <span class="ot">&lt;-</span> <span class="st">"N_fish"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>catch[catch <span class="sc">==</span> <span class="st">"Round wt (MT)"</span>] <span class="ot">&lt;-</span> <span class="st">"Wt_fish"</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt, tidy, and scale number of fish to whole fish</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>catch_melt <span class="ot">&lt;-</span> <span class="fu">melt</span>(catch, <span class="at">id=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">variable.name =</span> <span class="st">"Year"</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>catch_melt<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(catch_melt<span class="sc">$</span>value) <span class="co"># Warning NAs introduced - because &lt;0.5 for some cell entries (handled as zeros in summations per metadata report)</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>catch_melt <span class="ot">&lt;-</span> <span class="fu">dcast</span>(catch_melt, ... <span class="sc">~</span> Data_Type)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>catch_melt<span class="sc">$</span>N_fish <span class="ot">&lt;-</span> <span class="fu">round</span>(catch_melt<span class="sc">$</span>N_fish, <span class="at">digits =</span> <span class="dv">3</span>)<span class="sc">*</span><span class="dv">1000</span> <span class="co">#ensure in terms of whole fish</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset NPAFC data to just Alaska commercial fisheries for 1952-2015</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>catch_AK <span class="ot">&lt;-</span> <span class="fu">filter</span>(catch_melt, Region <span class="sc">==</span> <span class="st">"Alaska"</span> <span class="sc">&amp;</span> Fishery <span class="sc">==</span> <span class="st">"Commercial"</span> <span class="sc">&amp;</span> Area <span class="sc">!=</span><span class="st">"Whole state"</span> <span class="sc">&amp;</span> Year <span class="sc">%in%</span> (<span class="dv">1952</span><span class="sc">:</span><span class="dv">2015</span>) <span class="sc">&amp;</span> Species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Chum"</span>,<span class="st">"Pink"</span>, <span class="st">"Sockeye"</span>))</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>catch_AK<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">levels</span>(catch_AK<span class="sc">$</span>Year))[catch_AK<span class="sc">$</span>Year] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Load current NPAFC data and similarly filter:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load NPAFC catch data (2024 update), filter to AK commercial catch only and R&amp;I range of years)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>NPAFC <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>NPAFC_AK <span class="ot">&lt;-</span> <span class="fu">filter</span>(NPAFC, Region<span class="sc">==</span><span class="st">"Alaska"</span> <span class="sc">&amp;</span> Fishery<span class="sc">==</span><span class="st">"Commercial"</span> <span class="sc">&amp;</span> Area <span class="sc">!=</span><span class="st">"Whole state"</span> <span class="sc">&amp;</span> <span class="fu">between</span>(Year,<span class="dv">1952</span>,<span class="dv">2015</span>) <span class="sc">&amp;</span> Species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Pink"</span>,<span class="st">"Chum"</span>,<span class="st">"Sockeye"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Compare the two data frames:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_diff_NPAFC <span class="ot">&lt;-</span> <span class="fu">comparedf</span>(catch_AK,NPAFC_AK)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>df_diff_NPAFC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compare Object
+
+Function Call: 
+comparedf(x = catch_AK, y = NPAFC_AK)
+
+Shared: 8 non-by variables and 1152 observations.
+Not shared: 0 variables and 0 observations.
+
+Differences found in 2/8 variables compared.
+0 variables compared have non-identical attributes.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">summary</span>(df_diff_NPAFC)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">unique</span>(x<span class="sc">$</span>diffs.table[,<span class="dv">3</span>])</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>dfofdiff <span class="ot">&lt;-</span> <span class="fu">rbind</span>(catch_AK[y,], NPAFC_AK[y,])</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>catch_AK[y,<span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      Area Species    Fishery Year    N_fish     Wt_fish
+64  Arctic Yukon Kuskokwim    Chum Commercial 2015   1026924   3339.7691
+128 Arctic Yukon Kuskokwim    Pink Commercial 2015     69548    110.8480
+192 Arctic Yukon Kuskokwim Sockeye Commercial 2015     60432    168.4461
+256                Central    Chum Commercial 2015   3998840  11208.2835
+320                Central    Pink Commercial 2015 103754791 157538.3513
+384                Central Sockeye Commercial 2015  42563576 103082.9656
+768              Southeast Sockeye Commercial 2015   1528762   3843.1560
+640              Southeast    Chum Commercial 2015  11626461  43232.6793</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>NPAFC_AK[y,<span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 6
+  Area                   Species Fishery     Year    N_fish Wt_fish
+  &lt;chr&gt;                  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 Arctic Yukon Kuskokwim Chum    Commercial  2015   1026927   3340.
+2 Arctic Yukon Kuskokwim Pink    Commercial  2015     70331    111.
+3 Arctic Yukon Kuskokwim Sockeye Commercial  2015     60388    168.
+4 Central                Chum    Commercial  2015   3998849  11208.
+5 Central                Pink    Commercial  2015 103772143 157565.
+6 Central                Sockeye Commercial  2015  42563588 103083.
+7 Southeast              Sockeye Commercial  2015   1528774   3843.
+8 Southeast              Chum    Commercial  2015  11626461  43233.</code></pre>
+</div>
+</div>
+<hr>
+<p>Now to compare reconfigured ADF&amp;G data with current NPAFC data. Let’s compare numbers first</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># temp - just numbers of fish comaprison</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df_CFb <span class="ot">&lt;-</span> df_CF[,<span class="sc">-</span><span class="dv">6</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_CFb)[<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="st">"Wt_fish"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>df_CFb<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df_CFb<span class="sc">$</span>Year)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>df_CFb <span class="ot">&lt;-</span>df_CFb[,<span class="sc">-</span><span class="dv">5</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>df_CFb <span class="ot">&lt;-</span> df_CFb[<span class="fu">order</span>(df_CFb<span class="sc">$</span>Species,df_CFb<span class="sc">$</span>Region,df_CFb<span class="sc">$</span>Year), decreasing <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># reconfigure current NPAFC data set to be able to compare with ADF&amp;G</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> <span class="fu">filter</span>(NPAFC_AK, Year <span class="sc">&gt;=</span><span class="dv">1985</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Species[df_NPAFC<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"Chum"</span>] <span class="ot">&lt;-</span> <span class="st">"chum"</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Species[df_NPAFC<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"Pink"</span>] <span class="ot">&lt;-</span> <span class="st">"pink"</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Species[df_NPAFC<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"Sockeye"</span>] <span class="ot">&lt;-</span> <span class="st">"sockeye"</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Area[df_NPAFC<span class="sc">$</span>Area <span class="sc">==</span> <span class="st">"Arctic Yukon Kuskokwim"</span>] <span class="ot">&lt;-</span> <span class="st">"AYK"</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> df_NPAFC[,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">7</span>)]</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> <span class="fu">filter</span>(df_NPAFC, Area <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AYK"</span>, <span class="st">"Westward"</span>, <span class="st">"Central"</span>, <span class="st">"Southeast"</span>))</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_NPAFC)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"Region"</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> df_NPAFC[<span class="fu">order</span>(df_NPAFC<span class="sc">$</span>Species,df_NPAFC<span class="sc">$</span>Region,df_NPAFC<span class="sc">$</span>Year), decreasing <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">comparedf</span>(df_CFb,df_NPAFC)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">summary</span>(g)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compare Object
+
+Function Call: 
+comparedf(x = df_CFb, y = df_NPAFC)
+
+Shared: 4 non-by variables and 372 observations.
+Not shared: 0 variables and 0 observations.
+
+Differences found in 1/4 variables compared.
+0 variables compared have non-identical attributes.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Summary of data.frames
+
+version   arg         ncol   nrow
+--------  ---------  -----  -----
+x         df_CFb         4    372
+y         df_NPAFC       4    372
+
+
+
+Table: Summary of overall comparison
+
+statistic                                                      value
+------------------------------------------------------------  ------
+Number of by-variables                                             0
+Number of non-by variables in common                               4
+Number of variables compared                                       4
+Number of variables in x but not y                                 0
+Number of variables in y but not x                                 0
+Number of variables compared with some values unequal              1
+Number of variables compared with all values equal                 3
+Number of observations in common                                 372
+Number of observations in x but not y                              0
+Number of observations in y but not x                              0
+Number of observations with some compared variables unequal       84
+Number of observations with all compared variables equal         288
+Number of values unequal                                          84
+
+
+
+Table: Variables not shared
+
+                         
+ ------------------------
+ No variables not shared 
+ ------------------------
+
+
+
+Table: Other variables not compared
+
+                                 
+ --------------------------------
+ No other variables not compared 
+ --------------------------------
+
+
+
+Table: Observations not shared
+
+                            
+ ---------------------------
+ No observations not shared 
+ ---------------------------
+
+
+
+Table: Differences detected by variable
+
+var.x     var.y       n   NAs
+--------  --------  ---  ----
+Species   Species     0     0
+Region    Region      0     0
+Year      Year        0     0
+N_fish    N_fish     84     0
+
+
+
+Table: Differences detected (74 not shown)
+
+var.x    var.y     ..row.names..  values.x   values.y    row.x   row.y
+-------  -------  --------------  ---------  ---------  ------  ------
+N_fish   N_fish               30  1428229    1428191        30      30
+N_fish   N_fish               54  5598176    5598183        54      54
+N_fish   N_fish               56  4704577    4704572        56      56
+N_fish   N_fish               60  5403349    5401583        60      60
+N_fish   N_fish               61  2190293    2102664        61      61
+N_fish   N_fish               72  10403083   10403080       72      72
+N_fish   N_fish               73  11225693   11225690       73      73
+N_fish   N_fish               74  15868209   15868210       74      74
+N_fish   N_fish               75  11789139   11789140       75      75
+N_fish   N_fish               76  15695285   15695290       76      76
+
+
+
+Table: Non-identical attributes
+
+                             
+ ----------------------------
+ No non-identical attributes 
+ ----------------------------</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">unique</span>(g2<span class="sc">$</span>diffs.table[,<span class="dv">3</span>])</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>df_CFb[y,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 84 × 4
+   Species Region     Year    N_fish
+   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1 chum    AYK        2014  1428229 
+ 2 chum    Central    2007  5598176 
+ 3 chum    Central    2009  4704577 
+ 4 chum    Central    2013  5403349.
+ 5 chum    Central    2014  2190293 
+ 6 chum    Southeast  1994 10403083 
+ 7 chum    Southeast  1995 11225693 
+ 8 chum    Southeast  1996 15868209 
+ 9 chum    Southeast  1997 11789139 
+10 chum    Southeast  1998 15695285 
+# ℹ 74 more rows</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_NPAFC[y,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 84 × 4
+   Species Region     Year   N_fish
+   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+ 1 chum    AYK        2014  1428191
+ 2 chum    Central    2007  5598183
+ 3 chum    Central    2009  4704572
+ 4 chum    Central    2013  5401583
+ 5 chum    Central    2014  2102664
+ 6 chum    Southeast  1994 10403080
+ 7 chum    Southeast  1995 11225690
+ 8 chum    Southeast  1996 15868210
+ 9 chum    Southeast  1997 11789140
+10 chum    Southeast  1998 15695290
+# ℹ 74 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># temp only whole wt comparison</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_CFb <span class="ot">&lt;-</span> df_CF[,<span class="sc">-</span><span class="dv">6</span>]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_CFb)[<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="st">"Wt_fish"</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>df_CFb<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df_CFb<span class="sc">$</span>Year)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>df_CFb <span class="ot">&lt;-</span>df_CFb[,<span class="sc">-</span><span class="dv">4</span>]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>df_CFb <span class="ot">&lt;-</span> df_CFb[<span class="fu">order</span>(df_CFb<span class="sc">$</span>Species,df_CFb<span class="sc">$</span>Region,df_CFb<span class="sc">$</span>Year), decreasing <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># reconfigure current NPAFC data set to be able to compare with ADF&amp;G</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> <span class="fu">filter</span>(NPAFC_AK, Year <span class="sc">&gt;=</span><span class="dv">1985</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Species[df_NPAFC<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"Chum"</span>] <span class="ot">&lt;-</span> <span class="st">"chum"</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Species[df_NPAFC<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"Pink"</span>] <span class="ot">&lt;-</span> <span class="st">"pink"</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Species[df_NPAFC<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"Sockeye"</span>] <span class="ot">&lt;-</span> <span class="st">"sockeye"</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>df_NPAFC<span class="sc">$</span>Area[df_NPAFC<span class="sc">$</span>Area <span class="sc">==</span> <span class="st">"Arctic Yukon Kuskokwim"</span>] <span class="ot">&lt;-</span> <span class="st">"AYK"</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> df_NPAFC[,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">8</span>)]</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> <span class="fu">filter</span>(df_NPAFC, Area <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AYK"</span>, <span class="st">"Westward"</span>, <span class="st">"Central"</span>, <span class="st">"Southeast"</span>))</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_NPAFC)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"Region"</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>df_NPAFC <span class="ot">&lt;-</span> df_NPAFC[<span class="fu">order</span>(df_NPAFC<span class="sc">$</span>Species,df_NPAFC<span class="sc">$</span>Region,df_NPAFC<span class="sc">$</span>Year), decreasing <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">comparedf</span>(df_CFb,df_NPAFC)</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">summary</span>(g)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compare Object
+
+Function Call: 
+comparedf(x = df_CFb, y = df_NPAFC)
+
+Shared: 4 non-by variables and 372 observations.
+Not shared: 0 variables and 0 observations.
+
+Differences found in 1/4 variables compared.
+0 variables compared have non-identical attributes.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Summary of data.frames
+
+version   arg         ncol   nrow
+--------  ---------  -----  -----
+x         df_CFb         4    372
+y         df_NPAFC       4    372
+
+
+
+Table: Summary of overall comparison
+
+statistic                                                      value
+------------------------------------------------------------  ------
+Number of by-variables                                             0
+Number of non-by variables in common                               4
+Number of variables compared                                       4
+Number of variables in x but not y                                 0
+Number of variables in y but not x                                 0
+Number of variables compared with some values unequal              1
+Number of variables compared with all values equal                 3
+Number of observations in common                                 372
+Number of observations in x but not y                              0
+Number of observations in y but not x                              0
+Number of observations with some compared variables unequal      357
+Number of observations with all compared variables equal          15
+Number of values unequal                                         357
+
+
+
+Table: Variables not shared
+
+                         
+ ------------------------
+ No variables not shared 
+ ------------------------
+
+
+
+Table: Other variables not compared
+
+                                 
+ --------------------------------
+ No other variables not compared 
+ --------------------------------
+
+
+
+Table: Observations not shared
+
+                            
+ ---------------------------
+ No observations not shared 
+ ---------------------------
+
+
+
+Table: Differences detected by variable
+
+var.x     var.y        n   NAs
+--------  --------  ----  ----
+Species   Species      0     0
+Region    Region       0     0
+Year      Year         0     0
+Wt_fish   Wt_fish    357     7
+
+
+
+Table: Differences detected (347 not shown)
+
+var.x     var.y      ..row.names..  values.x   values.y    row.x   row.y
+--------  --------  --------------  ---------  ---------  ------  ------
+Wt_fish   Wt_fish                1  5684.111   5684.111        1       1
+Wt_fish   Wt_fish                2  5273.24    5273.244        2       2
+Wt_fish   Wt_fish                3  3966.051   3966.051        3       3
+Wt_fish   Wt_fish                4  10463.77   10463.77        4       4
+Wt_fish   Wt_fish                5  7699.103   7699.103        5       5
+Wt_fish   Wt_fish                6  3986.026   3986.026        6       6
+Wt_fish   Wt_fish                7  4412.025   4412.025        7       7
+Wt_fish   Wt_fish                8  3840.311   3840.311        8       8
+Wt_fish   Wt_fish                9  1030.433   1030.433        9       9
+Wt_fish   Wt_fish               10  1941.033   1941.041       10      10
+
+
+
+Table: Non-identical attributes
+
+                             
+ ----------------------------
+ No non-identical attributes 
+ ----------------------------</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">unique</span>(g2<span class="sc">$</span>diffs.table[,<span class="dv">3</span>])</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>df_CFb[y,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 357 × 4
+   Species Region  Year Wt_fish
+   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1 chum    AYK     1985   5684.
+ 2 chum    AYK     1986   5273.
+ 3 chum    AYK     1987   3966.
+ 4 chum    AYK     1988  10464.
+ 5 chum    AYK     1989   7699.
+ 6 chum    AYK     1990   3986.
+ 7 chum    AYK     1991   4412.
+ 8 chum    AYK     1992   3840.
+ 9 chum    AYK     1993   1030.
+10 chum    AYK     1994   1941.
+# ℹ 347 more rows</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df_NPAFC[y,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 357 × 4
+   Species Region  Year Wt_fish
+   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1 chum    AYK     1985   5684.
+ 2 chum    AYK     1986   5273.
+ 3 chum    AYK     1987   3966.
+ 4 chum    AYK     1988  10464.
+ 5 chum    AYK     1989   7699.
+ 6 chum    AYK     1990   3986.
+ 7 chum    AYK     1991   4412.
+ 8 chum    AYK     1992   3840.
+ 9 chum    AYK     1993   1030.
+10 chum    AYK     1994   1941.
+# ℹ 347 more rows</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
