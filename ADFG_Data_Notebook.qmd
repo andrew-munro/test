@@ -31,6 +31,8 @@ This is a temporary *ad-hoc* approach while waiting for someone with more OceanA
 
 ## Methods
 
+### *Ad hoc* OceanAK queries
+
 Two queries were ran in OceanAK and the results were output to Excel files
 
 ::: {.callout-note appearance="minimal"}
@@ -63,7 +65,7 @@ Two queries were ran in OceanAK and the results were output to Excel files
 These data files were then loaded into the R environment and processed so they could be merged and used in the update of the biomass estimates for Alaska:
 
 ```{r}
-#| label: load OceanAK queries
+#| label: load ad hoc OceanAK queries
 
 path <- "C:/Users/armunro/OneDrive - State of Alaska/Documents/GitHub/"
 
@@ -84,6 +86,7 @@ AreaM$Species[AreaM$Species == "salmon, chum"] <- "chum"
 AreaM$Species[AreaM$Species == "salmon, pink"] <- "pink"
 AreaM$Species[AreaM$Species == "salmon, sockeye"] <- "sockeye"
 
+# assign districts into North or South Pen. based on cut points for district numbers
 AreaM$District <- as.numeric(AreaM$District)
 AreaM$Area <- cut(AreaM$District, c(280,300,399), c("SPen", "NPen"))
 
@@ -168,6 +171,7 @@ df$RI_Region[df$RI_Region == "NPen"] <- "Western"
 Now we can summarize the data by the regions used in Ruggerone and Irvine:
 
 ```{r}
+#| label: aggregate ad hoc queries by R&I regions
 #| warning: false
 df_RI <- df %>% group_by(Species,RI_Region,Year) %>%
           summarise(Region = Region, N_fish = sum(N_fish),Whole_wt = sum(Whole_wt),Landed_wt = sum(Landed_wt))
@@ -178,26 +182,86 @@ head(df_RI)
 And summarize by CF reporting regions to compare with current NPAFC catch statistics:
 
 ```{r}
+#| label: aggregate ad-hoc queries by CF region
 #| warning: false
-df_CF <- df %>% group_by(Species,Region,Year) %>% summarise(N_fish = sum(N_fish),Whole_wt = sum(Whole_wt),Landed_wt = sum(Landed_wt)) %>% ungroup()
+df_CF <- df %>% group_by(Species,Region,Year) %>% summarise(N_fish = sum(N_fish, na.rm=TRUE),Whole_wt = sum(Whole_wt, na.rm=TRUE),Landed_wt = sum(Landed_wt, na.rm=TRUE)) %>% ungroup()
 
-x=  data.frame(Species = "pink",Region = "AYK",Year= "2001", N_fish =NA, Whole_wt =NA, Landed_wt =NA)
-x2=  data.frame(Species = "pink",Region = "AYK",Year= "2002", N_fish =NA, Whole_wt =NA, Landed_wt =NA)
+df_CF <- df_CF %>% add_row(Species = "pink",Region = "AYK",Year= "2001", N_fish =NA, Whole_wt =NA, Landed_wt =NA)
+df_CF <- df_CF %>% add_row(Species = "pink",Region = "AYK",Year= "2002", N_fish =NA, Whole_wt =NA, Landed_wt =NA)
 
-df_CF <- rbind(df_CF,x,x2
-              )
+df_CF_rnd <-df_CF %>% mutate_at(vars(Whole_wt, Landed_wt), funs(round(., digits=4)))
 
-df_CF
+head(df_CF_rnd)
 ```
+
+::: callout-warning
+Comparison of data sets in subsequent sections revealed that OceanAK queries seem to ignore NAs when summing across groups where as summation in R where default action is to not remove NAs (na.rm = FALSE). Therefore, NAs are returned for some variables for certain Region/Species/Year combinations.
+
+Often it is weight of harvest that is missing therefore, weight estimate for aggregated region is not a full representation and not directly comparable to numbers harvested. This has implications for estimating average weights (i.e. underestimation).
+:::
+
+One option to possibly explore is change how NAs are handled in summarize to ignore NAs.
+
+```{r}
+#| label: attempt to ignore NAs
+
+# summarize by handling NAs differently -  NOT WORKING!!!!!!!!!
+#df_CFna <- df %>% group_by(Species,Region,Year) %>% 
+#  summarise(across(everything(), .f = list(mean = mean, max = max, sd = sd), na.rm = TRUE))
+  
+#  summarise(N_fish = sum(N_fish),Whole_wt = sum(Whole_wt),Landed_wt = sum(Landed_wt), na.rm=True) %>% ungroup()
+```
+
+------------------------------------------------------------------------
+
+### OceanAK dashboard
+
+Dashboard was created in OceanAK that allows for flexible queries of Alaska commercial salmon catch numbers and weights. Dashboard has dynamic reporting area so data can be aggregated by current 4 Commercial Fisheries regions, the 3 pre-1985 regions (Southeast, Central, Western), and the region configuration in used Ruggerone and Irvine (2018).
+
+```{r}
+#| label: load OceanAK dashboard data CF regions
+
+CF_OAK <- read_csv("C:/Users/armunro/OneDrive - State of Alaska/Documents/GitHub/NPAFC_DynamicReportingAreas_CF.csv", show_col_types = FALSE)
+
+colnames(CF_OAK) <- c("Year", "Species","N_fish","Wt_fish","Region")
+
+CF_OAK <- filter(CF_OAK, Year <= 2015, Species %in% c("salmon, pink", "salmon, chum", "salmon, sockeye"))
+
+CF_OAK$Species[CF_OAK$Species == "salmon, chum"] <- "chum"
+CF_OAK$Species[CF_OAK$Species == "salmon, pink"] <- "pink"
+CF_OAK$Species[CF_OAK$Species == "salmon, sockeye"] <- "sockeye"
+
+CF_OAK$Region[CF_OAK$Region == "A-Y-K Region"] <- "AYK"
+CF_OAK$Region[CF_OAK$Region == "Central Region"] <- "Central"
+CF_OAK$Region[CF_OAK$Region == "Southeastern Region"] <- "Southeast"
+CF_OAK$Region[CF_OAK$Region == "Westward Region"] <- "Westward"
+
+CF_OAK <- CF_OAK %>% select(Species,Region,Year,N_fish,Wt_fish)
+
+# add missing years for AYK Pink salmon
+CF_OAK <- CF_OAK %>% add_row(Species = "pink",Region = "AYK",Year= 2001, N_fish =NA, Wt_fish =NA)
+CF_OAK <- CF_OAK %>% add_row(Species = "pink",Region = "AYK",Year= 2002, N_fish =NA, Wt_fish =NA)
+
+# sort by species, region, year
+CF_OAK <- CF_OAK[order(CF_OAK$Species,CF_OAK$Region,CF_OAK$Year), decreasing = FALSE]
+
+head(CF_OAK)
+```
+
+------------------------------------------------------------------------
 
 **Now for some QA/QC with the current NPAFC data.**
 
 These data were compared to current NPAFC catch statistics (number and weight) to identify any discrepancies. Both the current (May 2024) and the 2017 data file referenced in Ruggerone and Irvine were available.
 
-Load 2017 data set and filter to relevant species and years:
+### NPAFC data sets (2017 & 2024)
+
+Ruggerone and Irvine (2018) cite the source of NPAFC catch statistics used as the data set updated July 31, 2017. A copy of this data set was provided to me by the NPAFC Secretariat. The primary purpose was to check for any differences that would affect average weight estimates as well as potential abundance estimates for future analyses.
+
+Load 2017 NPAFC catch statistics data set and filter to relevant fishery (commercial), species (pink, chum, sockeye), and years (1925-2016):
 
 ```{r}
-#| label: load NPAFC catch statistics data (2017 and 2024 data files)
+#| label: load 2017 NPAFC catch statistics data
 #| warning: false
 path <- "C:/Users/armunro/OneDrive - State of Alaska/Salmon_Abundance_Biomass_Exploration/NPAFC data used in R&I/"
 
@@ -217,18 +281,24 @@ catch_melt$value <- as.numeric(catch_melt$value) # Warning NAs introduced - beca
 catch_melt <- dcast(catch_melt, ... ~ Data_Type)
 catch_melt$N_fish <- round(catch_melt$N_fish, digits = 3)*1000 #ensure in terms of whole fish
 # Subset NPAFC data to just Alaska commercial fisheries for 1952-2015
-catch_AK <- filter(catch_melt, Region == "Alaska" & Fishery == "Commercial" & Area !="Whole state" & Year %in% (1952:2015) & Species %in% c("Chum","Pink", "Sockeye"))
+NPAFC_17 <- filter(catch_melt, Region == "Alaska" & Fishery == "Commercial" & Area !="Whole state" & Year %in% (1925:2016) & Species %in% c("Chum","Pink", "Sockeye"))
 
-catch_AK$Year <- as.numeric(levels(catch_AK$Year))[catch_AK$Year] 
+NPAFC_17$Year <- as.numeric(levels(NPAFC_17$Year))[NPAFC_17$Year]
+
+NPAFC_17 <- as.data.frame(NPAFC_17)
 ```
 
 Load current NPAFC data and similarly filter:
 
 ```{r}
+#| label: load 2024 NPAFC catch statistics data
 #| warning: false
 # load NPAFC catch data (2024 update), filter to AK commercial catch only and R&I range of years)
-NPAFC <- read_csv("data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv", show_col_types = FALSE)
-NPAFC_AK <- filter(NPAFC, Region=="Alaska" & Fishery=="Commercial" & Area !="Whole state" & between(Year,1952,2015) & Species %in% c("Pink","Chum","Sockeye"))
+NPAFC_24 <- read_csv("data/NPAFC_Catch_Stat-1925-2023_2024-04-29_lngfrm.csv", show_col_types = FALSE)
+
+NPAFC_24 <- filter(NPAFC_24, Region=="Alaska" & Fishery=="Commercial" & Area !="Whole state" & between(Year,1925,2016) & Species %in% c("Pink","Chum","Sockeye"))
+
+NPAFC_24 <- as.data.frame(NPAFC_24)
 ```
 
 Compare the two data frames:
@@ -236,63 +306,106 @@ Compare the two data frames:
 ```{r}
 #| label: compare 2017 and 2024 NPAFC catch data
 
-df_diff_NPAFC <- comparedf(catch_AK,NPAFC_AK)
+NPAFC_diff <- comparedf(NPAFC_17,NPAFC_24)
 
-df_diff_NPAFC
+diff_summary <- summary(NPAFC_diff)
 
-x = summary(df_diff_NPAFC)
+# extract unique rows with differences
+y <- unique(diff_summary$diffs.table[,3])
 
-y <- unique(x$diffs.table[,3])
+# add average weight calculations
+wt17 <- cbind(NPAFC_17[y,3:8], avg_wt =NPAFC_17[y,8]/NPAFC_17[y,7]*1000)
 
-dfofdiff <- rbind(catch_AK[y,], NPAFC_AK[y,])
+wt24 <- cbind(NPAFC_24[y,3:8], avg_wt=NPAFC_24[y,8]/NPAFC_24[y,7]*1000)
 
-catch_AK[y,3:8]
-
-NPAFC_AK[y,3:8]
+# output the rows with differences for each data set (minus the Fishery column)
+knitr::kable(wt17[,-3], caption = "Rows with differences - NPAFC 2017")
+knitr::kable(wt24[,-3], caption = "Rows with differences - NPAFC 2024")
 
 ```
 
+Differences are limited to a few regions and species for 2015 and 2016 only, which is reasonable given that annual NPAFC catch statistics updates are for 2 years prior so 2015 and 2016 data were likely updated in 2018.
+
+The differences are relatively small and irrelevant for updating average weights and biomass other because of different region aggregations. Southeast is one exception, but the differences in average weights are extremely small.
+
+```{r}
+#| label: how different 2017 and 2024 data
+
+how_diff <- cbind(wt24[,c(1,2,4)], N_diff = wt24[,5]-wt17[,5],Wt_diff = wt24[,6]-wt17[,6],AvgWt_diff = wt24[,7]-wt17[,7] )
+
+knitr::kable(how_diff, caption = "Difference between values (2024-2017)")
+```
+
 ------------------------------------------------------------------------
+
+#### Compare OceanAK dash with NPAFC data
+
+```{r}
+#| label: CF_OAK vs NPAFC_24
+
+# reconfigure current NPAFC data set to be able to compare with ADF&G
+CF_NPAFC <- filter(NPAFC_24, between (Year, 1985, 2015))
+
+CF_NPAFC$Species[CF_NPAFC$Species == "Chum"] <- "chum"
+CF_NPAFC$Species[CF_NPAFC$Species == "Pink"] <- "pink"
+CF_NPAFC$Species[CF_NPAFC$Species == "Sockeye"] <- "sockeye"
+
+CF_NPAFC$Area[CF_NPAFC$Area == "Arctic Yukon Kuskokwim"] <- "AYK"
+
+CF_NPAFC <- CF_NPAFC[,c(4,3,6,7,8)]
+
+CF_NPAFC <- filter(CF_NPAFC, Area %in% c("AYK", "Westward", "Central", "Southeast"))
+colnames(CF_NPAFC)[2] <- "Region"
+
+CF_NPAFC <- CF_NPAFC %>% arrange(Species,Region,Year)
+
+
+# check check for differences
+OAK_diff <- comparedf(CF_OAK,CF_NPAFC)
+j = summary(OAK_diff)
+j
+
+j2 <- unique(j$diffs.table[,3])
+CF_OAK_diffs <- CF_OAK[j2,]
+
+how_diff <- cbind(CF_OAK[j2,c(1,2,3)], N_diff = CF_OAK[j2,4]-CF_NPAFC[j2,4],Wt_diff = CF_OAK[j2,5]-CF_NPAFC[j2,5])
+
+knitr::kable(how_diff, caption = "Difference between values (OceanAK-NPAFC2024)", digits = 5)
+```
 
 Now to compare reconfigured ADF&G data with current NPAFC data. Let's compare numbers first
 
 ```{r}
 # temp - just numbers of fish comaprison
-df_CFb <- df_CF[,-6]
+df_CFb <- df_CF_rnd[,-5]
 colnames(df_CFb)[5] <- "Wt_fish"
 df_CFb$Year <- as.numeric(df_CFb$Year)
-df_CFb <-df_CFb[,-5]
+
+#df_CFb <-df_CFb[,-5]
 df_CFb <- df_CFb[order(df_CFb$Species,df_CFb$Region,df_CFb$Year), decreasing = FALSE]
 
 
-# reconfigure current NPAFC data set to be able to compare with ADF&G
-CF_new <- filter(NPAFC_AK, Year >=1985)
+CF_NPAFC <-CF_NPAFC %>% mutate_at(vars(Wt_fish), funs(round(., digits=4)))
+#df_NPAFC <- df_NPAFC[order(df_NPAFC$Species,df_NPAFC$Region,df_NPAFC$Year), decreasing = FALSE]
+#
+# add average weight calculations
+wtCF <- cbind(df_CFb[y,], avg_wt =df_CFb[y,5]/df_CFb[y,4]*1000)
 
-df_NPAFC$Species[df_NPAFC$Species == "Chum"] <- "chum"
-df_NPAFC$Species[df_NPAFC$Species == "Pink"] <- "pink"
-df_NPAFC$Species[df_NPAFC$Species == "Sockeye"] <- "sockeye"
+wt24 <- cbind(CF_NPAFC[y,], avg_wt=CF_NPAFC[y,5]/CF_NPAFC[y,4]*1000)
 
-df_NPAFC$Area[df_NPAFC$Area == "Arctic Yukon Kuskokwim"] <- "AYK"
-
-df_NPAFC <- df_NPAFC[,c(4,3,6,7)]
-
-df_NPAFC <- filter(df_NPAFC, Area %in% c("AYK", "Westward", "Central", "Southeast"))
-colnames(df_NPAFC)[2] <- "Region"
-
-df_NPAFC <- df_NPAFC[order(df_NPAFC$Species,df_NPAFC$Region,df_NPAFC$Year), decreasing = FALSE]
-g <- comparedf(df_CFb,df_NPAFC)
+#
+g <- comparedf(wtCF,wt24)
 
 g2 <- summary(g)
 
-g
-
-g2
 
 y <- unique(g2$diffs.table[,3])
 
-df_CFb[y,]
 
-df_NPAFC[y,]
+
+how_diff <- cbind(wtCF[y,c(1,2,3)], N_diff = wtCF[y,4]-wt24[y,4],Wt_diff = wtCF[y,5]-wt24[y,5], avgWt_dff = wtCF[y,6]-wt24[y,6])
+
+knitr::kable(how_diff, caption = "Difference between values (MyQuery (landed) -NPAFC2024)", digits = 5)
 ```
 
 ```{r}
@@ -305,7 +418,7 @@ df_CFb <- df_CFb[order(df_CFb$Species,df_CFb$Region,df_CFb$Year), decreasing = F
 
 
 # reconfigure current NPAFC data set to be able to compare with ADF&G
-df_NPAFC <- filter(NPAFC_AK, Year >=1985)
+df_NPAFC <- filter(NPAFC_24, Year >=1985)
 
 df_NPAFC$Species[df_NPAFC$Species == "Chum"] <- "chum"
 df_NPAFC$Species[df_NPAFC$Species == "Pink"] <- "pink"
@@ -318,7 +431,7 @@ df_NPAFC <- df_NPAFC[,c(4,3,6,8)]
 df_NPAFC <- filter(df_NPAFC, Area %in% c("AYK", "Westward", "Central", "Southeast"))
 colnames(df_NPAFC)[2] <- "Region"
 
-df_NPAFC <- df_NPAFC[order(df_NPAFC$Species,df_NPAFC$Region,df_NPAFC$Year), decreasing = FALSE]
+#df_NPAFC <- df_NPAFC[order(df_NPAFC$Species,df_NPAFC$Region,df_NPAFC$Year), decreasing = FALSE]
 g <- comparedf(df_CFb,df_NPAFC)
 
 g2 <- summary(g)
@@ -337,37 +450,54 @@ wt_diff <-cbind(df_NPAFC[y,], df_NPAFC[y,4]-df_CFb[y,4])
 ```
 
 ```{r}
-#| label: OceanAK dash
-CF_new <- read_csv("C:/Users/armunro/OneDrive - State of Alaska/Documents/GitHub/NPAFC_DynamicReportingAreas_CF.csv")
-
-colnames(CF_new) <- c("Year", "Species","N_fish","Wt_fish","Region")
-
-CF_new <- filter(CF_new, Year <= 2015, Species %in% c("salmon, pink", "salmon, chum", "salmon, sockeye"))
+#| label: OceanAK dashboard
 
 
-CF_new$Species[CF_new$Species == "salmon, chum"] <- "chum"
-CF_new$Species[CF_new$Species == "salmon, pink"] <- "pink"
-CF_new$Species[CF_new$Species == "salmon, sockeye"] <- "sockeye"
-
-CF_new$Region[CF_new$Region == "A-Y-K Region"] <- "AYK"
-CF_new$Region[CF_new$Region == "Central Region"] <- "Central"
-CF_new$Region[CF_new$Region == "Southeastern Region"] <- "Southeast"
-CF_new$Region[CF_new$Region == "Westward Region"] <- "Westward"
-
-CF_new <- CF_new[,c(2,5,1,3,4)]
-
-x=  data.frame(Species = "pink",Region = "AYK",Year= "2001", N_fish =NA, Wt_fish =NA)
-x2=  data.frame(Species = "pink",Region = "AYK",Year= "2002", N_fish =NA, Wt_fish =NA)
-
-CF_new <- rbind(CF_new,x,x2)
-CF_new$Year <- as.numeric(CF_new$Year) 
-CF_new <- CF_new[order(CF_new$Species,CF_new$Region,CF_new$Year), decreasing = FALSE]
-v = comparedf(df_CFb,CF_new)
+v = comparedf(df_CFb,CF_OAK)
 v2 = summary(v)
 
 
-CF_newB <- CF_new[,-4]
+y <- unique(v2$diffs.table[,3])
+
+df_CFb[y,]
+
+CF_OAK[y,]
+
+CF_newB <- CF_OAK[,-4]
 
 w= comparedf(df_NPAFC, CF_newB)
 w2 = summary(v)
+```
+
+```{r}
+#| label: check NPAFC data with landed weights
+
+#refilter NPAFC data to include Numbers and weight
+df_NPAFC <- filter(NPAFC_24, Year >=1985)
+
+df_NPAFC$Species[df_NPAFC$Species == "Chum"] <- "chum"
+df_NPAFC$Species[df_NPAFC$Species == "Pink"] <- "pink"
+df_NPAFC$Species[df_NPAFC$Species == "Sockeye"] <- "sockeye"
+
+df_NPAFC$Area[df_NPAFC$Area == "Arctic Yukon Kuskokwim"] <- "AYK"
+
+df_NPAFC <- df_NPAFC[,c(4,3,6,7,8)]
+
+df_NPAFC <- filter(df_NPAFC, Area %in% c("AYK", "Westward", "Central", "Southeast"))
+colnames(df_NPAFC)[2] <- "Region"
+
+#df_NPAFC <- df_NPAFC[order(df_NPAFC$Species,df_NPAFC$Region,df_NPAFC$Year), decreasing = FALSE]
+
+df_CF_Lwt <- df_CF[,-5]
+
+
+v = comparedf(df_CF_Lwt,df_NPAFC)
+v2 = summary(v)
+
+
+y <- unique(v2$diffs.table[,3])
+
+df_CF_Lwt[-y,]
+
+df_NPAFC[y,]
 ```
